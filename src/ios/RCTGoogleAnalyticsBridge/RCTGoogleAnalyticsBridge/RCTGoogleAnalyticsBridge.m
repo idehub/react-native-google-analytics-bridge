@@ -6,7 +6,9 @@
 //
 //
 
+#import "RCTGoogleAnalyticsBridge.h"
 #import "GAI.h"
+#import "RCTLog.h"
 #import "GAIDictionaryBuilder.h"
 
 @implementation RCTGoogleAnalyticsBridge {

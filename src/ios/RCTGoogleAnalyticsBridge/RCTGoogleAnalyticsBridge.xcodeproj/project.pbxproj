@@ -1,0 +1,299 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		911B76C51C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 911B76C41C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.h */; };
+		911B76C71C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 911B76C61C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		911B76BF1C0A16BA008ECDD6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				911B76C51C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		911B76C11C0A16BA008ECDD6 /* libRCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTGoogleAnalyticsBridge.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		911B76C41C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTGoogleAnalyticsBridge.h; sourceTree = "<group>"; };
+		911B76C61C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTGoogleAnalyticsBridge.m; sourceTree = "<group>"; };
+		911B76CE1C0A16E6008ECDD6 /* GAI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		911B76CF1C0A16E6008ECDD6 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		911B76D01C0A16E6008ECDD6 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
+		911B76D11C0A16E6008ECDD6 /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
+		911B76D21C0A16E6008ECDD6 /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProductAction.h; sourceTree = "<group>"; };
+		911B76D31C0A16E6008ECDD6 /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIEcommercePromotion.h; sourceTree = "<group>"; };
+		911B76D41C0A16E6008ECDD6 /* GAIFields.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		911B76D51C0A16E6008ECDD6 /* GAILogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		911B76D61C0A16E6008ECDD6 /* GAITrackedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		911B76D71C0A16E6008ECDD6 /* GAITracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		911B76D81C0A16E6008ECDD6 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		911B76DA1C0A16E6008ECDD6 /* RCTAssert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTAssert.h; sourceTree = "<group>"; };
+		911B76DB1C0A16E6008ECDD6 /* RCTBridgeModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTBridgeModule.h; sourceTree = "<group>"; };
+		911B76DC1C0A16E6008ECDD6 /* RCTDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTDefines.h; sourceTree = "<group>"; };
+		911B76DD1C0A16E6008ECDD6 /* RCTLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTLog.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		911B76BE1C0A16BA008ECDD6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		911B76B81C0A16BA008ECDD6 = {
+			isa = PBXGroup;
+			children = (
+				911B76CD1C0A16E6008ECDD6 /* GoogleAnalytics */,
+				911B76D91C0A16E6008ECDD6 /* ReactNativeHeaders */,
+				911B76C31C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge */,
+				911B76C21C0A16BA008ECDD6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		911B76C21C0A16BA008ECDD6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				911B76C11C0A16BA008ECDD6 /* libRCTGoogleAnalyticsBridge.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		911B76C31C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge */ = {
+			isa = PBXGroup;
+			children = (
+				911B76C41C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.h */,
+				911B76C61C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.m */,
+			);
+			path = RCTGoogleAnalyticsBridge;
+			sourceTree = "<group>";
+		};
+		911B76CD1C0A16E6008ECDD6 /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				911B76CE1C0A16E6008ECDD6 /* GAI.h */,
+				911B76CF1C0A16E6008ECDD6 /* GAIDictionaryBuilder.h */,
+				911B76D01C0A16E6008ECDD6 /* GAIEcommerceFields.h */,
+				911B76D11C0A16E6008ECDD6 /* GAIEcommerceProduct.h */,
+				911B76D21C0A16E6008ECDD6 /* GAIEcommerceProductAction.h */,
+				911B76D31C0A16E6008ECDD6 /* GAIEcommercePromotion.h */,
+				911B76D41C0A16E6008ECDD6 /* GAIFields.h */,
+				911B76D51C0A16E6008ECDD6 /* GAILogger.h */,
+				911B76D61C0A16E6008ECDD6 /* GAITrackedViewController.h */,
+				911B76D71C0A16E6008ECDD6 /* GAITracker.h */,
+				911B76D81C0A16E6008ECDD6 /* libGoogleAnalyticsServices.a */,
+			);
+			path = GoogleAnalytics;
+			sourceTree = "<group>";
+		};
+		911B76D91C0A16E6008ECDD6 /* ReactNativeHeaders */ = {
+			isa = PBXGroup;
+			children = (
+				911B76DA1C0A16E6008ECDD6 /* RCTAssert.h */,
+				911B76DB1C0A16E6008ECDD6 /* RCTBridgeModule.h */,
+				911B76DC1C0A16E6008ECDD6 /* RCTDefines.h */,
+				911B76DD1C0A16E6008ECDD6 /* RCTLog.h */,
+			);
+			path = ReactNativeHeaders;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		911B76C01C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 911B76CA1C0A16BA008ECDD6 /* Build configuration list for PBXNativeTarget "RCTGoogleAnalyticsBridge" */;
+			buildPhases = (
+				911B76BD1C0A16BA008ECDD6 /* Sources */,
+				911B76BE1C0A16BA008ECDD6 /* Frameworks */,
+				911B76BF1C0A16BA008ECDD6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RCTGoogleAnalyticsBridge;
+			productName = RCTGoogleAnalyticsBridge;
+			productReference = 911B76C11C0A16BA008ECDD6 /* libRCTGoogleAnalyticsBridge.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		911B76B91C0A16BA008ECDD6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "Idéhub AS";
+				TargetAttributes = {
+					911B76C01C0A16BA008ECDD6 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 911B76BC1C0A16BA008ECDD6 /* Build configuration list for PBXProject "RCTGoogleAnalyticsBridge" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 911B76B81C0A16BA008ECDD6;
+			productRefGroup = 911B76C21C0A16BA008ECDD6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				911B76C01C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		911B76BD1C0A16BA008ECDD6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				911B76C71C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		911B76C81C0A16BA008ECDD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		911B76C91C0A16BA008ECDD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		911B76CB1C0A16BA008ECDD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		911B76CC1C0A16BA008ECDD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		911B76BC1C0A16BA008ECDD6 /* Build configuration list for PBXProject "RCTGoogleAnalyticsBridge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				911B76C81C0A16BA008ECDD6 /* Debug */,
+				911B76C91C0A16BA008ECDD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		911B76CA1C0A16BA008ECDD6 /* Build configuration list for PBXNativeTarget "RCTGoogleAnalyticsBridge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				911B76CB1C0A16BA008ECDD6 /* Debug */,
+				911B76CC1C0A16BA008ECDD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 911B76B91C0A16BA008ECDD6 /* Project object */;
+}
