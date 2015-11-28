@@ -1,6 +1,6 @@
 //
 //  RCTGoogleAnalyticsBridge.h
-//  ios-analytics-bridge
+//  RCTGoogleAnalyticsBridge
 //
 //  Created by Nikolai Norman Andersen on 28.11.2015.
 //
