@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7674A9B543EAB4E893656545 /* libPods-RCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E59D30211D0E2BD36CEAFC /* libPods-RCTGoogleAnalyticsBridge.a */; };
 		911B76C51C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 911B76C41C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.h */; };
 		911B76C71C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 911B76C61C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.m */; };
 /* End PBXBuildFile section */
@@ -25,6 +26,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		69E59D30211D0E2BD36CEAFC /* libPods-RCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RCTGoogleAnalyticsBridge.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		911B76C11C0A16BA008ECDD6 /* libRCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTGoogleAnalyticsBridge.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		911B76C41C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTGoogleAnalyticsBridge.h; sourceTree = "<group>"; };
 		911B76C61C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTGoogleAnalyticsBridge.m; sourceTree = "<group>"; };
@@ -43,6 +45,8 @@
 		911B76DB1C0A16E6008ECDD6 /* RCTBridgeModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTBridgeModule.h; sourceTree = "<group>"; };
 		911B76DC1C0A16E6008ECDD6 /* RCTDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTDefines.h; sourceTree = "<group>"; };
 		911B76DD1C0A16E6008ECDD6 /* RCTLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTLog.h; sourceTree = "<group>"; };
+		BFB36C58640CB02D6DDF3140 /* Pods-RCTGoogleAnalyticsBridge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RCTGoogleAnalyticsBridge.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RCTGoogleAnalyticsBridge/Pods-RCTGoogleAnalyticsBridge.debug.xcconfig"; sourceTree = "<group>"; };
+		DEFF3936DF3C22C775913A96 /* Pods-RCTGoogleAnalyticsBridge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RCTGoogleAnalyticsBridge.release.xcconfig"; path = "Pods/Target Support Files/Pods-RCTGoogleAnalyticsBridge/Pods-RCTGoogleAnalyticsBridge.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,12 +54,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7674A9B543EAB4E893656545 /* libPods-RCTGoogleAnalyticsBridge.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A8C43C1A1E62F30E9197653 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				69E59D30211D0E2BD36CEAFC /* libPods-RCTGoogleAnalyticsBridge.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		41391B6ACCEFFCADF2FDD4B1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BFB36C58640CB02D6DDF3140 /* Pods-RCTGoogleAnalyticsBridge.debug.xcconfig */,
+				DEFF3936DF3C22C775913A96 /* Pods-RCTGoogleAnalyticsBridge.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		911B76B81C0A16BA008ECDD6 = {
 			isa = PBXGroup;
 			children = (
@@ -63,6 +85,8 @@
 				911B76D91C0A16E6008ECDD6 /* ReactNativeHeaders */,
 				911B76C31C0A16BA008ECDD6 /* RCTGoogleAnalyticsBridge */,
 				911B76C21C0A16BA008ECDD6 /* Products */,
+				41391B6ACCEFFCADF2FDD4B1 /* Pods */,
+				0A8C43C1A1E62F30E9197653 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -119,9 +143,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 911B76CA1C0A16BA008ECDD6 /* Build configuration list for PBXNativeTarget "RCTGoogleAnalyticsBridge" */;
 			buildPhases = (
+				BDECF14D39EE89F8F741F2AA /* Check Pods Manifest.lock */,
 				911B76BD1C0A16BA008ECDD6 /* Sources */,
 				911B76BE1C0A16BA008ECDD6 /* Frameworks */,
 				911B76BF1C0A16BA008ECDD6 /* CopyFiles */,
+				6BA2858D8C53015F9E1C5F7E /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -162,6 +188,39 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6BA2858D8C53015F9E1C5F7E /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RCTGoogleAnalyticsBridge/Pods-RCTGoogleAnalyticsBridge-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BDECF14D39EE89F8F741F2AA /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		911B76BD1C0A16BA008ECDD6 /* Sources */ = {
@@ -257,6 +316,7 @@
 		};
 		911B76CB1C0A16BA008ECDD6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFB36C58640CB02D6DDF3140 /* Pods-RCTGoogleAnalyticsBridge.debug.xcconfig */;
 			buildSettings = {
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -266,6 +326,7 @@
 		};
 		911B76CC1C0A16BA008ECDD6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DEFF3936DF3C22C775913A96 /* Pods-RCTGoogleAnalyticsBridge.release.xcconfig */;
 			buildSettings = {
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -292,6 +353,7 @@
 				911B76CC1C0A16BA008ECDD6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
