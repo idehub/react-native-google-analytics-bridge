@@ -6,6 +6,6 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "react-native": "^0.15.0"
+    "react-native": "^0.17.0"
   }
 }
