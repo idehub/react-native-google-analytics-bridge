@@ -12,8 +12,12 @@ var {
   View,
 } = React;
 
+const GoogleAnalytics = require('react-native-google-analytics-bridge');
+
 var example = React.createClass({
   render: function() {
+  	GoogleAnalytics.logEvent('test');
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
