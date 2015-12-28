@@ -1,4 +1,4 @@
-package com.idehub;
+package com.idehub.GoogleAnalyticsBridge;
 
 import android.content.Context;
 import android.app.Application;
@@ -24,7 +24,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
         _trackingId = trackingId;
     }
 
-    private string _trackingId;
+    private String _trackingId;
 
     @Override
     public String getName() {
@@ -55,9 +55,10 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
 
         if (tracker != null)
         {
-          var hit = new HitBuilders.EventBuilder()
+          HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
                         .setCategory(category)
                         .setAction(action);
+
           if (optionalValues.hasKey("label"))
           {
               hit.setLabel(optionalValues.getString("label"));

@@ -1,4 +1,4 @@
-package com.idehub;
+package com.idehub.GoogleAnalyticsBridge;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
