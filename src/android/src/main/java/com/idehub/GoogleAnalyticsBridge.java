@@ -7,6 +7,7 @@ import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -18,9 +19,12 @@ import java.util.Map;
 
 public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
 
-    public GoogleAnalyticsBridge(ReactApplicationContext reactContext) {
+    public GoogleAnalyticsBridge(ReactApplicationContext reactContext, String trackingId) {
         super(reactContext);
+        _trackingId = trackingId;
     }
+
+    private string _trackingId;
 
     @Override
     public String getName() {
@@ -45,18 +49,25 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
         return constants;
     }
 
-    //String trackerId (maybe config?), String eventCategory, Callback callback
     @ReactMethod
-    public void logEvent(String eventAction){
-        Tracker tracker = getTracker("UA-12345-1");
-        Boolean tracked = false;
+    public void trackEvent(String category, String action, ReadableMap optionalValues){
+        Tracker tracker = getTracker(_trackingId);
+
         if (tracker != null)
         {
-          tracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Test")
-                .setAction(eventAction)
-                .build());
-          tracked = true;
+          var hit = new HitBuilders.EventBuilder()
+                        .setCategory(category)
+                        .setAction(action);
+          if (optionalValues.hasKey("label"))
+          {
+              hit.setLabel(optionalValues.getString("label"));
+          }
+          if (optionalValues.hasKey("value"))
+          {
+              hit.setValue(optionalValues.getInt("value"));
+          }
+
+          tracker.send(hit.build());
         }
     }
 }

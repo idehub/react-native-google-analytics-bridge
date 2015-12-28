@@ -3,8 +3,8 @@
 const GoogleAnalyticsBridge = require("react-native").NativeModules.GoogleAnalyticsBridge;
 
 class GoogleAnalytics {
-    static logEvent(event) {
-      GoogleAnalyticsBridge.logEvent(event);
+    static trackEvent(category, action, optionalValues = {}) {
+      GoogleAnalyticsBridge.trackEvent(category, action, optionalValues);
     }
 }
 

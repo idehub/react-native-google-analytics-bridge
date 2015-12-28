@@ -2,6 +2,7 @@
 #import "GAI.h"
 #import "RCTLog.h"
 #import "GAIDictionaryBuilder.h"
+#import "RCTConvert.h"
 
 @implementation RCTGoogleAnalyticsBridge {
 
@@ -27,15 +28,18 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(logEvent:(NSString *)name)
+RCT_EXPORT_METHOD(trackEvent:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *) optionalValues)
 {
   id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-  NSString *currentAppVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-  [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Test"
-                                                      action:name
-                                                       label:currentAppVersion
-                                                       value:[NSNumber numberWithInt:1]] build]];
-  RCTLogInfo(@"Logged event with %@", name);
+  //NSString *currentAppVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+  NSString *label = [RCTConvert NSString:optionalValues[@"label"]];
+  NSNumber *value = [RCTConvert NSNumber:optionalValues[@"value"]];
+  [tracker send:[[GAIDictionaryBuilder createEventWithCategory:category
+                                                      action:action
+                                                       label:label
+                                                         value:value] build]];
+
+  RCTLogInfo(@"Tracked event with category:%@ action:%@ label: %@ value: %@", category, action, label, value);
 }
 
 @end
