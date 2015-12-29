@@ -2,6 +2,14 @@ GoogleAnalyticsBridge
 =============
 **Google Analytics Bridge** is built to provide an easy interface to the native Google Analytics libraries on both **iOS** and **Android**.
 
+## Why a native bridge?
+There already exists an excellent library for [Google Analytics tracking by lwansbrough](https://github.com/lwansbrough/react-native-google-analytics) which uses just JavaScript, why do we need a native bridge?
+
+The key difference is that with this native bridge you get a lot of the metadata handled automatically by the Google Analytics library. This will include the device UUID, viewport size, OS version etc.
+With the pure javascript variant you will have to pull this information out via a native bridge (e.g. with [rebeccahughes' DeviceInfo](https://github.com/rebeccahughes/react-native-device-info)) in order to track it.
+
+If you do not need any of the device metadata, then I would definitely recommend checking out [lwansbroughs repository](https://github.com/lwansbrough/react-native-google-analytics).
+
 ## Installation iOS
 
 1. `npm install --save react-native-google-analytics-bridge`
@@ -90,7 +98,11 @@ GoogleAnalytics.trackEvent('testcategory', 'testaction');
 At the moment the implementation only exposes two methods:
 ### trackScreenView(screenName)
 This method only takes one parameter, the name of the current screen view. E. g. `GoogleAnalytics.trackScreenView('Home')`.
+
 **Important**: Calling this will also set the "current view" in this session. So events tracked will be tagged as having occured on the current view, `Home` in this example. So it is important to keep this up-to-date.
 ### trackEvent(category, action, optionalValues = {})
-This method takes takes two required parameters, the event category and action. The optionalValues can be label, and value. e. g. `{ label: "v1.0.3", value: 22 }`.
+This method takes takes two required parameters, the event category and action. The optionalValues can be label, and value.
+
+E. g. `GoogleAnalytics.trackEvent('testcategory', 'testaction');` or `GoogleAnalytics.trackEvent('testcategory', 'testaction', { label: "v1.0.3", value: 22 });`
+
 **Note**: Label is a string, while value must be a number.
