@@ -203,7 +203,7 @@
 					"$(SRCROOT)/../react-native/React/**",
 					"$(SRCROOT)/../../React/**",
 					"$(SRCROOT)/node_modules/react-native/React",
-					"$(SRCROOT)/../../../example/node_modules/react-native/React/**",
+					"$(SRCROOT)/../../example/node_modules/react-native/React/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -248,7 +248,7 @@
 					"$(SRCROOT)/../react-native/React/**",
 					"$(SRCROOT)/../../React/**",
 					"$(SRCROOT)/node_modules/react-native/React",
-					"$(SRCROOT)/../../../example/node_modules/react-native/React/**",
+					"$(SRCROOT)/../../example/node_modules/react-native/React/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;

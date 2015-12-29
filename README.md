@@ -14,8 +14,8 @@ If you do not need any of the device metadata, then I would definitely recommend
 
 1. `npm install --save react-native-google-analytics-bridge`
 2. In XCode, right click the Libraries folder under your project ➜ `Add Files to <your project>`.
-3. Go to `node_modules` ➜ `react-native-google-analytics-bridge` and add the `RCTGoogleAnalyticsBridge.xcodeproj` file.
-4. Add libRCTGoogleAnalyticsBridge.a to your project properties ➜ "Build Phases" ➜ "Link Binary With Libraries"
+3. Go to `node_modules` ➜ `react-native-google-analytics-bridge` ➜ `ios` ➜ `RCTGoogleAnalyticsBridge` and add the `RCTGoogleAnalyticsBridge.xcodeproj` file.
+4. Add libRCTGoogleAnalyticsBridge.a from the linked project to your project properties ➜ "Build Phases" ➜ "Link Binary With Libraries"
 5. Next you will have to link a few more SDK framework/libraries (if you do not already have them linked.) Under the same "Link Binary With Libraries", click the + and add the following:
   1. AdSupport.framework
   2. CoreData.framework
@@ -35,7 +35,7 @@ If you do not need any of the device metadata, then I would definitely recommend
   ```gradle
   ...
   include ':GoogleAnalyticsBridge', ':app'
-  project(':GoogleAnalyticsBridge').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-analytics-bridge/src/android')
+  project(':GoogleAnalyticsBridge').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-analytics-bridge/android')
   ```
 
 3. And the following in `android/app/build.gradle`
