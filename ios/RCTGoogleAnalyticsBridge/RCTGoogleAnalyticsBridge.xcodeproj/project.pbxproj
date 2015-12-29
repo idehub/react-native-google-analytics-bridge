@@ -261,6 +261,15 @@
 		A79185D01C30694E001236A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../react-native/React/**",
+					"$(SRCROOT)/../../React/**",
+					"$(SRCROOT)/node_modules/react-native/React",
+					"$(SRCROOT)/../../example/node_modules/react-native/React/**",
+					"$(SRCROOT)/../../../react-native/React/**",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/google-analytics-lib",
@@ -274,6 +283,15 @@
 		A79185D11C30694E001236A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../react-native/React/**",
+					"$(SRCROOT)/../../React/**",
+					"$(SRCROOT)/node_modules/react-native/React",
+					"$(SRCROOT)/../../example/node_modules/react-native/React/**",
+					"$(SRCROOT)/../../../react-native/React/**",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/google-analytics-lib",
