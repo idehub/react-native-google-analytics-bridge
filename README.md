@@ -8,9 +8,17 @@ There already exists an excellent library for [Google Analytics tracking by lwan
 The key difference is that with this native bridge you get a lot of the metadata handled automatically by the Google Analytics library. This will include the device UUID, viewport size, OS version etc.
 With the pure javascript variant you will have to pull this information out via a native bridge (e.g. with [rebeccahughes' DeviceInfo](https://github.com/rebeccahughes/react-native-device-info)) in order to track it.
 
-If you do not need any of the device metadata, then I would definitely recommend checking out [lwansbroughs repository](https://github.com/lwansbrough/react-native-google-analytics).
+If you do not need any of the device metadata, then we would definitely recommend checking out [lwansbroughs repository](https://github.com/lwansbrough/react-native-google-analytics).
 
-## Installation iOS
+## Installation with rnpm
+1. `npm install --save react-native-google-analytics-bridge`
+2. `rnpm link`
+
+With this, rnpm will do most of the heavy lifting for linking, **but** you will still need to do some of the manual steps below.
+
+These are step 5 and 6 from the iOS installation, and 4 and 5 from the Android installation. Specifically for Android step 4, you'll have to add the tracking id.
+
+## Manual installation iOS
 
 1. `npm install --save react-native-google-analytics-bridge`
 2. In XCode, right click the Libraries folder under your project ➜ `Add Files to <your project>`.
@@ -28,7 +36,7 @@ If you do not need any of the device metadata, then I would definitely recommend
   3. Value: UA-12345-1 (in other words, your own tracking id).
 7. See own guide for tracking from Javascript.
 
-## Installation Android
+## Manual installation Android
 1. `npm install --save react-native-google-analytics-bridge`
 2. Add the following in `android/setting.gradle`
 

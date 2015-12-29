@@ -15,5 +15,17 @@
   "bugs": {
     "url": "https://github.com/idehub/react-native-google-analytics-bridge/issues"
   },
-  "homepage": "https://github.com/idehub/react-native-google-analytics-bridge#readme"
+  "homepage": "https://github.com/idehub/react-native-google-analytics-bridge#readme",
+  "keywords": [
+    "react",
+    "native",
+    "google",
+    "analytics",
+    "tracking",
+    "native",
+    "bridge",
+    "events",
+    "screen",
+    "hits"
+  ]
 }
