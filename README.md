@@ -1,4 +1,4 @@
-GoogleAnalyticsBridge
+GoogleAnalyticsBridge ![npm version](https://img.shields.io/npm/v/react-native-google-analytics-bridge.svg)
 =============
 **Google Analytics Bridge** is built to provide an easy interface to the native Google Analytics libraries on both **iOS** and **Android**.
 
@@ -14,7 +14,7 @@ If you do not need any of the device metadata, then we would definitely recommen
 1. `npm install --save react-native-google-analytics-bridge`
 2. `rnpm link`
 
-With this, rnpm will do most of the heavy lifting for linking, **but** you will still need to do some of the manual steps below.
+With this, [rnpm](https://github.com/rnpm/rnpm) will do most of the heavy lifting for linking, **but** you will still need to do some of the manual steps below.
 
 These are step 5 and 6 from the iOS installation, and 4 and 5 from the Android installation. Specifically for Android step 4, you'll have to add the tracking id.
 
@@ -24,7 +24,7 @@ These are step 5 and 6 from the iOS installation, and 4 and 5 from the Android i
 2. In XCode, right click the Libraries folder under your project ➜ `Add Files to <your project>`.
 3. Go to `node_modules` ➜ `react-native-google-analytics-bridge` ➜ `ios` ➜ `RCTGoogleAnalyticsBridge` and add the `RCTGoogleAnalyticsBridge.xcodeproj` file.
 4. Add libRCTGoogleAnalyticsBridge.a from the linked project to your project properties ➜ "Build Phases" ➜ "Link Binary With Libraries"
-5. Next you will have to link a few more SDK framework/libraries (if you do not already have them linked.) Under the same "Link Binary With Libraries", click the + and add the following:
+5. Next you will have to link a few more SDK framework/libraries which are required by GA (if you do not already have them linked.) Under the same "Link Binary With Libraries", click the + and add the following:
   1. AdSupport.framework
   2. CoreData.framework
   3. SystemConfiguration.framework
@@ -107,9 +107,11 @@ At the moment the implementation only exposes two methods:
 ### trackScreenView(screenName)
 This method only takes one parameter, the name of the current screen view. E. g. `GoogleAnalytics.trackScreenView('Home')`.
 
-**Important**: Calling this will also set the "current view" in this session. So events tracked will be tagged as having occured on the current view, `Home` in this example. So it is important to keep this up-to-date.
+**Important**: Calling this will also set the "current view" for other calls. So events tracked will be tagged as having occured on the current view, `Home` in this example. This means it is important to track navigation, especially if events can fire on different views.
 ### trackEvent(category, action, optionalValues = {})
-This method takes takes two required parameters, the event category and action. The optionalValues can be label, and value.
+This method takes takes two required parameters, the event `category` and `action`. The `optionalValues` has two possible properties, label and value.
+
+As the name implies, optionalValues can be left out, or can contain one or both properties. Whatever floats your boat.
 
 E. g. `GoogleAnalytics.trackEvent('testcategory', 'testaction');` or `GoogleAnalytics.trackEvent('testcategory', 'testaction', { label: "v1.0.3", value: 22 });`
 
