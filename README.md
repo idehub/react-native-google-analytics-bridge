@@ -109,9 +109,9 @@ This method only takes one parameter, the name of the current screen view. E. g.
 
 **Important**: Calling this will also set the "current view" for other calls. So events tracked will be tagged as having occured on the current view, `Home` in this example. This means it is important to track navigation, especially if events can fire on different views.
 ### trackEvent(category, action, optionalValues = {})
-This method takes takes two required parameters, the event `category` and `action`. The `optionalValues` has two possible properties, label and value.
+This method takes takes two required parameters, the event `category` and `action`. The `optionalValues` has two possible properties, `label` and `value`.
 
-As the name implies, optionalValues can be left out, or can contain one or both properties. Whatever floats your boat.
+As the name implies, `optionalValues` can be left out, or can contain one or both properties. Whatever floats your boat.
 
 E. g. `GoogleAnalytics.trackEvent('testcategory', 'testaction');` or `GoogleAnalytics.trackEvent('testcategory', 'testaction', { label: "v1.0.3", value: 22 });`
 
