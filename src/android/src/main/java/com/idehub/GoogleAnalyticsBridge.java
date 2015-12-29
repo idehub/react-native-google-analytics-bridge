@@ -48,6 +48,18 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
         final Map<String, Object> constants = new HashMap<>();
         return constants;
     }
+    
+    @ReactMethod
+    public void trackScreenView(String screenName){
+        Tracker tracker = getTracker(_trackingId);
+
+        if (tracker != null)
+        {
+          tracker.setScreenName(screenName);
+
+          tracker.send(new HitBuilders.ScreenViewBuilder().build());
+        }
+    }
 
     @ReactMethod
     public void trackEvent(String category, String action, ReadableMap optionalValues){

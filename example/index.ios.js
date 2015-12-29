@@ -16,8 +16,9 @@ const GoogleAnalytics = require('react-native-google-analytics-bridge');
 
 var example = React.createClass({
   render: function() {
-  	GoogleAnalytics.trackEvent('testcategory', 'testaction');
-
+    GoogleAnalytics.trackEvent('testcategory', 'testaction');
+    GoogleAnalytics.trackScreenView('Home');
+    
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>

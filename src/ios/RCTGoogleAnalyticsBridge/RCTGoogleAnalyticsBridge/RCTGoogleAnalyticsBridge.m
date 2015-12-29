@@ -1,5 +1,6 @@
 #import "RCTGoogleAnalyticsBridge.h"
 #import "GAI.h"
+#import "GAIFields.h"
 #import "RCTLog.h"
 #import "GAIDictionaryBuilder.h"
 #import "RCTConvert.h"
@@ -28,18 +29,23 @@
 
 RCT_EXPORT_MODULE();
 
+RCT_EXPORT_METHOD(trackScreenView:(NSString *)screenName)
+{
+  id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+  [tracker set:kGAIScreenName
+         value:screenName];
+  [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
 RCT_EXPORT_METHOD(trackEvent:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *) optionalValues)
 {
   id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-  //NSString *currentAppVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
   NSString *label = [RCTConvert NSString:optionalValues[@"label"]];
   NSNumber *value = [RCTConvert NSNumber:optionalValues[@"value"]];
   [tracker send:[[GAIDictionaryBuilder createEventWithCategory:category
                                                       action:action
                                                        label:label
                                                          value:value] build]];
-
-  RCTLogInfo(@"Tracked event with category:%@ action:%@ label: %@ value: %@", category, action, label, value);
 }
 
 @end
