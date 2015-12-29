@@ -37,7 +37,6 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
        if (!mTrackers.containsKey(trackerId)) {
            GoogleAnalytics analytics = GoogleAnalytics.getInstance(getReactApplicationContext());
            Tracker t = analytics.newTracker(trackerId);
-           t.setAnonymizeIp(true);
            mTrackers.put(trackerId, t);
        }
        return mTrackers.get(trackerId);
@@ -48,7 +47,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
         final Map<String, Object> constants = new HashMap<>();
         return constants;
     }
-    
+
     @ReactMethod
     public void trackScreenView(String screenName){
         Tracker tracker = getTracker(_trackingId);

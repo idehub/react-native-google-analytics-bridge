@@ -159,6 +159,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A79186011C30977F001236A6 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
 				A791860B1C309879001236A6 /* libsqlite3.0.tbd in Frameworks */,
 				A79186091C30984E001236A6 /* libz.tbd in Frameworks */,
 				A79186071C309848001236A6 /* SystemConfiguration.framework in Frameworks */,
@@ -174,7 +175,6 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				A79186011C30977F001236A6 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
