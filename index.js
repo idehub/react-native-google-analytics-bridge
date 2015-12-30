@@ -11,6 +11,10 @@ class GoogleAnalytics {
     static trackEvent(category, action, optionalValues = {}) {
       GoogleAnalyticsBridge.trackEvent(category, action, optionalValues);
     }
+
+    static setDryRun(enabled) {
+      GoogleAnalyticsBridge.setDryRun(enabled);
+    }
 }
 
 

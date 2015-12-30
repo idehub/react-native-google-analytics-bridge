@@ -1,9 +1,9 @@
 #import "RCTGoogleAnalyticsBridge.h"
+#import "RCTLog.h"
+#import "RCTConvert.h"
 #import "GAI.h"
 #import "GAIFields.h"
-#import "RCTLog.h"
 #import "GAIDictionaryBuilder.h"
-#import "RCTConvert.h"
 
 @implementation RCTGoogleAnalyticsBridge {
 
@@ -43,6 +43,11 @@ RCT_EXPORT_METHOD(trackEvent:(NSString *)category action:(NSString *)action opti
                                                       action:action
                                                        label:label
                                                          value:value] build]];
+}
+
+RCT_EXPORT_METHOD(setDryRun:(BOOL)enabled)
+{
+    [GAI sharedInstance].dryRun = enabled;
 }
 
 @end

@@ -44,6 +44,10 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
        return mTrackers.get(trackerId);
     }
 
+    synchronized GoogleAnalytics getAnalyticsInstance() {
+      return GoogleAnalytics.getInstance(getReactApplicationContext());
+    }
+
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
@@ -82,6 +86,16 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
           }
 
           tracker.send(hit.build());
+        }
+    }
+
+    @ReactMethod
+    public void setDryRun(Boolean enabled){
+        GoogleAnalytics analytics = getAnalyticsInstance();
+
+        if (analytics != null)
+        {
+          analytics.setDryRun(enabled);
         }
     }
 }
