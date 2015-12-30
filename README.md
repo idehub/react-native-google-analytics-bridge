@@ -5,14 +5,20 @@ GoogleAnalyticsBridge ![npm version](https://img.shields.io/npm/v/react-native-g
 ## Why a native bridge?
 There already exists an excellent library for [Google Analytics tracking by lwansbrough](https://github.com/lwansbrough/react-native-google-analytics) which uses just JavaScript, why do we need a native bridge?
 
-The key difference is that with this native bridge you get a lot of the metadata handled automatically by the Google Analytics library. This will include the device UUID, viewport size, OS version etc.
+The key difference is that with this native bridge you get a lot of the metadata handled automatically by the Google Analytics library. This will include the device UUID, device model, viewport size, OS version etc.
 With the pure javascript variant you will have to pull this information out via a native bridge (e.g. with [rebeccahughes' DeviceInfo](https://github.com/rebeccahughes/react-native-device-info)) in order to track it.
 
-If you do not need any of the device metadata, then we would definitely recommend checking out [lwansbroughs repository](https://github.com/lwansbrough/react-native-google-analytics).
+With the native library you will only have to send in a few parameteres when tracking, e.g:
+```javascript
+const GoogleAnalytics = require('react-native-google-analytics-bridge');
+
+GoogleAnalytics.trackScreenView('Home');
+GoogleAnalytics.trackEvent('testcategory', 'testaction');
+```
 
 ## Installation with rnpm
 1. `npm install --save react-native-google-analytics-bridge`
-2. `rnpm link`
+2. `rnpm link react-native-google-analytics-bridge`
 
 With this, [rnpm](https://github.com/rnpm/rnpm) will do most of the heavy lifting for linking, **but** you will still need to do some of the manual steps below.
 
@@ -93,14 +99,6 @@ These are step 5 and 6 from the iOS installation, and 4 and 5 from the Android i
       <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
       ...
   ```
-
-## JavaScript example
-```javascript
-const GoogleAnalytics = require('react-native-google-analytics-bridge');
-
-GoogleAnalytics.trackScreenView('Home');
-GoogleAnalytics.trackEvent('testcategory', 'testaction');
-```
 
 ## Javascript API
 At the moment the implementation only exposes two methods:
