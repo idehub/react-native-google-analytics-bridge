@@ -34,8 +34,8 @@ These are step 5 and 6 from the iOS installation, and 4 and 5 from the Android i
   1. AdSupport.framework
   2. CoreData.framework
   3. SystemConfiguration.framework
-  4. libz.tdb
-  5. libsqlite3.0.tdb
+  4. libz.tbd
+  5. libsqlite3.0.tbd
 6. Under your project properties ➜ "Info", add a new line with the following:
   1. Key: GAITrackingId
   2. Type: String
