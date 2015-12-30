@@ -36,7 +36,9 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
     synchronized Tracker getTracker(String trackerId) {
        if (!mTrackers.containsKey(trackerId)) {
            GoogleAnalytics analytics = GoogleAnalytics.getInstance(getReactApplicationContext());
+           analytics.setLocalDispatchPeriod(20);
            Tracker t = analytics.newTracker(trackerId);
+           t.enableExceptionReporting(true);
            mTrackers.put(trackerId, t);
        }
        return mTrackers.get(trackerId);
