@@ -107,7 +107,7 @@ These are step 5 and 6 from the iOS installation, and 4, 5 and 6 from the Androi
   Consult [this guide](https://developer.android.com/sdk/installing/adding-packages.html) if you are unsure how to do this. Specifically step 3 for the mentioned packages.
 
 ## Javascript API
-At the moment the implementation only exposes two methods:
+At the moment the implementation exposes three methods:
 ### trackScreenView(screenName)
 This method only takes one parameter, the name of the current screen view. E. g. `GoogleAnalytics.trackScreenView('Home')`.
 
@@ -120,3 +120,14 @@ As the name implies, `optionalValues` can be left out, or can contain one or bot
 E. g. `GoogleAnalytics.trackEvent('testcategory', 'testaction');` or `GoogleAnalytics.trackEvent('testcategory', 'testaction', { label: "v1.0.3", value: 22 });`
 
 **Note**: Label is a string, while value must be a number.
+
+### setDryRun(enabled)
+This method takes a boolean parameter indicating if the `dryRun` flag should be enabled or not.
+
+When enabled, `GoogleAnalytics.setDryRun(true)`, the native library prevents any data from being sent to Google Analytics. This allows you to test or debug the implementation, without your test data appearing in your Google Analytics reports.
+
+## Roadmap
+
+- [X] dryRun flag
+- [ ] Simple Ecommerce
+- [ ] Make the library more configureable
