@@ -22,7 +22,7 @@ GoogleAnalytics.trackEvent('testcategory', 'testaction');
 
 With this, [rnpm](https://github.com/rnpm/rnpm) will do most of the heavy lifting for linking, **but** you will still need to do some of the manual steps below.
 
-These are step 5 and 6 from the iOS installation, and 4 and 5 from the Android installation. Specifically for Android step 4, you'll have to add the tracking id.
+These are step 5 and 6 from the iOS installation, and 4, 5 and 6 from the Android installation. Specifically for Android step 4, you'll have to add the tracking id.
 
 ## Manual installation iOS
 
@@ -99,6 +99,12 @@ These are step 5 and 6 from the iOS installation, and 4 and 5 from the Android i
       <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
       ...
   ```
+6. Make sure you have the following SDK packages installed in the Android SDK Manager:
+  * Google Repository
+  * Google Play services
+  * Google APIs (Atom) system image
+
+  Consult [this guide](https://developer.android.com/sdk/installing/adding-packages.html) if you are unsure how to do this. Specifically step 3 for the mentioned packages.
 
 ## Javascript API
 At the moment the implementation only exposes two methods:
