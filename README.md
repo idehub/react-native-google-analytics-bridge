@@ -124,3 +124,8 @@ When enabled, `GoogleAnalytics.setDryRun(true)`, the native library prevents any
 - [X] dryRun flag
 - [ ] Simple Ecommerce
 - [ ] Make the library more configureable
+
+## peerDependencies
+This library should work with at least React Native 0.11 and up, but has been tested mostly with 0.17.
+
+I've decided to remove the React Native peerDependency since some users have had issues with how npm handles peerDependencies, especially with -rc versions.
