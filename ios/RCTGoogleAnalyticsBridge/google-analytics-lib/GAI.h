@@ -1,15 +1,15 @@
 /*!
  @header    GAI.h
  @abstract  Google Analytics iOS SDK Header
- @version   3.0
- @copyright Copyright 2013 Google Inc. All rights reserved.
+ @version   3.15
+ @copyright Copyright 2015 Google Inc. All rights reserved.
  */
 
 #import <Foundation/Foundation.h>
-#import "GAILogger.h"
-#import "GAITracker.h"
-#import "GAITrackedViewController.h"
 
+#import "GAILogger.h"
+#import "GAITrackedViewController.h"
+#import "GAITracker.h"
 
 typedef NS_ENUM(NSUInteger, GAIDispatchResult) {
   kGAIDispatchNoData,
@@ -174,14 +174,19 @@ typedef enum {
  (returning kGAIDispatchError).  If there is no network connection or there is no data to send,
  kGAIDispatchNoData is returned.
 
+ Note that calling this method with a non-nil completionHandler disables periodic dispatch.
+ Periodic dispatch can be reenabled by setting the dispatchInterval to a positive number when
+ the app resumes from the background.
+
  Calling this method with a nil completionHandler is the same as calling the dispatch
  above.
 
- This method can be used for background data fetching in iOS 7.0 or later.
+ This method can be used for background data fetching in iOS 7.0 or later. It would be wise to
+ call this when the application is exiting to initiate the submission of any unsubmitted
+ tracking information.
 
- It would be wise to call this when application is exiting to initiate the
- submission of any unsubmitted tracking information. Note that this does not
- have any effect on dispatchInterval, and can be used in conjunction with
- periodic dispatch. */
-- (void)dispatchWithCompletionHandler:(void (^)(GAIDispatchResult))completionHandler;
+ @param completionHandler The block to run after a single dispatch request. The GAIDispatchResult
+        param indicates whether the dispatch succeeded, had an error, or had no hits to dispatch.
+ */
+- (void)dispatchWithCompletionHandler:(void (^)(GAIDispatchResult result))completionHandler;
 @end

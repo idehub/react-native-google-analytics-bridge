@@ -1,7 +1,6 @@
 /*!
  @header    GAITracker.h
  @abstract  Google Analytics iOS SDK Tracker Header
- @version   3.0
  @copyright Copyright 2013 Google Inc. All rights reserved.
 */
 
