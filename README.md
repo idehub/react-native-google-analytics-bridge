@@ -105,6 +105,7 @@ At the moment the implementation exposes three methods:
 This method only takes one parameter, the name of the current screen view. E. g. `GoogleAnalytics.trackScreenView('Home')`.
 
 **Important**: Calling this will also set the "current view" for other calls. So events tracked will be tagged as having occured on the current view, `Home` in this example. This means it is important to track navigation, especially if events can fire on different views.
+
 ### trackEvent(category, action, optionalValues = {})
 This method takes takes two required parameters, the event `category` and `action`. The `optionalValues` has two possible properties, `label` and `value`.
 
@@ -114,6 +115,26 @@ E. g. `GoogleAnalytics.trackEvent('testcategory', 'testaction');` or `GoogleAnal
 
 **Note**: Label is a string, while value must be a number.
 
+### trackPurchase(id, transaction = {}, item = {})
+This method takes takes three required parameters, the transaction/item `id` and the `transaction` and `item` objects. All fields for the `transaction` and `item` objects (below) are required and there is an optional `category` field for `item` and `currencyCode` field for both. See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/ecommerce) for more info.
+
+```javascript
+GoogleAnalytics.trackPurchase(Date.now().toString(), {
+  affiliation: 'App Store',
+  revenue: 4.99,
+  tax: 0,
+  shipping: 0,
+  currencyCode: 'us'   // optional
+}, item = {
+  name: '',
+  sku: '',
+  category: 'Widgets'   // optional
+  price: 4.99,
+  quantity: 1,
+  currencyCode: 'us'   // optional
+});
+```
+
 ### setDryRun(enabled)
 This method takes a boolean parameter indicating if the `dryRun` flag should be enabled or not.
 
@@ -121,8 +142,8 @@ When enabled, `GoogleAnalytics.setDryRun(true)`, the native library prevents any
 
 ## Roadmap
 
-- [X] dryRun flag
-- [ ] Simple Ecommerce
+- [x] dryRun flag
+- [x] Simple Ecommerce
 - [ ] Make the library more configureable
 
 ## peerDependencies
