@@ -12,6 +12,20 @@ class GoogleAnalytics {
       GoogleAnalyticsBridge.trackEvent(category, action, optionalValues);
     }
 
+    static trackPurchase(id, transaction = {
+      affiliation: 'App Store',
+      revenue: 0.99,
+      tax: 0,
+      shipping: 0
+    }, item = {
+      name: '',
+      sku: '',
+      price: 0.99,
+      quantity: 1
+    }) {
+      GoogleAnalyticsBridge.trackPurchase(id, transaction, item);
+    }
+
     static setDryRun(enabled) {
       GoogleAnalyticsBridge.setDryRun(enabled);
     }
