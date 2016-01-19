@@ -72,20 +72,53 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
 
         if (tracker != null)
         {
-          HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
+            HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
                         .setCategory(category)
                         .setAction(action);
 
-          if (optionalValues.hasKey("label"))
-          {
-              hit.setLabel(optionalValues.getString("label"));
-          }
-          if (optionalValues.hasKey("value"))
-          {
-              hit.setValue(optionalValues.getInt("value"));
-          }
+            if (optionalValues.hasKey("label"))
+            {
+                hit.setLabel(optionalValues.getString("label"));
+            }
+            if (optionalValues.hasKey("value"))
+            {
+                hit.setValue(optionalValues.getInt("value"));
+            }
 
-          tracker.send(hit.build());
+            tracker.send(hit.build());
+        }
+    }
+
+    @ReactMethod
+    public void trackPurchaseEvent(ReadableMap product, ReadableMap transaction, String eventCategory, String eventAction){
+        Tracker tracker = getTracker(_trackingId);
+
+        if (tracker != null) {
+            Product product = new Product()
+                    .setId(product.getString("productId"))
+                    .setName(product.getString("name"))
+                    .setCategory(product.getString("category"))
+                    .setBrand(product.getString("brand"))
+                    .setVariant(product.getString("variant"))
+                    .setPrice(product.getDouble("price"))
+                    .setCouponCode(product.getString("couponCode"))
+                    .setQuantity(product.getInt("quantity"));
+
+            ProductAction productAction = new ProductAction(ProductAction.ACTION_PURCHASE)
+                    .setTransactionId(transaction.getString("transactionId"))
+                    .setTransactionAffiliation(transaction.getString("affiliation"))
+                    .setTransactionRevenue(transaction.getDouble("revenue"))
+                    .setTransactionTax(transaction.getDouble("tax"))
+                    .setTransactionShipping(transaction.getDouble("shipping"))
+                    .setTransactionCouponCode(transaction.getString("couponCode"));
+
+            HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
+                    .setProduct(product)
+                    .setCategory(category)
+                    .setProductAction(productAction)
+                    .setAction(action);
+
+            t.send(hit.build());
         }
     }
 
