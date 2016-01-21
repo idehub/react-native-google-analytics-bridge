@@ -12,18 +12,22 @@ class GoogleAnalytics {
       GoogleAnalyticsBridge.trackEvent(category, action, optionalValues);
     }
 
-    static trackPurchase(id, transaction = {
+    static trackPurchase(transactionId, transaction = {
       affiliation: 'App Store',
       revenue: 0.99,
       tax: 0,
       shipping: 0
-    }, item = {
+    }, product = {
       name: '',
       sku: '',
       price: 0.99,
       quantity: 1
     }) {
-      GoogleAnalyticsBridge.trackPurchase(id, transaction, item);
+      GoogleAnalyticsBridge.trackPurchase(transactionId, transaction, product);
+    }
+
+    static trackException(error, fatal) {
+      GoogleAnalyticsBridge.trackException(error, fatal);
     }
 
     static setDryRun(enabled) {
