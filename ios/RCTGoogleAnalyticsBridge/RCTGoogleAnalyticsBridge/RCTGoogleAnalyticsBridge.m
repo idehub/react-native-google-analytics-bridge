@@ -73,7 +73,7 @@ RCT_EXPORT_METHOD(trackPurchase:(NSString *)transactionId transaction:(NSDiction
                                                         currencyCode:currencyCode] build]];
 }
 
-RCT_EXPORT_METHOD(trackException:(NSString *)error fatal(BOOL *)fatal)
+RCT_EXPORT_METHOD(trackException:(NSString *)error fatal:(BOOL)fatal)
 {
   id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
   [tracker send:[[GAIDictionaryBuilder createExceptionWithDescription:error
@@ -87,10 +87,16 @@ RCT_EXPORT_METHOD(setUser:(NSString *)userId)
          value:userId];
 }
 
-RCT_EXPORT_METHOD(trackSocialInteraction:(NSString *)network action:(NSString *)action action:(NSString *)targetUrl)
+RCT_EXPORT_METHOD(allowIDFA:(BOOL)enabled)
+{
+ id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+ tracker.allowIDFACollection = enabled;
+}
+
+RCT_EXPORT_METHOD(trackSocialInteraction:(NSString *)network action:(NSString *)action targetUrl:(NSString *)targetUrl)
 {
   id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-  [tracker send:[[GAIDictionaryBuilder createSocialWithNetwork:error
+  [tracker send:[[GAIDictionaryBuilder createSocialWithNetwork:network
                                                         action:action
                                                         target:targetUrl] build]];
 }

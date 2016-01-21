@@ -154,7 +154,7 @@ GoogleAnalytics.trackPurchase(Date.now().toString(), {
 ### trackException(error, fatal)
 
 * **error:** String, a description of the exception (up to 100 characters), accepts nil
-* **fatal (required):** Boolean, indicates whether the exception was fatal
+* **fatal (required):** Boolean, indicates whether the exception was fatal, defaults to false
 
 See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/exceptions) for more info
 
@@ -174,6 +174,16 @@ See the [Google Analytics](https://developers.google.com/analytics/devguides/col
 
 ```javascript
 GoogleAnalytics.setUser('12345678');
+```
+
+### allowIDFA(enabled)
+
+* **enabled (required):** Boolean, true to allow IDFA collection, defaults to true
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/campaigns#ios-install) for more info
+
+```javascript
+GoogleAnalytics.allowIDFA(true);
 ```
 
 ### trackSocialInteraction(network, action, targetUrl)

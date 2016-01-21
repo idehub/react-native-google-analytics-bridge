@@ -26,12 +26,16 @@ class GoogleAnalytics {
       GoogleAnalyticsBridge.trackPurchase(transactionId, transaction, product);
     }
 
-    static trackException(error, fatal) {
+    static trackException(error, fatal = false) {
       GoogleAnalyticsBridge.trackException(error, fatal);
     }
 
     static setUser(userId) {
       GoogleAnalyticsBridge.setUser(userId);
+    }
+
+    static allowIDFA(enabled = true) {
+      GoogleAnalyticsBridge.allowIDFA(enabled);
     }
 
     static trackSocialInteraction(network, action, targetUrl) {
@@ -42,6 +46,5 @@ class GoogleAnalytics {
       GoogleAnalyticsBridge.setDryRun(enabled);
     }
 }
-
 
 module.exports = GoogleAnalytics;
