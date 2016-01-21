@@ -45,7 +45,7 @@ RCT_EXPORT_METHOD(trackEvent:(NSString *)category action:(NSString *)action opti
                                                          value:value] build]];
 }
 
-RCT_EXPORT_METHOD(trackPurchase:(NSString *)transactionId transaction:(NSDictionary *)transaction item:(NSDictionary *)item)
+RCT_EXPORT_METHOD(trackPurchaseEnhanced:(NSString *)transactionId transaction:(NSDictionary *)transaction item:(NSDictionary *)item)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     NSString *affiliation = [RCTConvert NSString:transaction[@"affiliation"]];
@@ -71,6 +71,49 @@ RCT_EXPORT_METHOD(trackPurchase:(NSString *)transactionId transaction:(NSDiction
                                                                price:price
                                                             quantity:quantity
                                                         currencyCode:currencyCode] build]];
+}
+
+RCT_EXPORT_METHOD(trackPurchaseEvent:(NSDictionary *)product transaction:(NSDictionary *)transaction eventCategory:(NSString *)eventCategory eventAction:(NSString *)eventAction)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    NSString *productId = [RCTConvert NSString:product[@"id"]];
+    NSString *productName = [RCTConvert NSString:product[@"name"]];
+    NSString *productCategory = [RCTConvert NSString:product[@"category"]];
+    NSString *productBrand = [RCTConvert NSString:product[@"brand"]];
+    NSString *productVariant = [RCTConvert NSString:product[@"variant"]];
+    NSNumber *productPrice = [RCTConvert NSNumber:product[@"price"]];
+    NSString *productCouponCode = [RCTConvert NSString:product[@"couponCode"]];
+    NSNumber *productQuantity = [RCTConvert NSNumber:product[@"quantity"]];
+    NSString *transactionId = [RCTConvert NSString:transaction[@"id"]];
+    NSString *transactionAffiliation = [RCTConvert NSString:transaction[@"affiliation"]];
+    NSNumber *transactionRevenue = [RCTConvert NSNumber:transaction[@"revenue"]];
+    NSNumber *transactionTax = [RCTConvert NSNumber:transaction[@"tax"]];
+    NSNumber *transactionShipping = [RCTConvert NSNumber:transaction[@"shipping"]];
+    NSString *transactionCouponCode = [RCTConvert NSString:transaction[@"couponCode"]];
+    GAIEcommerceProduct *product = [[GAIEcommerceProduct alloc] init];
+    [product setId:productId];
+    [product setName:productName];
+    [product setCategory:productCategory];
+    [product setBrand:productBrand];
+    [product setVariant:productVariant];
+    [product setPrice:productPrice];
+    [product setCouponCode:productCouponCode];
+    [product setQuantity:productQuantity];
+    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createEventWithCategory:eventCategory
+                                                                           action:eventAction
+                                                                            label:nil
+                                                                            value:nil];
+    GAIEcommerceProductAction *action = [[GAIEcommerceProductAction alloc] init];
+    [action setAction:kGAIPAPurchase];
+    [action setTransactionId:transactionId];
+    [action setAffiliation:@transactionAffiliation];
+    [action setRevenue:transactionRevenue];
+    [action setTax:transactionTax];
+    [action setShipping:transactionShipping];
+    [action setCouponCode:transactionCouponCode];
+    [builder setProductAction:action];
+    [builder addProduct:product];
+    [tracker send:[builder build]];
 }
 
 RCT_EXPORT_METHOD(trackException:(NSString *)error fatal:(BOOL)fatal)

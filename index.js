@@ -12,18 +12,12 @@ class GoogleAnalytics {
       GoogleAnalyticsBridge.trackEvent(category, action, optionalValues);
     }
 
-    static trackPurchase(transactionId, transaction = {
-      affiliation: 'App Store',
-      revenue: 0.99,
-      tax: 0,
-      shipping: 0
-    }, product = {
-      name: '',
-      sku: '',
-      price: 0.99,
-      quantity: 1
-    }) {
+    static trackPurchase(transactionId, transaction = {}, product = {}) {
       GoogleAnalyticsBridge.trackPurchase(transactionId, transaction, product);
+    }
+
+    static trackPurchaseEnhanced(product = {}, transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
+      GoogleAnalyticsBridge.trackPurchaseEvent(product, transaction, eventCategory, eventAction);
     }
 
     static trackException(error, fatal = false) {
