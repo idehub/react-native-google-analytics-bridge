@@ -101,19 +101,34 @@ Consult [this guide](https://developer.android.com/sdk/installing/adding-package
 
 ## Javascript API
 At the moment the implementation exposes three methods:
+
 ### trackScreenView(screenName)
-This method only takes one parameter, the name of the current screen view. E. g. `GoogleAnalytics.trackScreenView('Home')`.
+
+* **screenName (required):** String, name of current screen
 
 **Important**: Calling this will also set the "current view" for other calls. So events tracked will be tagged as having occured on the current view, `Home` in this example. This means it is important to track navigation, especially if events can fire on different views.
 
-### trackEvent(category, action, optionalValues = {})
-This method takes takes two required parameters, the event `category` and `action`. The `optionalValues` has two possible properties, `label` and `value`.
+See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/screens) for more info
 
-As the name implies, `optionalValues` can be left out, or can contain one or both properties. Whatever floats your boat.
+```javascript
+GoogleAnalytics.trackScreenView('Home')
+```
 
-E. g. `GoogleAnalytics.trackEvent('testcategory', 'testaction');` or `GoogleAnalytics.trackEvent('testcategory', 'testaction', { label: "v1.0.3", value: 22 });`
+### trackEvent(category, action, optionalValues)
 
-**Note**: Label is a string, while value must be a number.
+* **category (required):** String, category of event
+* **action (required):** String, name of action
+* **optionalValues:** Object
+  * **label:** String
+  * **value:** Number
+
+See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/events) for more info
+
+```javascript
+GoogleAnalytics.trackEvent('testcategory', 'testaction');
+// or
+GoogleAnalytics.trackEvent('testcategory', 'testaction', {label: 'v1.0.3', value: 22});
+```
 
 ### trackPurchase(transactionId, transaction, product)
 
@@ -151,6 +166,49 @@ GoogleAnalytics.trackPurchase(Date.now().toString(), {
 });
 ```
 
+### trackPurchaseEnhanced(product, transaction, eventCategory, eventAction)
+
+* **product (required):** Object
+  * **id:** String
+  * **name:** String
+  * **category:** String
+  * **brand:** String
+  * **variant:** String
+  * **price:** Number
+  * **quantity:** Number
+  * **couponCode:** String
+* **transaction (required):** Object
+  * **id:** String
+  * **affiliation:** String, an entity with which the transaction should be affiliated (e.g. a particular store)
+  * **revenue:** Number
+  * **tax:** Number
+  * **shipping:** Number
+  * **couponCode:** String
+* **eventCategory (required):** String, defaults to "Ecommerce"
+* **eventAction (required):** String, defaults to "Purchase"
+
+See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/enhanced-ecommerce#measuring-transactions) for more info
+
+```javascript
+GoogleAnalytics.trackPurchase({
+  id: 'P12345'
+  name: 'Android Warhol T-Shirt',
+  category: 'Apparel/T-Shirts',
+  brand: 'Google',
+  variant: 'Black',
+  price: 29.20,
+  quantity: 1,
+  couponCode: 'APPARELSALE'
+}, {
+  id: 'T12345',
+  affiliation: 'Google Store - Online',
+  revenue: 37.39,
+  tax: 2.85,
+  shipping: 5.34,
+  couponCode: 'SUMMER2013'
+}, 'Ecommerce', 'Purchase');
+```
+
 ### trackException(error, fatal)
 
 * **error:** String, a description of the exception (up to 100 characters), accepts nil
@@ -164,6 +222,18 @@ try {
 } catch(error) {
   GoogleAnalytics.trackException(error, false);
 }
+```
+
+### trackSocialInteraction(network, action, targetUrl)
+
+* **network (required):** String, name of social network (e.g. 'Facebook', 'Twitter', 'Google+')
+* **action (required):** String, social action (e.g. 'Like', 'Share', '+1')
+* **targetUrl:** String, url of content being shared
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/social) docs for more info
+
+```javascript
+GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
 ```
 
 ### setUser(userId)
@@ -184,18 +254,6 @@ See the [Google Analytics](https://developers.google.com/analytics/devguides/col
 
 ```javascript
 GoogleAnalytics.allowIDFA(true);
-```
-
-### trackSocialInteraction(network, action, targetUrl)
-
-* **network (required):** String, name of social network (e.g. 'Facebook', 'Twitter', 'Google+')
-* **action (required):** String, social action (e.g. 'Like', 'Share', '+1')
-* **targetUrl:** String, url of content being shared
-
-See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/social) docs for more info
-
-```javascript
-GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
 ```
 
 ### setDryRun(enabled)
