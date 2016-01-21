@@ -34,7 +34,7 @@ RCT_EXPORT_METHOD(trackScreenView:(NSString *)screenName)
   [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
-RCT_EXPORT_METHOD(trackEvent:(NSString *)category action:(NSString *) action optionalValues:(NSDictionary *) optionalValues)
+RCT_EXPORT_METHOD(trackEvent:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *)optionalValues)
 {
   id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
   NSString *label = [RCTConvert NSString:optionalValues[@"label"]];
@@ -45,7 +45,7 @@ RCT_EXPORT_METHOD(trackEvent:(NSString *)category action:(NSString *) action opt
                                                          value:value] build]];
 }
 
-RCT_EXPORT_METHOD(trackPurchase:(NSString *)transactionId transaction:(NSDictionary *) transaction item:(NSDictionary *) item)
+RCT_EXPORT_METHOD(trackPurchase:(NSString *)transactionId transaction:(NSDictionary *)transaction item:(NSDictionary *)item)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     NSString *affiliation = [RCTConvert NSString:transaction[@"affiliation"]];
@@ -71,6 +71,34 @@ RCT_EXPORT_METHOD(trackPurchase:(NSString *)transactionId transaction:(NSDiction
                                                                price:price
                                                             quantity:quantity
                                                         currencyCode:currencyCode] build]];
+}
+
+RCT_EXPORT_METHOD(trackException:(NSString *)error fatal:(BOOL)fatal)
+{
+  id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+  [tracker send:[[GAIDictionaryBuilder createExceptionWithDescription:error
+                                                            withFatal:fatal] build]];
+}
+
+RCT_EXPORT_METHOD(setUser:(NSString *)userId)
+{
+  id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+  [tracker set:kGAIUserId
+         value:userId];
+}
+
+RCT_EXPORT_METHOD(allowIDFA:(BOOL)enabled)
+{
+ id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+ tracker.allowIDFACollection = enabled;
+}
+
+RCT_EXPORT_METHOD(trackSocialInteraction:(NSString *)network action:(NSString *)action targetUrl:(NSString *)targetUrl)
+{
+  id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+  [tracker send:[[GAIDictionaryBuilder createSocialWithNetwork:network
+                                                        action:action
+                                                        target:targetUrl] build]];
 }
 
 RCT_EXPORT_METHOD(setDryRun:(BOOL)enabled)

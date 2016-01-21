@@ -115,8 +115,24 @@ E. g. `GoogleAnalytics.trackEvent('testcategory', 'testaction');` or `GoogleAnal
 
 **Note**: Label is a string, while value must be a number.
 
-### trackPurchase(id, transaction = {}, item = {})
-This method takes takes three required parameters, the transaction/item `id` and the `transaction` and `item` objects. All fields for the `transaction` and `item` objects (below) are required and there is an optional `category` field for `item` and `currencyCode` field for both. See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/ecommerce) for more info.
+### trackPurchase(transactionId, transaction, product)
+
+* **transactionId (required):** String, a unique ID representing the transaction, this ID should not collide with other transaction IDs
+* **transaction (required):** Object
+  * **affiliation (required):** String, an entity with which the transaction should be affiliated (e.g. a particular store)
+  * **revenue (required):** Number, the total revenue of a transaction, including tax and shipping
+  * **tax (required):** Number, the total tax for a transaction
+  * **shipping (required):** Number, the total cost of shipping for a transaction
+  * **currencyCode:** String, the local currency of a transaction, defaults to the currency of the view (profile) in which the transactions are being viewed
+* **product (required):** Object
+  * **affiliation (required):** String, the name of the product
+  * **sku (required):** String, the SKU of a product
+  * **category:** String, a category to which the product belongs
+  * **price (required):** Number, the price of a product
+  * **quantity (required):** Number, the quantity of a product
+  * **currencyCode:** String, the local currency of a transaction, defaults to the currency of the view (profile) in which the transactions are being viewed
+
+See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/ecommerce) for more info
 
 ```javascript
 GoogleAnalytics.trackPurchase(Date.now().toString(), {
@@ -133,6 +149,53 @@ GoogleAnalytics.trackPurchase(Date.now().toString(), {
   quantity: 1,
   currencyCode: 'us'   // optional
 });
+```
+
+### trackException(error, fatal)
+
+* **error:** String, a description of the exception (up to 100 characters), accepts nil
+* **fatal (required):** Boolean, indicates whether the exception was fatal, defaults to false
+
+See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/exceptions) for more info
+
+```javascript
+try {
+  ...
+} catch(error) {
+  GoogleAnalytics.trackException(error, false);
+}
+```
+
+### setUser(userId)
+
+* **userId (required):** String, an **anonymous** identifier that complies with Google Analytic's user ID policy
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/user-id) for more info
+
+```javascript
+GoogleAnalytics.setUser('12345678');
+```
+
+### allowIDFA(enabled)
+
+* **enabled (required):** Boolean, true to allow IDFA collection, defaults to true
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/campaigns#ios-install) for more info
+
+```javascript
+GoogleAnalytics.allowIDFA(true);
+```
+
+### trackSocialInteraction(network, action, targetUrl)
+
+* **network (required):** String, name of social network (e.g. 'Facebook', 'Twitter', 'Google+')
+* **action (required):** String, social action (e.g. 'Like', 'Share', '+1')
+* **targetUrl:** String, url of content being shared
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/social) docs for more info
+
+```javascript
+GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
 ```
 
 ### setDryRun(enabled)
