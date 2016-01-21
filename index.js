@@ -34,6 +34,10 @@ class GoogleAnalytics {
       GoogleAnalyticsBridge.setUser(userId);
     }
 
+    static trackSocialInteraction(network, action, targetUrl) {
+      GoogleAnalyticsBridge.trackSocialInteraction(network, action, targetUrl);
+    }
+
     static setDryRun(enabled) {
       GoogleAnalyticsBridge.setDryRun(enabled);
     }

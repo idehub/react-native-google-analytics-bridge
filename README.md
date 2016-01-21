@@ -175,6 +175,19 @@ See the [Google Analytics](https://developers.google.com/analytics/devguides/col
 ```javascript
 GoogleAnalytics.setUser('12345678');
 ```
+
+### trackSocialInteraction(network, action, targetUrl)
+
+* **network (required):** String, name of social network (e.g. 'Facebook', 'Twitter', 'Google+')
+* **action (required):** String, social action (e.g. 'Like', 'Share', '+1')
+* **targetUrl:** String, url of content being shared
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/social) docs for more info
+
+```javascript
+GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
+```
+
 ### setDryRun(enabled)
 This method takes a boolean parameter indicating if the `dryRun` flag should be enabled or not.
 

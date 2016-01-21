@@ -87,6 +87,14 @@ RCT_EXPORT_METHOD(setUser:(NSString *)userId)
          value:userId];
 }
 
+RCT_EXPORT_METHOD(trackSocialInteraction:(NSString *)network action:(NSString *)action action:(NSString *)targetUrl)
+{
+  id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+  [tracker send:[[GAIDictionaryBuilder createSocialWithNetwork:error
+                                                        action:action
+                                                        target:targetUrl] build]];
+}
+
 RCT_EXPORT_METHOD(setDryRun:(BOOL)enabled)
 {
     [GAI sharedInstance].dryRun = enabled;
