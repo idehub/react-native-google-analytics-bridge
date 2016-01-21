@@ -165,6 +165,16 @@ try {
   GoogleAnalytics.trackException(error, false);
 }
 ```
+
+### setUser(userId)
+
+* **userId (required):** String, an **anonymous** identifier that complies with Google Analytic's user ID policy
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/user-id) for more info
+
+```javascript
+GoogleAnalytics.setUser('12345678');
+```
 ### setDryRun(enabled)
 This method takes a boolean parameter indicating if the `dryRun` flag should be enabled or not.
 

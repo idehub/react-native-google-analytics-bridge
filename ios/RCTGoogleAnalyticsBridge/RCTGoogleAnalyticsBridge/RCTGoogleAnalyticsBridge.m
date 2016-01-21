@@ -80,6 +80,13 @@ RCT_EXPORT_METHOD(trackException:(NSString *)error fatal(BOOL *)fatal)
                                                             withFatal:fatal] build]];
 }
 
+RCT_EXPORT_METHOD(setUser:(NSString *)userId)
+{
+  id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+  [tracker set:kGAIUserId
+         value:userId];
+}
+
 RCT_EXPORT_METHOD(setDryRun:(BOOL)enabled)
 {
     [GAI sharedInstance].dryRun = enabled;

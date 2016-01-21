@@ -30,6 +30,10 @@ class GoogleAnalytics {
       GoogleAnalyticsBridge.trackException(error, fatal);
     }
 
+    static setUser(userId) {
+      GoogleAnalyticsBridge.setUser(userId);
+    }
+
     static setDryRun(enabled) {
       GoogleAnalyticsBridge.setDryRun(enabled);
     }
