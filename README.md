@@ -31,12 +31,13 @@ These are step 5 and 6 from the iOS installation, and step 4 from the Android in
 3. Go to `node_modules` ➜ `react-native-google-analytics-bridge` ➜ `ios` ➜ `RCTGoogleAnalyticsBridge` and add the `RCTGoogleAnalyticsBridge.xcodeproj` file.
 4. Add libRCTGoogleAnalyticsBridge.a from the linked project to your project properties ➜ "Build Phases" ➜ "Link Binary With Libraries"
 5. Next you will have to link a few more SDK framework/libraries which are required by GA (if you do not already have them linked.) Under the same "Link Binary With Libraries", click the + and add the following:
-  1. AdSupport.framework
-  2. CoreData.framework
-  3. SystemConfiguration.framework
-  4. libz.tbd
-  5. libsqlite3.0.tbd
-6. Under your project properties ➜ "Info", add a new line with the following:
+  1. CoreData.framework
+  2. SystemConfiguration.framework
+  3. libz.tbd
+  4. libsqlite3.0.tbd
+
+  **Optional**: If you plan on using the advertising identifier (IDFA), then you also need to add AdSupport.framework
+7. Under your project properties ➜ "Info", add a new line with the following:
   1. Key: GAITrackingId
   2. Type: String
   3. Value: UA-12345-1 (in other words, your own tracking id).
@@ -130,43 +131,7 @@ GoogleAnalytics.trackEvent('testcategory', 'testaction');
 GoogleAnalytics.trackEvent('testcategory', 'testaction', {label: 'v1.0.3', value: 22});
 ```
 
-### trackPurchase(transactionId, transaction, product)
-
-* **transactionId (required):** String, a unique ID representing the transaction, this ID should not collide with other transaction IDs
-* **transaction (required):** Object
-  * **affiliation (required):** String, an entity with which the transaction should be affiliated (e.g. a particular store)
-  * **revenue (required):** Number, the total revenue of a transaction, including tax and shipping
-  * **tax (required):** Number, the total tax for a transaction
-  * **shipping (required):** Number, the total cost of shipping for a transaction
-  * **currencyCode:** String, the local currency of a transaction, defaults to the currency of the view (profile) in which the transactions are being viewed
-* **product (required):** Object
-  * **affiliation (required):** String, the name of the product
-  * **sku (required):** String, the SKU of a product
-  * **category:** String, a category to which the product belongs
-  * **price (required):** Number, the price of a product
-  * **quantity (required):** Number, the quantity of a product
-  * **currencyCode:** String, the local currency of a transaction, defaults to the currency of the view (profile) in which the transactions are being viewed
-
-See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/ecommerce) for more info
-
-```javascript
-GoogleAnalytics.trackPurchase(Date.now().toString(), {
-  affiliation: 'App Store',
-  revenue: 4.99,
-  tax: 0,
-  shipping: 0,
-  currencyCode: 'us'   // optional
-}, item = {
-  name: '',
-  sku: '',
-  category: 'Widgets'   // optional
-  price: 4.99,
-  quantity: 1,
-  currencyCode: 'us'   // optional
-});
-```
-
-### trackPurchaseEnhanced(product, transaction, eventCategory, eventAction)
+### trackPurchaseEvent(product, transaction, eventCategory, eventAction)
 
 * **product (required):** Object
   * **id:** String
