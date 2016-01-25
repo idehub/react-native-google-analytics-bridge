@@ -101,7 +101,6 @@ Consult [this guide](https://developer.android.com/sdk/installing/adding-package
   ```
 
 ## Javascript API
-At the moment the implementation exposes three methods:
 
 ### trackScreenView(screenName)
 
