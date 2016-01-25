@@ -4,6 +4,9 @@
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
+#import "GAIEcommerceProduct.h"
+#import "GAIEcommerceProductAction.h"
+#import "GAIEcommerceFields.h"
 
 @implementation RCTGoogleAnalyticsBridge {
 
@@ -45,34 +48,6 @@ RCT_EXPORT_METHOD(trackEvent:(NSString *)category action:(NSString *)action opti
                                                          value:value] build]];
 }
 
-RCT_EXPORT_METHOD(trackPurchaseEnhanced:(NSString *)transactionId transaction:(NSDictionary *)transaction item:(NSDictionary *)item)
-{
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    NSString *affiliation = [RCTConvert NSString:transaction[@"affiliation"]];
-    NSNumber *revenue = [RCTConvert NSNumber:transaction[@"revenue"]];
-    NSNumber *tax = [RCTConvert NSNumber:transaction[@"tax"]];
-    NSNumber *shipping = [RCTConvert NSNumber:transaction[@"shipping"]];
-    NSString *currencyCode = [RCTConvert NSString:transaction[@"currencyCode"]];
-    NSString *name = [RCTConvert NSString:item[@"name"]];
-    NSString *sku = [RCTConvert NSString:item[@"sku"]];
-    NSString *category = [RCTConvert NSString:item[@"category"]];
-    NSNumber *price = [RCTConvert NSNumber:item[@"price"]];
-    NSNumber *quantity = [RCTConvert NSNumber:item[@"quantity"]];
-    [tracker send:[[GAIDictionaryBuilder createTransactionWithId:transactionId
-                                                     affiliation:affiliation
-                                                         revenue:revenue
-                                                             tax:tax
-                                                        shipping:shipping
-                                                    currencyCode:currencyCode] build]];
-    [tracker send:[[GAIDictionaryBuilder createItemWithTransactionId:transactionId
-                                                                name:name
-                                                                 sku:sku
-                                                            category:category
-                                                               price:price
-                                                            quantity:quantity
-                                                        currencyCode:currencyCode] build]];
-}
-
 RCT_EXPORT_METHOD(trackPurchaseEvent:(NSDictionary *)product transaction:(NSDictionary *)transaction eventCategory:(NSString *)eventCategory eventAction:(NSString *)eventAction)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
@@ -90,15 +65,15 @@ RCT_EXPORT_METHOD(trackPurchaseEvent:(NSDictionary *)product transaction:(NSDict
     NSNumber *transactionTax = [RCTConvert NSNumber:transaction[@"tax"]];
     NSNumber *transactionShipping = [RCTConvert NSNumber:transaction[@"shipping"]];
     NSString *transactionCouponCode = [RCTConvert NSString:transaction[@"couponCode"]];
-    GAIEcommerceProduct *product = [[GAIEcommerceProduct alloc] init];
-    [product setId:productId];
-    [product setName:productName];
-    [product setCategory:productCategory];
-    [product setBrand:productBrand];
-    [product setVariant:productVariant];
-    [product setPrice:productPrice];
-    [product setCouponCode:productCouponCode];
-    [product setQuantity:productQuantity];
+    GAIEcommerceProduct *ecommerceProduct = [[GAIEcommerceProduct alloc] init];
+    [ecommerceProduct setId:productId];
+    [ecommerceProduct setName:productName];
+    [ecommerceProduct setCategory:productCategory];
+    [ecommerceProduct setBrand:productBrand];
+    [ecommerceProduct setVariant:productVariant];
+    [ecommerceProduct setPrice:productPrice];
+    [ecommerceProduct setCouponCode:productCouponCode];
+    [ecommerceProduct setQuantity:productQuantity];
     GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createEventWithCategory:eventCategory
                                                                            action:eventAction
                                                                             label:nil
@@ -106,13 +81,13 @@ RCT_EXPORT_METHOD(trackPurchaseEvent:(NSDictionary *)product transaction:(NSDict
     GAIEcommerceProductAction *action = [[GAIEcommerceProductAction alloc] init];
     [action setAction:kGAIPAPurchase];
     [action setTransactionId:transactionId];
-    [action setAffiliation:@transactionAffiliation];
+    [action setAffiliation:transactionAffiliation];
     [action setRevenue:transactionRevenue];
     [action setTax:transactionTax];
     [action setShipping:transactionShipping];
     [action setCouponCode:transactionCouponCode];
     [builder setProductAction:action];
-    [builder addProduct:product];
+    [builder addProduct:ecommerceProduct];
     [tracker send:[builder build]];
 }
 
@@ -120,7 +95,7 @@ RCT_EXPORT_METHOD(trackException:(NSString *)error fatal:(BOOL)fatal)
 {
   id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
   [tracker send:[[GAIDictionaryBuilder createExceptionWithDescription:error
-                                                            withFatal:fatal] build]];
+                                                            withFatal:[NSNumber numberWithBool:fatal]] build]];
 }
 
 RCT_EXPORT_METHOD(setUser:(NSString *)userId)

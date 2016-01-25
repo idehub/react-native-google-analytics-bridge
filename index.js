@@ -11,11 +11,11 @@ class GoogleAnalytics {
       GoogleAnalyticsBridge.trackEvent(category, action, optionalValues);
     }
 
-    static trackPurchase(transactionId, transaction = {}, product = {}) {
-      GoogleAnalyticsBridge.trackPurchase(transactionId, transaction, product);
-    }
+    // static trackPurchase(transactionId, transaction = {}, product = {}) {
+    //   GoogleAnalyticsBridge.trackPurchase(transactionId, transaction, product);
+    // }
 
-    static trackPurchaseEnhanced(product = {}, transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
+    static trackPurchaseEvent(product = {}, transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
       GoogleAnalyticsBridge.trackPurchaseEvent(product, transaction, eventCategory, eventAction);
     }
 
