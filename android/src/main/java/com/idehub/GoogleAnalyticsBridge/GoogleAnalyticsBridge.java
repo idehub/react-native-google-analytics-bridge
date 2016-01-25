@@ -1,9 +1,5 @@
 package com.idehub.GoogleAnalyticsBridge;
 
-import android.content.Context;
-import android.app.Application;
-
-import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -11,8 +7,9 @@ import com.facebook.react.bridge.ReadableMap;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.analytics.ecommerce.Product;
+import com.google.android.gms.analytics.ecommerce.ProductAction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,9 +57,9 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
 
         if (tracker != null)
         {
-          tracker.setScreenName(screenName);
+            tracker.setScreenName(screenName);
 
-          tracker.send(new HitBuilders.ScreenViewBuilder().build());
+            tracker.send(new HitBuilders.ScreenViewBuilder().build());
         }
     }
 
@@ -94,7 +91,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
         Tracker tracker = getTracker(_trackingId);
 
         if (tracker != null) {
-            Product product = new Product()
+            Product ecommerceProduct = new Product()
                     .setId(product.getString("productId"))
                     .setName(product.getString("name"))
                     .setCategory(product.getString("category"))
@@ -113,12 +110,12 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
                     .setTransactionCouponCode(transaction.getString("couponCode"));
 
             HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
-                    .setProduct(product)
-                    .setCategory(category)
+                    .addProduct(ecommerceProduct)
                     .setProductAction(productAction)
-                    .setAction(action);
+                    .setCategory(eventCategory)
+                    .setAction(eventAction);
 
-            t.send(hit.build());
+            tracker.send(hit.build());
         }
     }
 
