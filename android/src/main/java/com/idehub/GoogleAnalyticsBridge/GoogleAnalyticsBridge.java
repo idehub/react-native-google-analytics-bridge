@@ -120,12 +120,59 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
     }
 
     @ReactMethod
+    public void trackException(String error, Boolean fatal)
+    {
+        Tracker tracker = getTracker(_trackingId);
+
+        if (tracker != null) {
+            tracker.send(new HitBuilders.ExceptionBuilder()
+                    .setDescription(error)
+                    .setFatal(fatal)
+                    .build());
+        }
+    }
+
+    @ReactMethod
+    public void setUser(String userId)
+    {
+        Tracker tracker = getTracker(_trackingId);
+
+        if (tracker != null) {
+            tracker.set("&uid", userId);
+        }
+    }
+
+    @ReactMethod
+    public void allowIDFA(Boolean enabled)
+    {
+        Tracker tracker = getTracker(_trackingId);
+
+        if (tracker != null) {
+            tracker.enableAdvertisingIdCollection(enabled);
+        }
+    }
+
+    @ReactMethod
+    public void trackSocialInteraction(String network, String action, String targetUrl)
+    {
+        Tracker tracker = getTracker(_trackingId);
+
+        if (tracker != null) {
+            tracker.send(new HitBuilders.SocialBuilder()
+                .setNetwork(network)
+                .setAction(action)
+                .setTarget(targetUrl)
+                .build());
+        }
+    }
+
+    @ReactMethod
     public void setDryRun(Boolean enabled){
         GoogleAnalytics analytics = getAnalyticsInstance();
 
         if (analytics != null)
         {
-          analytics.setDryRun(enabled);
+            analytics.setDryRun(enabled);
         }
     }
 }
