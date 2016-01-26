@@ -27,19 +27,21 @@ These are step 5 and 6 from the iOS installation, and step 4 from the Android in
 ## Manual installation iOS
 
 1. `npm install --save react-native-google-analytics-bridge`
-2. In XCode, right click the Libraries folder under your project ➜ `Add Files to <your project>`.
+2. In XCode, right-click the Libraries folder under your project ➜ `Add Files to <your project>`.
 3. Go to `node_modules` ➜ `react-native-google-analytics-bridge` ➜ `ios` ➜ `RCTGoogleAnalyticsBridge` and add the `RCTGoogleAnalyticsBridge.xcodeproj` file.
 4. Add libRCTGoogleAnalyticsBridge.a from the linked project to your project properties ➜ "Build Phases" ➜ "Link Binary With Libraries"
 5. Next you will have to link a few more SDK framework/libraries which are required by GA (if you do not already have them linked.) Under the same "Link Binary With Libraries", click the + and add the following:
-  1. AdSupport.framework
-  2. CoreData.framework
-  3. SystemConfiguration.framework
-  4. libz.tbd
-  5. libsqlite3.0.tbd
-6. Under your project properties ➜ "Info", add a new line with the following:
+  1. CoreData.framework
+  2. SystemConfiguration.framework
+  3. libz.tbd
+  4. libsqlite3.0.tbd
+7. Under your project properties ➜ "Info", add a new line with the following:
   1. Key: GAITrackingId
   2. Type: String
   3. Value: UA-12345-1 (in other words, your own tracking id).
+8. **Optional step**: If you plan on using the advertising identifier (IDFA), then you need to do two things:
+  1. Add AdSupport.framework under "Link Binary With Libraries". (As with the other frameworks in step 5).
+  2. Go to Xcode ➜ `Libraries` ➜ `RCTGoogleAnalyticsBridge.xcodeproj` ➜ right-click `google-analytics-lib`. Here you need to `Add files to ..`, and add `libAdIdAccess.a` from the `google-analytics-lib` directory. This directory is located in the same directory as in step 3.
 
 ## Prerequisites for Android
 Make sure you have the following SDK packages installed in the Android SDK Manager:
@@ -100,19 +102,126 @@ Consult [this guide](https://developer.android.com/sdk/installing/adding-package
   ```
 
 ## Javascript API
-At the moment the implementation exposes three methods:
+
 ### trackScreenView(screenName)
-This method only takes one parameter, the name of the current screen view. E. g. `GoogleAnalytics.trackScreenView('Home')`.
+
+* **screenName (required):** String, name of current screen
 
 **Important**: Calling this will also set the "current view" for other calls. So events tracked will be tagged as having occured on the current view, `Home` in this example. This means it is important to track navigation, especially if events can fire on different views.
-### trackEvent(category, action, optionalValues = {})
-This method takes takes two required parameters, the event `category` and `action`. The `optionalValues` has two possible properties, `label` and `value`.
 
-As the name implies, `optionalValues` can be left out, or can contain one or both properties. Whatever floats your boat.
+See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/screens) for more info
 
-E. g. `GoogleAnalytics.trackEvent('testcategory', 'testaction');` or `GoogleAnalytics.trackEvent('testcategory', 'testaction', { label: "v1.0.3", value: 22 });`
+```javascript
+GoogleAnalytics.trackScreenView('Home')
+```
 
-**Note**: Label is a string, while value must be a number.
+### trackEvent(category, action, optionalValues)
+
+* **category (required):** String, category of event
+* **action (required):** String, name of action
+* **optionalValues:** Object
+  * **label:** String
+  * **value:** Number
+
+See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/events) for more info.
+
+```javascript
+GoogleAnalytics.trackEvent('testcategory', 'testaction');
+// or
+GoogleAnalytics.trackEvent('testcategory', 'testaction', {label: 'v1.0.3', value: 22});
+```
+
+### trackPurchaseEvent(product, transaction, eventCategory, eventAction)
+
+* **product (required):** Object
+  * **id:** String
+  * **name:** String
+  * **category:** String
+  * **brand:** String
+  * **variant:** String
+  * **price:** Number
+  * **quantity:** Number
+  * **couponCode:** String
+* **transaction (required):** Object
+  * **id:** String
+  * **affiliation:** String, an entity with which the transaction should be affiliated (e.g. a particular store)
+  * **revenue:** Number
+  * **tax:** Number
+  * **shipping:** Number
+  * **couponCode:** String
+* **eventCategory (required):** String, defaults to "Ecommerce"
+* **eventAction (required):** String, defaults to "Purchase"
+
+See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/enhanced-ecommerce#measuring-transactions) for more info.
+
+```javascript
+GoogleAnalytics.trackPurchase({
+  id: 'P12345',
+  name: 'Android Warhol T-Shirt',
+  category: 'Apparel/T-Shirts',
+  brand: 'Google',
+  variant: 'Black',
+  price: 29.20,
+  quantity: 1,
+  couponCode: 'APPARELSALE'
+}, {
+  id: 'T12345',
+  affiliation: 'Google Store - Online',
+  revenue: 37.39,
+  tax: 2.85,
+  shipping: 5.34,
+  couponCode: 'SUMMER2013'
+}, 'Ecommerce', 'Purchase');
+```
+
+### trackException(error, fatal)
+
+* **error:** String, a description of the exception (up to 100 characters), accepts nil
+* **fatal (required):** Boolean, indicates whether the exception was fatal, defaults to false
+
+See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/exceptions) for more info.
+
+```javascript
+try {
+  ...
+} catch(error) {
+  GoogleAnalytics.trackException(error, false);
+}
+```
+
+### trackSocialInteraction(network, action, targetUrl)
+
+* **network (required):** String, name of social network (e.g. 'Facebook', 'Twitter', 'Google+')
+* **action (required):** String, social action (e.g. 'Like', 'Share', '+1')
+* **targetUrl:** String, url of content being shared
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/social) docs for more info.
+
+```javascript
+GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
+```
+
+### setUser(userId)
+
+* **userId (required):** String, an **anonymous** identifier that complies with Google Analytic's user ID policy
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/user-id) for more info.
+
+```javascript
+GoogleAnalytics.setUser('12345678');
+```
+
+### allowIDFA(enabled)
+
+* **enabled (required):** Boolean, true to allow IDFA collection, defaults to `true`.
+
+**Important**: For iOS you can only use this method if you have done the optional step 8 from the installation guide.
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/campaigns#ios-install) for more info.
+
+```javascript
+GoogleAnalytics.allowIDFA(true);
+```
 
 ### setDryRun(enabled)
 This method takes a boolean parameter indicating if the `dryRun` flag should be enabled or not.
@@ -121,8 +230,8 @@ When enabled, `GoogleAnalytics.setDryRun(true)`, the native library prevents any
 
 ## Roadmap
 
-- [X] dryRun flag
-- [ ] Simple Ecommerce
+- [x] dryRun flag
+- [x] Simple Ecommerce
 - [ ] Make the library more configureable
 
 ## peerDependencies

@@ -1,9 +1,5 @@
 package com.idehub.GoogleAnalyticsBridge;
 
-import android.content.Context;
-import android.app.Application;
-
-import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -11,8 +7,9 @@ import com.facebook.react.bridge.ReadableMap;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.analytics.ecommerce.Product;
+import com.google.android.gms.analytics.ecommerce.ProductAction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,9 +57,9 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
 
         if (tracker != null)
         {
-          tracker.setScreenName(screenName);
+            tracker.setScreenName(screenName);
 
-          tracker.send(new HitBuilders.ScreenViewBuilder().build());
+            tracker.send(new HitBuilders.ScreenViewBuilder().build());
         }
     }
 
@@ -94,8 +91,8 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
         Tracker tracker = getTracker(_trackingId);
 
         if (tracker != null) {
-            Product product = new Product()
-                    .setId(product.getString("productId"))
+            Product ecommerceProduct = new Product()
+                    .setId(product.getString("id"))
                     .setName(product.getString("name"))
                     .setCategory(product.getString("category"))
                     .setBrand(product.getString("brand"))
@@ -105,7 +102,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
                     .setQuantity(product.getInt("quantity"));
 
             ProductAction productAction = new ProductAction(ProductAction.ACTION_PURCHASE)
-                    .setTransactionId(transaction.getString("transactionId"))
+                    .setTransactionId(transaction.getString("id"))
                     .setTransactionAffiliation(transaction.getString("affiliation"))
                     .setTransactionRevenue(transaction.getDouble("revenue"))
                     .setTransactionTax(transaction.getDouble("tax"))
@@ -113,12 +110,59 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
                     .setTransactionCouponCode(transaction.getString("couponCode"));
 
             HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
-                    .setProduct(product)
-                    .setCategory(category)
+                    .addProduct(ecommerceProduct)
                     .setProductAction(productAction)
-                    .setAction(action);
+                    .setCategory(eventCategory)
+                    .setAction(eventAction);
 
-            t.send(hit.build());
+            tracker.send(hit.build());
+        }
+    }
+
+    @ReactMethod
+    public void trackException(String error, Boolean fatal)
+    {
+        Tracker tracker = getTracker(_trackingId);
+
+        if (tracker != null) {
+            tracker.send(new HitBuilders.ExceptionBuilder()
+                    .setDescription(error)
+                    .setFatal(fatal)
+                    .build());
+        }
+    }
+
+    @ReactMethod
+    public void setUser(String userId)
+    {
+        Tracker tracker = getTracker(_trackingId);
+
+        if (tracker != null) {
+            tracker.set("&uid", userId);
+        }
+    }
+
+    @ReactMethod
+    public void allowIDFA(Boolean enabled)
+    {
+        Tracker tracker = getTracker(_trackingId);
+
+        if (tracker != null) {
+            tracker.enableAdvertisingIdCollection(enabled);
+        }
+    }
+
+    @ReactMethod
+    public void trackSocialInteraction(String network, String action, String targetUrl)
+    {
+        Tracker tracker = getTracker(_trackingId);
+
+        if (tracker != null) {
+            tracker.send(new HitBuilders.SocialBuilder()
+                .setNetwork(network)
+                .setAction(action)
+                .setTarget(targetUrl)
+                .build());
         }
     }
 
@@ -128,7 +172,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
 
         if (analytics != null)
         {
-          analytics.setDryRun(enabled);
+            analytics.setDryRun(enabled);
         }
     }
 }
