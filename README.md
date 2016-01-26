@@ -27,7 +27,7 @@ These are step 5 and 6 from the iOS installation, and step 4 from the Android in
 ## Manual installation iOS
 
 1. `npm install --save react-native-google-analytics-bridge`
-2. In XCode, right click the Libraries folder under your project ➜ `Add Files to <your project>`.
+2. In XCode, right-click the Libraries folder under your project ➜ `Add Files to <your project>`.
 3. Go to `node_modules` ➜ `react-native-google-analytics-bridge` ➜ `ios` ➜ `RCTGoogleAnalyticsBridge` and add the `RCTGoogleAnalyticsBridge.xcodeproj` file.
 4. Add libRCTGoogleAnalyticsBridge.a from the linked project to your project properties ➜ "Build Phases" ➜ "Link Binary With Libraries"
 5. Next you will have to link a few more SDK framework/libraries which are required by GA (if you do not already have them linked.) Under the same "Link Binary With Libraries", click the + and add the following:
@@ -35,12 +35,13 @@ These are step 5 and 6 from the iOS installation, and step 4 from the Android in
   2. SystemConfiguration.framework
   3. libz.tbd
   4. libsqlite3.0.tbd
-
-  **Optional**: If you plan on using the advertising identifier (IDFA), then you also need to add AdSupport.framework
 7. Under your project properties ➜ "Info", add a new line with the following:
   1. Key: GAITrackingId
   2. Type: String
   3. Value: UA-12345-1 (in other words, your own tracking id).
+8. **Optional step**: If you plan on using the advertising identifier (IDFA), then you need to do two things:
+  1. Add AdSupport.framework under "Link Binary With Libraries". (As with the other frameworks in step 5).
+  2. Go to Xcode ➜ `Libraries` ➜ `RCTGoogleAnalyticsBridge.xcodeproj` ➜ right-click `google-analytics-lib`. Here you need to `Add files to ..`, and add `libAdIdAccess.a` from the `google-analytics-lib` directory. This directory is located in the same directory as in step 3.
 
 ## Prerequisites for Android
 Make sure you have the following SDK packages installed in the Android SDK Manager:
@@ -122,7 +123,7 @@ GoogleAnalytics.trackScreenView('Home')
   * **label:** String
   * **value:** Number
 
-See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/events) for more info
+See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/events) for more info.
 
 ```javascript
 GoogleAnalytics.trackEvent('testcategory', 'testaction');
@@ -151,7 +152,7 @@ GoogleAnalytics.trackEvent('testcategory', 'testaction', {label: 'v1.0.3', value
 * **eventCategory (required):** String, defaults to "Ecommerce"
 * **eventAction (required):** String, defaults to "Purchase"
 
-See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/enhanced-ecommerce#measuring-transactions) for more info
+See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/enhanced-ecommerce#measuring-transactions) for more info.
 
 ```javascript
 GoogleAnalytics.trackPurchase({
@@ -178,7 +179,7 @@ GoogleAnalytics.trackPurchase({
 * **error:** String, a description of the exception (up to 100 characters), accepts nil
 * **fatal (required):** Boolean, indicates whether the exception was fatal, defaults to false
 
-See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/exceptions) for more info
+See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/exceptions) for more info.
 
 ```javascript
 try {
@@ -194,7 +195,7 @@ try {
 * **action (required):** String, social action (e.g. 'Like', 'Share', '+1')
 * **targetUrl:** String, url of content being shared
 
-See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/social) docs for more info
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/social) docs for more info.
 
 ```javascript
 GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
@@ -204,7 +205,7 @@ GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
 
 * **userId (required):** String, an **anonymous** identifier that complies with Google Analytic's user ID policy
 
-See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/user-id) for more info
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/user-id) for more info.
 
 ```javascript
 GoogleAnalytics.setUser('12345678');
@@ -212,9 +213,11 @@ GoogleAnalytics.setUser('12345678');
 
 ### allowIDFA(enabled)
 
-* **enabled (required):** Boolean, true to allow IDFA collection, defaults to true
+* **enabled (required):** Boolean, true to allow IDFA collection, defaults to `true`.
 
-See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/campaigns#ios-install) for more info
+**Important**: For iOS you can only use this method if you have done the optional step 8 from the installation guide.
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/campaigns#ios-install) for more info.
 
 ```javascript
 GoogleAnalytics.allowIDFA(true);
