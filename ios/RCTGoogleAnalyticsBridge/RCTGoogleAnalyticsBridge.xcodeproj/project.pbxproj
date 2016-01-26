@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9325E7FD1C512C5300EF100D /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9325E7FC1C512C5300EF100D /* libAdIdAccess.a */; };
 		A79185CA1C30694E001236A6 /* RCTGoogleAnalyticsBridge.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = A79185C91C30694E001236A6 /* RCTGoogleAnalyticsBridge.h */; };
 		A79185CC1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = A79185CB1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m */; };
 		A79185DE1C3070E8001236A6 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A79185DD1C3070E8001236A6 /* libGoogleAnalyticsServices.a */; };
@@ -27,7 +26,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		9325E7FC1C512C5300EF100D /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdIdAccess.a; sourceTree = "<group>"; };
 		A79185C61C30694E001236A6 /* libRCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTGoogleAnalyticsBridge.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A79185C91C30694E001236A6 /* RCTGoogleAnalyticsBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTGoogleAnalyticsBridge.h; sourceTree = "<group>"; };
 		A79185CB1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTGoogleAnalyticsBridge.m; sourceTree = "<group>"; };
@@ -50,7 +48,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A79185DE1C3070E8001236A6 /* libGoogleAnalyticsServices.a in Frameworks */,
-				9325E7FD1C512C5300EF100D /* libAdIdAccess.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,7 +93,6 @@
 				A79185DA1C3070E8001236A6 /* GAILogger.h */,
 				A79185DB1C3070E8001236A6 /* GAITrackedViewController.h */,
 				A79185DC1C3070E8001236A6 /* GAITracker.h */,
-				9325E7FC1C512C5300EF100D /* libAdIdAccess.a */,
 				A79185DD1C3070E8001236A6 /* libGoogleAnalyticsServices.a */,
 			);
 			path = "google-analytics-lib";
