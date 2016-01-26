@@ -23,11 +23,11 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		A79186011C30977F001236A6 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A79186001C308FDC001236A6 /* libRCTGoogleAnalyticsBridge.a */; };
-		A79186031C309837001236A6 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A79186021C309837001236A6 /* AdSupport.framework */; };
 		A79186051C30983F001236A6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A79186041C30983F001236A6 /* CoreData.framework */; };
 		A79186071C309848001236A6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A79186061C309848001236A6 /* SystemConfiguration.framework */; };
 		A79186091C30984E001236A6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A79186081C30984E001236A6 /* libz.tbd */; };
 		A791860B1C309879001236A6 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A791860A1C309879001236A6 /* libsqlite3.0.tbd */; };
+		A7B8CAC11C57E98C004DAC02 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B8CAC01C57E98C004DAC02 /* AdSupport.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,11 +140,11 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		A79185FB1C308FDC001236A6 /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGoogleAnalyticsBridge.xcodeproj; path = ../../ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj; sourceTree = "<group>"; };
-		A79186021C309837001236A6 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		A79186041C30983F001236A6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		A79186061C309848001236A6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A79186081C30984E001236A6 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A791860A1C309879001236A6 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		A7B8CAC01C57E98C004DAC02 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,12 +159,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7B8CAC11C57E98C004DAC02 /* AdSupport.framework in Frameworks */,
 				A79186011C30977F001236A6 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
 				A791860B1C309879001236A6 /* libsqlite3.0.tbd in Frameworks */,
 				A79186091C30984E001236A6 /* libz.tbd in Frameworks */,
 				A79186071C309848001236A6 /* SystemConfiguration.framework in Frameworks */,
 				A79186051C30983F001236A6 /* CoreData.framework in Frameworks */,
-				A79186031C309837001236A6 /* AdSupport.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -313,11 +313,11 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				A7B8CAC01C57E98C004DAC02 /* AdSupport.framework */,
 				A791860A1C309879001236A6 /* libsqlite3.0.tbd */,
 				A79186081C30984E001236A6 /* libz.tbd */,
 				A79186061C309848001236A6 /* SystemConfiguration.framework */,
 				A79186041C30983F001236A6 /* CoreData.framework */,
-				A79186021C309837001236A6 /* AdSupport.framework */,
 				13B07FAE1A68108700A75B9A /* example */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* exampleTests */,
