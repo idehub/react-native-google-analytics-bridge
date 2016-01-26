@@ -22,6 +22,35 @@ var example = React.createClass({
     GoogleAnalytics.setDryRun(false);
     GoogleAnalytics.trackEvent('testcategory', 'Hello Android', { label: "notdry", value: 1 });
 
+    GoogleAnalytics.trackPurchaseEvent(
+      {
+        id: 'P12345',
+        name: 'Android Warhol T-Shirt',
+        category: 'Apparel/T-Shirts',
+        brand: 'Google',
+        variant: 'Black',
+        price: 29.20,
+        quantity: 1,
+        couponCode: 'APPARELSALE'
+      }, {
+        id: 'T12345',
+        affiliation: 'Google Store - Online',
+        revenue: 37.39,
+        tax: 2.85,
+        shipping: 5.34,
+        couponCode: 'SUMMER2013'
+      }
+    );
+
+
+    GoogleAnalytics.trackException("This is an error message", false);
+
+    GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
+
+    GoogleAnalytics.setUser('12345678');
+
+    GoogleAnalytics.allowIDFA(true);
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>

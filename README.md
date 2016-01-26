@@ -156,7 +156,7 @@ See the [Google Analytics docs](https://developers.google.com/analytics/devguide
 
 ```javascript
 GoogleAnalytics.trackPurchase({
-  id: 'P12345'
+  id: 'P12345',
   name: 'Android Warhol T-Shirt',
   category: 'Apparel/T-Shirts',
   brand: 'Google',

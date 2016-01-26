@@ -92,7 +92,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
 
         if (tracker != null) {
             Product ecommerceProduct = new Product()
-                    .setId(product.getString("productId"))
+                    .setId(product.getString("id"))
                     .setName(product.getString("name"))
                     .setCategory(product.getString("category"))
                     .setBrand(product.getString("brand"))
@@ -102,7 +102,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
                     .setQuantity(product.getInt("quantity"));
 
             ProductAction productAction = new ProductAction(ProductAction.ACTION_PURCHASE)
-                    .setTransactionId(transaction.getString("transactionId"))
+                    .setTransactionId(transaction.getString("id"))
                     .setTransactionAffiliation(transaction.getString("affiliation"))
                     .setTransactionRevenue(transaction.getDouble("revenue"))
                     .setTransactionTax(transaction.getDouble("tax"))
