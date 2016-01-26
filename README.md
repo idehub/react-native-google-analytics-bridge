@@ -2,13 +2,10 @@ GoogleAnalyticsBridge ![npm version](https://img.shields.io/npm/v/react-native-g
 =============
 **Google Analytics Bridge** is built to provide an easy interface to the native Google Analytics libraries on both **iOS** and **Android**.
 
-## Why a native bridge?
-There already exists an excellent library for [Google Analytics tracking by lwansbrough](https://github.com/lwansbrough/react-native-google-analytics) which uses just JavaScript, why do we need a native bridge?
+## Why a native bridge? Why not use just JavaScript?
+The key difference with the native bridge is that you get a lot of the metadata handled automatically by the Google Analytics native library. This will include the device UUID, device model, viewport size, OS version etc.
 
-The key difference is that with this native bridge you get a lot of the metadata handled automatically by the Google Analytics library. This will include the device UUID, device model, viewport size, OS version etc.
-With the pure javascript variant you will have to pull this information out via a native bridge (e.g. with [rebeccahughes' DeviceInfo](https://github.com/rebeccahughes/react-native-device-info)) in order to track it.
-
-With the native library you will only have to send in a few parameteres when tracking, e.g:
+You will only have to send in a few parameteres when tracking, e.g:
 ```javascript
 const GoogleAnalytics = require('react-native-google-analytics-bridge');
 
@@ -35,13 +32,13 @@ These are step 5 and 6 from the iOS installation, and step 4 from the Android in
   2. SystemConfiguration.framework
   3. libz.tbd
   4. libsqlite3.0.tbd
-7. Under your project properties ➜ "Info", add a new line with the following:
+6. Under your project properties ➜ "Info", add a new line with the following:
   1. Key: GAITrackingId
   2. Type: String
   3. Value: UA-12345-1 (in other words, your own tracking id).
-8. **Optional step**: If you plan on using the advertising identifier (IDFA), then you need to do two things:
+7. **Optional step**: If you plan on using the advertising identifier (IDFA), then you need to do two things:
   1. Add AdSupport.framework under "Link Binary With Libraries". (As with the other frameworks in step 5).
-  2. Go to Xcode ➜ `Libraries` ➜ `RCTGoogleAnalyticsBridge.xcodeproj` ➜ right-click `google-analytics-lib`. Here you need to `Add files to ..`, and add `libAdIdAccess.a` from the `google-analytics-lib` directory. This directory is located in the same directory as in step 3.
+  2. Go to Xcode ➜ `Libraries` ➜ `RCTGoogleAnalyticsBridge.xcodeproj` ➜ right-click `google-analytics-lib`. Here you need to `Add files to ..`, and add `libAdIdAccess.a` from the `google-analytics-lib` directory. This directory is located in the same `node_modules` path as in step 3.
 
 ## Prerequisites for Android
 Make sure you have the following SDK packages installed in the Android SDK Manager:
@@ -215,7 +212,7 @@ GoogleAnalytics.setUser('12345678');
 
 * **enabled (required):** Boolean, true to allow IDFA collection, defaults to `true`.
 
-**Important**: For iOS you can only use this method if you have done the optional step 8 from the installation guide.
+**Important**: For iOS you can only use this method if you have done the optional step 7 from the installation guide.
 
 See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/campaigns#ios-install) for more info.
 
