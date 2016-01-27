@@ -33,7 +33,7 @@
   ],
   "rnpm": {
     "commands": {
-        "postlink": "./bin/requireGAToken"
+        "postlink": "./bin/requireGAToken.js"
     }
   },
   "dependencies": {
