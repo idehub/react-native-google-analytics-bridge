@@ -152,7 +152,7 @@ GoogleAnalytics.trackEvent('testcategory', 'testaction', {label: 'v1.0.3', value
 See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/enhanced-ecommerce#measuring-transactions) for more info.
 
 ```javascript
-GoogleAnalytics.trackPurchase({
+GoogleAnalytics.trackPurchaseEvent({
   id: 'P12345',
   name: 'Android Warhol T-Shirt',
   category: 'Apparel/T-Shirts',
