@@ -182,7 +182,7 @@ See the [Google Analytics docs](https://developers.google.com/analytics/devguide
 try {
   ...
 } catch(error) {
-  GoogleAnalytics.trackException(error, false);
+  GoogleAnalytics.trackException(error.message, false);
 }
 ```
 
