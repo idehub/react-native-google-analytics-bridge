@@ -87,6 +87,29 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
     }
 
     @ReactMethod
+    public void trackTiming(String category, Double value, ReadableMap optionalValues){
+        Tracker tracker = getTracker(_trackingId);
+
+        if (tracker != null)
+        {
+            HitBuilders.TimingBuilder hit = new HitBuilders.TimingBuilder()
+                        .setCategory(category)
+                        .setValue(value.longValue());
+
+            if (optionalValues.hasKey("name"))
+            {
+                hit.setVariable(optionalValues.getString("name"));
+            }
+            if (optionalValues.hasKey("label"))
+            {
+                hit.setLabel(optionalValues.getString("label"));
+            }
+
+            tracker.send(hit.build());
+        }
+    }
+
+    @ReactMethod
     public void trackPurchaseEvent(ReadableMap product, ReadableMap transaction, String eventCategory, String eventAction){
         Tracker tracker = getTracker(_trackingId);
 

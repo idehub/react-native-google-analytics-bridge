@@ -23,6 +23,8 @@ var example = React.createClass({
     GoogleAnalytics.setDryRun(false);
     GoogleAnalytics.trackEvent('testcategory', 'Hello iOS', { label: "notdry", value: 1 });
 
+    GoogleAnalytics.trackTiming('testcategory', 13000, {label: 'notdry', name: 'testduration'});
+
     GoogleAnalytics.trackPurchaseEvent(
       {
         id: 'P12345',
