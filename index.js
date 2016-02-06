@@ -22,6 +22,16 @@ class GoogleAnalytics {
     }
 
     /**
+     * Track an event that has occured
+     * @param  {String} category       The event category
+     * @param  {Number} value         	The timing measurement in milliseconds
+     * @param  {Object} optionalValues An object containing optional name and label
+     */
+    static trackTiming(category, value, optionalValues = {}) {
+      GoogleAnalyticsBridge.trackTiming(category, value, optionalValues);
+    }
+
+    /**
      * Track a purchase event. This uses the Enhanced Ecommerce GA feature.
      * @param  {Object} product       An object with product values
      * @param  {Object} transaction   An object with transaction values

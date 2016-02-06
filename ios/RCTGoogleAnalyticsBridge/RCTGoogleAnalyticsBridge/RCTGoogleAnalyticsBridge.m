@@ -48,6 +48,17 @@ RCT_EXPORT_METHOD(trackEvent:(NSString *)category action:(NSString *)action opti
                                                          value:value] build]];
 }
 
+RCT_EXPORT_METHOD(trackTiming:(nonnull NSString *)category value:(nonnull NSNumber *)value optionalValues:(nonnull NSDictionary *)optionalValues)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    NSString *name = [RCTConvert NSString:optionalValues[@"name"]];
+    NSString *label = [RCTConvert NSString:optionalValues[@"label"]];
+    [tracker send:[[GAIDictionaryBuilder createTimingWithCategory:category
+                                                         interval:value
+                                                             name:name
+                                                            label:label] build]];
+}
+
 RCT_EXPORT_METHOD(trackPurchaseEvent:(NSDictionary *)product transaction:(NSDictionary *)transaction eventCategory:(NSString *)eventCategory eventAction:(NSString *)eventAction)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];

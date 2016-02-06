@@ -128,6 +128,22 @@ GoogleAnalytics.trackEvent('testcategory', 'testaction');
 GoogleAnalytics.trackEvent('testcategory', 'testaction', {label: 'v1.0.3', value: 22});
 ```
 
+### trackTiming(category, value, optionalValues)
+
+* **category (required):** String, category of the timed event
+* **value (required):** Number, the timing measurement in milliseconds
+* **optionalValues:** Object
+  * **name:** String, the name of the timed event
+  * **label:** String, the label of the timed event
+
+See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/usertimings) for more info.
+
+```javascript
+GoogleAnalytics.trackTimingEvent('testcategory', 13000);
+// or
+GoogleAnalytics.trackTimingEvent('testcategory', 13000, {name: 'loadList', label: 'v1.0.3'});
+```
+
 ### trackPurchaseEvent(product, transaction, eventCategory, eventAction)
 
 * **product (required):** Object
