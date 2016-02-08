@@ -139,9 +139,9 @@ GoogleAnalytics.trackEvent('testcategory', 'testaction', {label: 'v1.0.3', value
 See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/usertimings) for more info.
 
 ```javascript
-GoogleAnalytics.trackTimingEvent('testcategory', 13000);
+GoogleAnalytics.trackTiming('testcategory', 13000);
 // or
-GoogleAnalytics.trackTimingEvent('testcategory', 13000, {name: 'loadList', label: 'v1.0.3'});
+GoogleAnalytics.trackTiming('testcategory', 13000, {name: 'loadList', label: 'v1.0.3'});
 ```
 
 ### trackPurchaseEvent(product, transaction, eventCategory, eventAction)
