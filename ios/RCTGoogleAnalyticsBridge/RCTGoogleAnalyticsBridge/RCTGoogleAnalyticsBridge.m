@@ -135,4 +135,9 @@ RCT_EXPORT_METHOD(setDryRun:(BOOL)enabled)
     [GAI sharedInstance].dryRun = enabled;
 }
 
+RCT_EXPORT_METHOD(setDispatchInterval:(NSInteger)intervalInSeconds)
+{
+    [GAI sharedInstance].dispatchInterval = intervalInSeconds;
+}
+
 @end

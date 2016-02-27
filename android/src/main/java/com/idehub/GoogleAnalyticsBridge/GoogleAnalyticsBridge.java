@@ -182,10 +182,10 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
 
         if (tracker != null) {
             tracker.send(new HitBuilders.SocialBuilder()
-                .setNetwork(network)
-                .setAction(action)
-                .setTarget(targetUrl)
-                .build());
+                    .setNetwork(network)
+                    .setAction(action)
+                    .setTarget(targetUrl)
+                    .build());
         }
     }
 
@@ -196,6 +196,16 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
         if (analytics != null)
         {
             analytics.setDryRun(enabled);
+        }
+    }
+
+    @ReactMethod
+    public void setDispatchInterval(Integer intervalInSeconds){
+        GoogleAnalytics analytics = getAnalyticsInstance();
+
+        if (analytics != null)
+        {
+            analytics.setLocalDispatchPeriod(intervalInSeconds);
         }
     }
 }

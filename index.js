@@ -85,6 +85,16 @@ class GoogleAnalytics {
     static setDryRun(enabled) {
       GoogleAnalyticsBridge.setDryRun(enabled);
     }
+    
+    /**
+     * Sets the trackers dispatch interval
+     * This will influence how often batches of events, screen views, etc 
+     * are sent to your tracker.
+     * @param {Number} intervalInSeconds
+     */
+    static setDispatchInterval(intervalInSeconds) {
+      GoogleAnalyticsBridge.setDispatchInterval(intervalInSeconds);
+    }
 }
 
 module.exports = GoogleAnalytics;

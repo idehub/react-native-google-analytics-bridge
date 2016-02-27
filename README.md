@@ -237,9 +237,24 @@ GoogleAnalytics.allowIDFA(true);
 ```
 
 ### setDryRun(enabled)
-This method takes a boolean parameter indicating if the `dryRun` flag should be enabled or not.
 
-When enabled, `GoogleAnalytics.setDryRun(true)`, the native library prevents any data from being sent to Google Analytics. This allows you to test or debug the implementation, without your test data appearing in your Google Analytics reports.
+* **enabled (required):** Boolean, indicating if the `dryRun` flag should be enabled or not.
+
+When enabled the native library prevents any data from being sent to Google Analytics. This allows you to test or debug the implementation, without your test data appearing in your Google Analytics reports.
+
+```javascript
+GoogleAnalytics.setDryRun(true);
+```
+
+### setDispatchInterval(intervalInSeconds)
+
+* **intervalInSeconds (required):** Number, indicating how often dispatches should be sent
+
+Events, screen views, etc, are sent in batches to your tracker. This function allows you to configure how often (in seconds) the batches are sent to your tracker. Recommended to keep this around 30-120 seconds to preserve battery and network traffic.
+
+```javascript
+GoogleAnalytics.setDispatchInterval(30);
+```
 
 ## Roadmap
 
