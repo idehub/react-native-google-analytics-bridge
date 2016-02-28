@@ -250,17 +250,28 @@ GoogleAnalytics.setDryRun(true);
 
 * **intervalInSeconds (required):** Number, indicating how often dispatches should be sent
 
-Events, screen views, etc, are sent in batches to your tracker. This function allows you to configure how often (in seconds) the batches are sent to your tracker. Recommended to keep this around 30-120 seconds to preserve battery and network traffic.
+Events, screen views, etc, are sent in batches to your tracker. This function allows you to configure how often (in seconds) the batches are sent to your tracker. Recommended to keep this around 20-120 seconds to preserve battery and network traffic.
+This is set to 20 seconds by default.
 
 ```javascript
 GoogleAnalytics.setDispatchInterval(30);
+```
+
+### setTrackUncaughtExceptions(enabled)
+
+* **enabled (required):** Boolean
+
+Sets if uncaught exceptions should be tracked. This is enabled by default.
+
+```javascript
+GoogleAnalytics.setTrackUncaughtExceptions(true);
 ```
 
 ## Roadmap
 
 - [x] dryRun flag
 - [x] Simple Ecommerce
-- [ ] Make the library more configureable
+- [x] Make the library more configureable
 
 ## peerDependencies
 This library should work with at least React Native 0.11 and up, but has been tested mostly with 0.17.

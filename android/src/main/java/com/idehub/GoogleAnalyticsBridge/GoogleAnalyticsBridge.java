@@ -208,4 +208,14 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
             analytics.setLocalDispatchPeriod(intervalInSeconds);
         }
     }
+
+    @ReactMethod
+    public void setTrackUncaughtExceptions(Boolean enabled){
+        Tracker tracker = getTracker(_trackingId);
+
+        if (tracker != null)
+        {
+            tracker.enableExceptionReporting(enabled);
+        }
+    }
 }

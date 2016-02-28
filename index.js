@@ -8,7 +8,7 @@ class GoogleAnalytics {
      * @param  {String} screenName The name of the current screen
      */
     static trackScreenView(screenName) {
-      GoogleAnalyticsBridge.trackScreenView(screenName);
+        GoogleAnalyticsBridge.trackScreenView(screenName);
     }
 
     /**
@@ -18,7 +18,7 @@ class GoogleAnalytics {
      * @param  {Object} optionalValues An object containing optional label and value
      */
     static trackEvent(category, action, optionalValues = {}) {
-      GoogleAnalyticsBridge.trackEvent(category, action, optionalValues);
+        GoogleAnalyticsBridge.trackEvent(category, action, optionalValues);
     }
 
     /**
@@ -28,7 +28,7 @@ class GoogleAnalytics {
      * @param  {Object} optionalValues An object containing optional name and label
      */
     static trackTiming(category, value, optionalValues = {}) {
-      GoogleAnalyticsBridge.trackTiming(category, value, optionalValues);
+        GoogleAnalyticsBridge.trackTiming(category, value, optionalValues);
     }
 
     /**
@@ -39,7 +39,7 @@ class GoogleAnalytics {
      * @param  {String} eventAction   The event action, defaults to Purchase
      */
     static trackPurchaseEvent(product = {}, transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
-      GoogleAnalyticsBridge.trackPurchaseEvent(product, transaction, eventCategory, eventAction);
+        GoogleAnalyticsBridge.trackPurchaseEvent(product, transaction, eventCategory, eventAction);
     }
 
     /**
@@ -48,7 +48,7 @@ class GoogleAnalytics {
      * @param  {Boolean} fatal A value indiciating if the error was fatal, defaults to false
      */
     static trackException(error, fatal = false) {
-      GoogleAnalyticsBridge.trackException(error, fatal);
+        GoogleAnalyticsBridge.trackException(error, fatal);
     }
 
     /**
@@ -56,7 +56,7 @@ class GoogleAnalytics {
      * @param {String} userId The current userId
      */
     static setUser(userId) {
-      GoogleAnalyticsBridge.setUser(userId);
+        GoogleAnalyticsBridge.setUser(userId);
     }
 
     /**
@@ -64,7 +64,7 @@ class GoogleAnalytics {
      * @param  {Boolean} enabled Defaults to true
      */
     static allowIDFA(enabled = true) {
-      GoogleAnalyticsBridge.allowIDFA(enabled);
+        GoogleAnalyticsBridge.allowIDFA(enabled);
     }
 
     /**
@@ -74,7 +74,7 @@ class GoogleAnalytics {
      * @param  {String} targetUrl
      */
     static trackSocialInteraction(network, action, targetUrl) {
-      GoogleAnalyticsBridge.trackSocialInteraction(network, action, targetUrl);
+        GoogleAnalyticsBridge.trackSocialInteraction(network, action, targetUrl);
     }
 
     /**
@@ -83,7 +83,7 @@ class GoogleAnalytics {
      * @param {Boolean} enabled
      */
     static setDryRun(enabled) {
-      GoogleAnalyticsBridge.setDryRun(enabled);
+        GoogleAnalyticsBridge.setDryRun(enabled);
     }
     
     /**
@@ -93,7 +93,15 @@ class GoogleAnalytics {
      * @param {Number} intervalInSeconds
      */
     static setDispatchInterval(intervalInSeconds) {
-      GoogleAnalyticsBridge.setDispatchInterval(intervalInSeconds);
+        GoogleAnalyticsBridge.setDispatchInterval(intervalInSeconds);
+    }
+
+    /**
+     * Sets if uncaught exceptions should be tracked
+     * @param {Boolean} enabled
+     */
+    static setTrackUncaughtExceptions(enabled) {
+        GoogleAnalyticsBridge.setTrackUncaughtExceptions(enabled);
     }
 }
 
