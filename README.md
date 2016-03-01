@@ -269,8 +269,11 @@ GoogleAnalytics.setTrackUncaughtExceptions(true);
 
 ## Roadmap
 
+- [ ] Ecommerce: checkout process
+- [ ] Ecommerce: impressions
+- [ ] Campaigns
 - [x] dryRun flag
-- [x] Simple Ecommerce
+- [x] Simple ecommerce
 - [x] Make the library more configureable
 
 ## peerDependencies
