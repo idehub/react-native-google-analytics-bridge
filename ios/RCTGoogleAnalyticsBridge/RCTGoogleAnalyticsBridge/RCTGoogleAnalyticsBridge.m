@@ -150,4 +150,17 @@ RCT_EXPORT_METHOD(setTrackUncaughtExceptions:(BOOL)enabled)
     [GAI sharedInstance].trackUncaughtExceptions = enabled;
 }
 
+RCT_EXPORT_METHOD(setAnonymizeIp:(BOOL)enabled)
+{
+  if(enabled){
+    [GAI sharedInstance].kGAIAnonymizeIp = "1";
+  }
+}
+
+RCT_EXPORT_METHOD(setOptOut:(BOOL)enabled)
+{
+    [GAI sharedInstance].optOut = enabled;
+}
+
+
 @end

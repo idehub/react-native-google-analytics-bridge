@@ -218,4 +218,22 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
             tracker.enableExceptionReporting(enabled);
         }
     }
+
+
+    @ReactMethod
+    public void setAnonymizeIp(Boolean enabled){
+        Tracker tracker = getTracker(_trackingId);
+
+        if (tracker != null)
+        {
+            tracker.setAnonymizeIp(enabled);
+        }
+    }
+
+    @ReactMethod
+    public void setOptOut(Boolean enabled){
+
+            getAnalyticsInstance.setAppOptOut(true);
+
+    }
 }
