@@ -85,10 +85,10 @@ class GoogleAnalytics {
     static setDryRun(enabled) {
         GoogleAnalyticsBridge.setDryRun(enabled);
     }
-    
+
     /**
      * Sets the trackers dispatch interval
-     * This will influence how often batches of events, screen views, etc 
+     * This will influence how often batches of events, screen views, etc
      * are sent to your tracker.
      * @param {Number} intervalInSeconds
      */
@@ -103,6 +103,25 @@ class GoogleAnalytics {
     static setTrackUncaughtExceptions(enabled) {
         GoogleAnalyticsBridge.setTrackUncaughtExceptions(enabled);
     }
+
+    /**
+     * Sets if AnonymizeIp is enabled
+     * If enabled the last octet of the IP Adress will be removed 
+     * @param {Boolean} enabled
+     */
+    static setAnonymizeIp(enabled) {
+        GoogleAnalyticsBridge.setAnonymizeIp(enabled);
+    }
+
+    /**
+     * Sets if OptOut is active and disables Google Analytics
+     * This has to be set each time the App starts
+     * @param {Boolean} enabled
+     */
+    static setOptOut(enabled) {
+        GoogleAnalyticsBridge.setOptOut(enabled);
+    }
+
 }
 
 module.exports = GoogleAnalytics;
