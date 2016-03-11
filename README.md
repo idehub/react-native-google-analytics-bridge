@@ -267,6 +267,20 @@ Sets if uncaught exceptions should be tracked. This is enabled by default.
 GoogleAnalytics.setTrackUncaughtExceptions(true);
 ```
 
+## Logging
+There is a divergence in how the iOS and Android versions of the native library handles logging. 
+
+[For Android](https://developers.google.com/analytics/devguides/collection/android/v4/advanced#logger) you can check the GA logs with your favorite terminal by using `adb logcat`.
+
+For iOS there is a logger in the [internal library](https://developers.google.com/analytics/devguides/collection/ios/v3/advanced#logger) that writes events to the XCode output window. 
+In order to control the `logLevel` you can add an item in your `Info.plist` with the key `GAILogLevel`. The value you use is a number which corresponds to your desired log-level:
+
+* 0: None
+* 1: Errors
+* 2: Warnings
+* 3: Info
+* 4: Verbose
+
 ## Roadmap
 
 - [ ] Ecommerce: checkout process

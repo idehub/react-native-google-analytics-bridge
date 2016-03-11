@@ -23,6 +23,11 @@
 
         // Initialize tracker. Replace with your tracking ID.
         [[GAI sharedInstance] trackerWithTrackingId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"GAITrackingId"]];
+        
+        NSString *logLevel = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"GAILogLevel"];
+        if (logLevel != nil) {
+            [[GAI sharedInstance].logger setLogLevel:[logLevel intValue]];
+        }
     }
     return self;
 }

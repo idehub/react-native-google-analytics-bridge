@@ -22,6 +22,8 @@
 	<string>1</string>
 	<key>GAITrackingId</key>
 	<string>UA-12345-1</string>
+	<key>GAILogLevel</key>
+	<string>4</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
