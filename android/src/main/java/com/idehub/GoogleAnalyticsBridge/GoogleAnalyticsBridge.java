@@ -236,7 +236,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
 
       if (analytics != null)
       {
-            analytics.setAppOptOut(true);
+            analytics.setAppOptOut(enabled);
       }
     }
 }

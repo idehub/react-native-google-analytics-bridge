@@ -106,7 +106,7 @@ class GoogleAnalytics {
 
     /**
      * Sets if AnonymizeIp is enabled
-     * If enabled the last octet of the IP Adress will be removed 
+     * If enabled the last octet of the IP address will be removed 
      * @param {Boolean} enabled
      */
     static setAnonymizeIp(enabled) {
