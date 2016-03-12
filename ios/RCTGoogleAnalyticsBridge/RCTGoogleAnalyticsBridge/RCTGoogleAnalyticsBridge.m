@@ -152,10 +152,8 @@ RCT_EXPORT_METHOD(setTrackUncaughtExceptions:(BOOL)enabled)
 
 RCT_EXPORT_METHOD(setAnonymizeIp:(BOOL)enabled)
 {
-  if(enabled){
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIAnonymizeIp value:@"1"];
-  }
+    [tracker set:kGAIAnonymizeIp value:enabled ? @"1" : @"0"];
 }
 
 RCT_EXPORT_METHOD(setOptOut:(BOOL)enabled)

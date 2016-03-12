@@ -267,6 +267,28 @@ Sets if uncaught exceptions should be tracked. This is enabled by default.
 GoogleAnalytics.setTrackUncaughtExceptions(true);
 ```
 
+### setAnonymizeIp(enabled)
+
+* **enabled (required):** Boolean
+
+Sets if AnonymizeIp is enabled. This is disabled by default.
+If enabled the last octet of the IP address will be removed.
+
+```javascript
+GoogleAnalytics.setAnonymizeIp(true);
+```
+
+### setOptOut(enabled)
+
+* **enabled (required):** Boolean
+
+Sets if OptOut is active and disables Google Analytics. This is disabled by default.
+Note: This has to be set each time the App starts.
+
+```javascript
+GoogleAnalytics.setOptOut(true);
+```
+
 ## Logging
 There is a divergence in how the iOS and Android versions of the native library handles logging. 
 
