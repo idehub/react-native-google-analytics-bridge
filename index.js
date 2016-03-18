@@ -2,13 +2,22 @@
 
 const GoogleAnalyticsBridge = require("react-native").NativeModules.GoogleAnalyticsBridge;
 
+let _trackerId = GoogleAnalyticsBridge.nativeTrackerId;
+
+function getTrackerId() {
+    if (!_trackerId) {
+        throw new Error("TrackerId not set. See documentation for more details");
+    }
+    return _trackerId
+}
+
 class GoogleAnalytics {
     /**
      * Track the current screen/view
      * @param  {String} screenName The name of the current screen
      */
     static trackScreenView(screenName) {
-        GoogleAnalyticsBridge.trackScreenView(screenName);
+        GoogleAnalyticsBridge.trackScreenView(getTrackerId(), screenName);
     }
 
     /**
@@ -18,7 +27,7 @@ class GoogleAnalytics {
      * @param  {Object} optionalValues An object containing optional label and value
      */
     static trackEvent(category, action, optionalValues = {}) {
-        GoogleAnalyticsBridge.trackEvent(category, action, optionalValues);
+        GoogleAnalyticsBridge.trackEvent(getTrackerId(), category, action, optionalValues);
     }
 
     /**
@@ -28,7 +37,7 @@ class GoogleAnalytics {
      * @param  {Object} optionalValues An object containing optional name and label
      */
     static trackTiming(category, value, optionalValues = {}) {
-        GoogleAnalyticsBridge.trackTiming(category, value, optionalValues);
+        GoogleAnalyticsBridge.trackTiming(getTrackerId(), category, value, optionalValues);
     }
 
     /**
@@ -39,7 +48,7 @@ class GoogleAnalytics {
      * @param  {String} eventAction   The event action, defaults to Purchase
      */
     static trackPurchaseEvent(product = {}, transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
-        GoogleAnalyticsBridge.trackPurchaseEvent(product, transaction, eventCategory, eventAction);
+        GoogleAnalyticsBridge.trackPurchaseEvent(getTrackerId(), product, transaction, eventCategory, eventAction);
     }
 
     /**
@@ -48,7 +57,7 @@ class GoogleAnalytics {
      * @param  {Boolean} fatal A value indiciating if the error was fatal, defaults to false
      */
     static trackException(error, fatal = false) {
-        GoogleAnalyticsBridge.trackException(error, fatal);
+        GoogleAnalyticsBridge.trackException(getTrackerId(), error, fatal);
     }
 
     /**
@@ -56,7 +65,7 @@ class GoogleAnalytics {
      * @param {String} userId The current userId
      */
     static setUser(userId) {
-        GoogleAnalyticsBridge.setUser(userId);
+        GoogleAnalyticsBridge.setUser(getTrackerId(), userId);
     }
 
     /**
@@ -64,7 +73,7 @@ class GoogleAnalytics {
      * @param  {Boolean} enabled Defaults to true
      */
     static allowIDFA(enabled = true) {
-        GoogleAnalyticsBridge.allowIDFA(enabled);
+        GoogleAnalyticsBridge.allowIDFA(getTrackerId(), enabled);
     }
 
     /**
@@ -74,7 +83,7 @@ class GoogleAnalytics {
      * @param  {String} targetUrl
      */
     static trackSocialInteraction(network, action, targetUrl) {
-        GoogleAnalyticsBridge.trackSocialInteraction(network, action, targetUrl);
+        GoogleAnalyticsBridge.trackSocialInteraction(getTrackerId(), network, action, targetUrl);
     }
 
     /**
@@ -101,16 +110,16 @@ class GoogleAnalytics {
      * @param {Boolean} enabled
      */
     static setTrackUncaughtExceptions(enabled) {
-        GoogleAnalyticsBridge.setTrackUncaughtExceptions(enabled);
+        GoogleAnalyticsBridge.setTrackUncaughtExceptions(getTrackerId(), enabled);
     }
 
     /**
      * Sets if AnonymizeIp is enabled
-     * If enabled the last octet of the IP address will be removed 
+     * If enabled the last octet of the IP address will be removed
      * @param {Boolean} enabled
      */
     static setAnonymizeIp(enabled) {
-        GoogleAnalyticsBridge.setAnonymizeIp(enabled);
+        GoogleAnalyticsBridge.setAnonymizeIp(getTrackerId(), enabled);
     }
 
     /**
@@ -120,6 +129,14 @@ class GoogleAnalytics {
      */
     static setOptOut(enabled) {
         GoogleAnalyticsBridge.setOptOut(enabled);
+    }
+
+    /**
+     * Sets new tracker ID for all subsequent static calls
+     * @param {String} tracker ID
+     */
+    static setTrackerId(trackerId) {
+        _trackerId = trackerId;
     }
 
 }

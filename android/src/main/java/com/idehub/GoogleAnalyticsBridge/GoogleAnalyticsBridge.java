@@ -21,7 +21,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
         _trackingId = trackingId;
     }
 
-    private String _trackingId;
+    private final String _trackingId;
 
     @Override
     public String getName() {
@@ -48,12 +48,13 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
+        constants.put("nativeTrackerId", _trackingId);
         return constants;
     }
 
     @ReactMethod
-    public void trackScreenView(String screenName){
-        Tracker tracker = getTracker(_trackingId);
+    public void trackScreenView(String trackerId, String screenName){
+        Tracker tracker = getTracker(trackerId);
 
         if (tracker != null)
         {
@@ -64,8 +65,8 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
     }
 
     @ReactMethod
-    public void trackEvent(String category, String action, ReadableMap optionalValues){
-        Tracker tracker = getTracker(_trackingId);
+    public void trackEvent(String trackerId, String category, String action, ReadableMap optionalValues){
+        Tracker tracker = getTracker(trackerId);
 
         if (tracker != null)
         {
@@ -87,8 +88,8 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
     }
 
     @ReactMethod
-    public void trackTiming(String category, Double value, ReadableMap optionalValues){
-        Tracker tracker = getTracker(_trackingId);
+    public void trackTiming(String trackerId, String category, Double value, ReadableMap optionalValues){
+        Tracker tracker = getTracker(trackerId);
 
         if (tracker != null)
         {
@@ -110,8 +111,8 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
     }
 
     @ReactMethod
-    public void trackPurchaseEvent(ReadableMap product, ReadableMap transaction, String eventCategory, String eventAction){
-        Tracker tracker = getTracker(_trackingId);
+    public void trackPurchaseEvent(String trackerId, ReadableMap product, ReadableMap transaction, String eventCategory, String eventAction){
+        Tracker tracker = getTracker(trackerId);
 
         if (tracker != null) {
             Product ecommerceProduct = new Product()
@@ -143,9 +144,9 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
     }
 
     @ReactMethod
-    public void trackException(String error, Boolean fatal)
+    public void trackException(String trackerId, String error, Boolean fatal)
     {
-        Tracker tracker = getTracker(_trackingId);
+        Tracker tracker = getTracker(trackerId);
 
         if (tracker != null) {
             tracker.send(new HitBuilders.ExceptionBuilder()
@@ -156,9 +157,9 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
     }
 
     @ReactMethod
-    public void setUser(String userId)
+    public void setUser(String trackerId, String userId)
     {
-        Tracker tracker = getTracker(_trackingId);
+        Tracker tracker = getTracker(trackerId);
 
         if (tracker != null) {
             tracker.set("&uid", userId);
@@ -166,9 +167,9 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
     }
 
     @ReactMethod
-    public void allowIDFA(Boolean enabled)
+    public void allowIDFA(String trackerId, Boolean enabled)
     {
-        Tracker tracker = getTracker(_trackingId);
+        Tracker tracker = getTracker(trackerId);
 
         if (tracker != null) {
             tracker.enableAdvertisingIdCollection(enabled);
@@ -176,9 +177,9 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
     }
 
     @ReactMethod
-    public void trackSocialInteraction(String network, String action, String targetUrl)
+    public void trackSocialInteraction(String trackerId, String network, String action, String targetUrl)
     {
-        Tracker tracker = getTracker(_trackingId);
+        Tracker tracker = getTracker(trackerId);
 
         if (tracker != null) {
             tracker.send(new HitBuilders.SocialBuilder()
@@ -210,8 +211,8 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
     }
 
     @ReactMethod
-    public void setTrackUncaughtExceptions(Boolean enabled){
-        Tracker tracker = getTracker(_trackingId);
+    public void setTrackUncaughtExceptions(String trackerId, Boolean enabled){
+        Tracker tracker = getTracker(trackerId);
 
         if (tracker != null)
         {
@@ -221,8 +222,8 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
 
 
     @ReactMethod
-    public void setAnonymizeIp(Boolean enabled){
-        Tracker tracker = getTracker(_trackingId);
+    public void setAnonymizeIp(String trackerId, Boolean enabled){
+        Tracker tracker = getTracker(trackerId);
 
         if (tracker != null)
         {

@@ -16,6 +16,10 @@ public class GoogleAnalyticsBridgePackage implements ReactPackage {
         _trackingId = trackingId;
     }
 
+    public GoogleAnalyticsBridgePackage() {
+        this(null);
+    }
+
     private String _trackingId;
 
     @Override
