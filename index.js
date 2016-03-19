@@ -4,7 +4,7 @@ const GoogleAnalyticsBridge = require("react-native").NativeModules.GoogleAnalyt
 
 let _trackerId = GoogleAnalyticsBridge.nativeTrackerId;
 
-function getTrackerId() {
+const getTrackerId = () => {
     if (!_trackerId) {
         throw new Error("TrackerId not set. See documentation for more details");
     }

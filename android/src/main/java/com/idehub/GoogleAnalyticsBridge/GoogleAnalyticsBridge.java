@@ -233,11 +233,11 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
 
     @ReactMethod
     public void setOptOut(Boolean enabled){
-      GoogleAnalytics analytics = getAnalyticsInstance();
+        GoogleAnalytics analytics = getAnalyticsInstance();
 
-      if (analytics != null)
-      {
+        if (analytics != null)
+        {
             analytics.setAppOptOut(enabled);
-      }
+        }
     }
 }
