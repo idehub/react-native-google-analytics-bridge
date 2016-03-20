@@ -8,6 +8,7 @@ The key difference with the native bridge is that you get a lot of the metadata 
 You will only have to send in a few parameteres when tracking, e.g:
 ```javascript
 const GoogleAnalytics = require('react-native-google-analytics-bridge');
+GoogleAnalytics.setTrackerId('UA-12345-1');
 
 GoogleAnalytics.trackScreenView('Home');
 GoogleAnalytics.trackEvent('testcategory', 'testaction');
@@ -17,9 +18,7 @@ GoogleAnalytics.trackEvent('testcategory', 'testaction');
 1. `npm install --save react-native-google-analytics-bridge`
 2. `rnpm link react-native-google-analytics-bridge`
 
-With this, [rnpm](https://github.com/rnpm/rnpm) will do most of the heavy lifting for linking, **but** you will still need to do some of the manual steps below.
-
-These are step 5 and 6 from the iOS installation, and step 4 from the Android installation. Specifically for Android step 4, you'll have to add the tracking id.
+With this, [rnpm](https://github.com/rnpm/rnpm) will do most of the heavy lifting for linking, **but** for iOS you will still need to do step 5 from the manual installation guide below.
 
 ## Manual installation iOS
 
@@ -32,11 +31,7 @@ These are step 5 and 6 from the iOS installation, and step 4 from the Android in
   2. SystemConfiguration.framework
   3. libz.tbd
   4. libsqlite3.0.tbd
-6. Under your project properties ➜ "Info", add a new line with the following:
-  1. Key: GAITrackingId
-  2. Type: String
-  3. Value: UA-12345-1 (in other words, your own tracking id).
-7. **Optional step**: If you plan on using the advertising identifier (IDFA), then you need to do two things:
+6. **Optional step**: If you plan on using the advertising identifier (IDFA), then you need to do two things:
   1. Add AdSupport.framework under "Link Binary With Libraries". (As with the other frameworks in step 5).
   2. Go to Xcode ➜ `Libraries` ➜ `RCTGoogleAnalyticsBridge.xcodeproj` ➜ right-click `google-analytics-lib`. Here you need to `Add files to ..`, and add `libAdIdAccess.a` from the `google-analytics-lib` directory. This directory is located in the same `node_modules` path as in step 3.
 
@@ -87,8 +82,8 @@ Consult [this guide](https://developer.android.com/sdk/installing/adding-package
                   .setBundleAssetName("index.android.bundle")
                   .setJSMainModuleName("index.android")
                   .addPackage(new MainReactPackage())
-                  // Step 2; register package, with your GA tracking id:
-                  .addPackage(new GoogleAnalyticsBridgePackage("UA-12345-1"))
+                  // Step 2; register package:
+                  .addPackage(new GoogleAnalyticsBridgePackage())
                   .setUseDeveloperSupport(BuildConfig.DEBUG)
                   .setInitialLifecycleState(LifecycleState.RESUMED)
                   .build();
@@ -100,6 +95,16 @@ Consult [this guide](https://developer.android.com/sdk/installing/adding-package
 
 ## Javascript API
 
+### setTrackerId(trackerId)
+* **trackerId (required):** String, your tracker id, something like: UA-12345-1
+
+**Important**: Call **once** on app startup to set the tracker id for all subsequent static calls.
+
+```javascript
+const GoogleAnalytics = require('react-native-google-analytics-bridge');
+GoogleAnalytics.setTrackerId('UA-12345-1')
+```
+    
 ### trackScreenView(screenName)
 
 * **screenName (required):** String, name of current screen
@@ -228,7 +233,9 @@ GoogleAnalytics.setUser('12345678');
 
 * **enabled (required):** Boolean, true to allow IDFA collection, defaults to `true`.
 
-**Important**: For iOS you can only use this method if you have done the optional step 7 from the installation guide.
+Also called advertising identifier collection, and is used for advertising features.
+
+**Important**: For iOS you can only use this method if you have done the optional step 6 from the installation guide. Only enable this (and link the appropriate libraries) if you plan to use advertising features in your app, or else your app may get rejected from the AppStore.
 
 See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/campaigns#ios-install) for more info.
 
@@ -305,6 +312,7 @@ In order to control the `logLevel` you can add an item in your `Info.plist` with
 
 ## Roadmap
 
+- [ ] Support for A/B testing
 - [ ] Ecommerce: checkout process
 - [ ] Ecommerce: impressions
 - [ ] Campaigns
