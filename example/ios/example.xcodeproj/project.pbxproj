@@ -27,7 +27,6 @@
 		A79186071C309848001236A6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A79186061C309848001236A6 /* SystemConfiguration.framework */; };
 		A79186091C30984E001236A6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A79186081C30984E001236A6 /* libz.tbd */; };
 		A791860B1C309879001236A6 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A791860A1C309879001236A6 /* libsqlite3.0.tbd */; };
-		A7B8CAC11C57E98C004DAC02 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B8CAC01C57E98C004DAC02 /* AdSupport.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,7 +143,6 @@
 		A79186061C309848001236A6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A79186081C30984E001236A6 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A791860A1C309879001236A6 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
-		A7B8CAC01C57E98C004DAC02 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,7 +157,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7B8CAC11C57E98C004DAC02 /* AdSupport.framework in Frameworks */,
 				A79186011C30977F001236A6 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
 				A791860B1C309879001236A6 /* libsqlite3.0.tbd in Frameworks */,
 				A79186091C30984E001236A6 /* libz.tbd in Frameworks */,
@@ -313,7 +310,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				A7B8CAC01C57E98C004DAC02 /* AdSupport.framework */,
 				A791860A1C309879001236A6 /* libsqlite3.0.tbd */,
 				A79186081C30984E001236A6 /* libz.tbd */,
 				A79186061C309848001236A6 /* SystemConfiguration.framework */,
