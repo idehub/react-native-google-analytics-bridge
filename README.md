@@ -55,8 +55,8 @@ Consult [this guide](https://developer.android.com/sdk/installing/adding-package
 
   ```gradle
   ...
-  include ':GoogleAnalyticsBridge', ':app'
-  project(':GoogleAnalyticsBridge').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-analytics-bridge/android')
+  include ':react-native-google-analytics-bridge', ':app'
+  project(':react-native-google-analytics-bridge').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-analytics-bridge/android')
   ```
 
 3. And the following in `android/app/build.gradle`
@@ -65,7 +65,7 @@ Consult [this guide](https://developer.android.com/sdk/installing/adding-package
   ...
   dependencies {
       ...
-      compile project(':GoogleAnalyticsBridge')
+      compile project(':react-native-google-analytics-bridge')
   }
   ```
 
