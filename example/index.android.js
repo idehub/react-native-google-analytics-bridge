@@ -15,6 +15,8 @@ const GoogleAnalytics = require('react-native-google-analytics-bridge');
 
 var example = React.createClass({
   render: function() {
+    GoogleAnalytics.setTrackerId('UA-12345-2');
+      
     GoogleAnalytics.setDryRun(true);
     GoogleAnalytics.trackEvent('testcategory', 'Hello Android');
     GoogleAnalytics.trackScreenView('Home');
@@ -52,6 +54,12 @@ var example = React.createClass({
     GoogleAnalytics.setUser('12345678');
 
     GoogleAnalytics.allowIDFA(true);
+    
+    GoogleAnalytics.setDispatchInterval(30);
+    
+    GoogleAnalytics.setOptOut(true);
+    
+    GoogleAnalytics.setAnonymizeIp(true);
 
     return (
       <View style={styles.container}>
