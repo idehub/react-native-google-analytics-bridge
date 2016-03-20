@@ -45,7 +45,7 @@ NSString *staticTrackerId;
 
 - (NSDictionary *)constantsToExport
 {
-    return @{ @"nativeTrackerId": staticTrackerId };
+    return @{ @"nativeTrackerId": staticTrackerId != nil ? staticTrackerId : [NSNull null] };
 }
 
 RCT_EXPORT_MODULE();
