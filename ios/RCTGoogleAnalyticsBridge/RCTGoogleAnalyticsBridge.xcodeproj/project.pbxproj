@@ -40,6 +40,11 @@
 		A79185DB1C3070E8001236A6 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
 		A79185DC1C3070E8001236A6 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
 		A79185DD1C3070E8001236A6 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		A7F89A201C9E02DF00EAF11B /* TAGContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAGContainer.h; sourceTree = "<group>"; };
+		A7F89A211C9E02DF00EAF11B /* TAGContainerOpener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAGContainerOpener.h; sourceTree = "<group>"; };
+		A7F89A221C9E02DF00EAF11B /* TAGDataLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAGDataLayer.h; sourceTree = "<group>"; };
+		A7F89A231C9E02DF00EAF11B /* TAGLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAGLogger.h; sourceTree = "<group>"; };
+		A7F89A241C9E02DF00EAF11B /* TAGManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAGManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +88,11 @@
 		A79185D21C3070E8001236A6 /* google-analytics-lib */ = {
 			isa = PBXGroup;
 			children = (
+				A7F89A201C9E02DF00EAF11B /* TAGContainer.h */,
+				A7F89A211C9E02DF00EAF11B /* TAGContainerOpener.h */,
+				A7F89A221C9E02DF00EAF11B /* TAGDataLayer.h */,
+				A7F89A231C9E02DF00EAF11B /* TAGLogger.h */,
+				A7F89A241C9E02DF00EAF11B /* TAGManager.h */,
 				A79185D31C3070E8001236A6 /* GAI.h */,
 				A79185D41C3070E8001236A6 /* GAIDictionaryBuilder.h */,
 				A79185D51C3070E8001236A6 /* GAIEcommerceFields.h */,
