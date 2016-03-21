@@ -10,6 +10,7 @@
 		A79185CA1C30694E001236A6 /* RCTGoogleAnalyticsBridge.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = A79185C91C30694E001236A6 /* RCTGoogleAnalyticsBridge.h */; };
 		A79185CC1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = A79185CB1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m */; };
 		A79185DE1C3070E8001236A6 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A79185DD1C3070E8001236A6 /* libGoogleAnalyticsServices.a */; };
+		A7F89ADB1C9FFBEC00EAF11B /* RCTGoogleTagManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F89ADA1C9FFBEC00EAF11B /* RCTGoogleTagManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +46,8 @@
 		A7F89A221C9E02DF00EAF11B /* TAGDataLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAGDataLayer.h; sourceTree = "<group>"; };
 		A7F89A231C9E02DF00EAF11B /* TAGLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAGLogger.h; sourceTree = "<group>"; };
 		A7F89A241C9E02DF00EAF11B /* TAGManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAGManager.h; sourceTree = "<group>"; };
+		A7F89AD91C9FFBC600EAF11B /* RCTGoogleTagManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTGoogleTagManager.h; sourceTree = "<group>"; };
+		A7F89ADA1C9FFBEC00EAF11B /* RCTGoogleTagManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTGoogleTagManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +84,8 @@
 			children = (
 				A79185C91C30694E001236A6 /* RCTGoogleAnalyticsBridge.h */,
 				A79185CB1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m */,
+				A7F89AD91C9FFBC600EAF11B /* RCTGoogleTagManager.h */,
+				A7F89ADA1C9FFBEC00EAF11B /* RCTGoogleTagManager.m */,
 			);
 			path = RCTGoogleAnalyticsBridge;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A79185CC1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m in Sources */,
+				A7F89ADB1C9FFBEC00EAF11B /* RCTGoogleTagManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

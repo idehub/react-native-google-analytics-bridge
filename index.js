@@ -1,6 +1,7 @@
 "use strict";
 
 const GoogleAnalyticsBridge = require("react-native").NativeModules.GoogleAnalyticsBridge;
+const GoogleTagManager = require("react-native").NativeModules.GoogleTagManager;
 
 let _trackerId = GoogleAnalyticsBridge.nativeTrackerId;
 
