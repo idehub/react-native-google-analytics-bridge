@@ -16,13 +16,15 @@ const GoogleAnalytics = require('react-native-google-analytics-bridge');
 
 var example = React.createClass({
   render: function() {
-    GoogleAnalytics.setTrackerId('UA-12345-2');  
+    GoogleAnalytics.setTrackerId('UA-12345-2');
+      
+    // Recommend you set this much higher in real app! 30 seconds+
+    GoogleAnalytics.setDispatchInterval(2);
     
-    GoogleAnalytics.setDryRun(true);
+    //GoogleAnalytics.setDryRun(true);
     GoogleAnalytics.trackEvent('testcategory', 'Hello iOS');
     GoogleAnalytics.trackScreenView('Home');
 
-    GoogleAnalytics.setDryRun(false);
     GoogleAnalytics.trackEvent('testcategory', 'Hello iOS', { label: "notdry", value: 1 });
 
     GoogleAnalytics.trackTiming('testcategory', 13000, {label: 'notdry', name: 'testduration'});
@@ -55,9 +57,7 @@ var example = React.createClass({
 
     GoogleAnalytics.allowIDFA(true);
     
-    GoogleAnalytics.setDispatchInterval(30);
-    
-    GoogleAnalytics.setOptOut(true);
+    //GoogleAnalytics.setOptOut(true);
     
     GoogleAnalytics.setAnonymizeIp(true);
 

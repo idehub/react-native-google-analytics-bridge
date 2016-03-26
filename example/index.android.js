@@ -17,11 +17,13 @@ var example = React.createClass({
   render: function() {
     GoogleAnalytics.setTrackerId('UA-12345-2');
       
-    GoogleAnalytics.setDryRun(true);
+    // Recommend you set this much higher in real app! 30 seconds+
+    GoogleAnalytics.setDispatchInterval(2);
+    
+    //GoogleAnalytics.setDryRun(true);
     GoogleAnalytics.trackEvent('testcategory', 'Hello Android');
     GoogleAnalytics.trackScreenView('Home');
 
-    GoogleAnalytics.setDryRun(false);
     GoogleAnalytics.trackEvent('testcategory', 'Hello Android', { label: "notdry", value: 1 });
 
     GoogleAnalytics.trackTiming('testcategory', 13000, {label: 'notdry', name: 'testduration'});
@@ -46,7 +48,6 @@ var example = React.createClass({
       }
     );
 
-
     GoogleAnalytics.trackException("This is an error message", false);
 
     GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
@@ -54,10 +55,8 @@ var example = React.createClass({
     GoogleAnalytics.setUser('12345678');
 
     GoogleAnalytics.allowIDFA(true);
-    
-    GoogleAnalytics.setDispatchInterval(30);
-    
-    GoogleAnalytics.setOptOut(true);
+   
+    //GoogleAnalytics.setOptOut(true);
     
     GoogleAnalytics.setAnonymizeIp(true);
 
