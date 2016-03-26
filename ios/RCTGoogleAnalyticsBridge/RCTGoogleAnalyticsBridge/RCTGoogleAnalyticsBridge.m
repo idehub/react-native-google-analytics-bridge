@@ -12,14 +12,11 @@
 
 }
 
-NSMutableDictionary* trackers;
 NSString *staticTrackerId;
 
 - (instancetype)init
 {
-    if ((self = [super init])) {
-        trackers = [NSMutableDictionary new];
-        
+    if ((self = [super init])) {        
         [GAI sharedInstance].trackUncaughtExceptions = YES;
         [GAI sharedInstance].dispatchInterval = 20;
 
@@ -33,16 +30,6 @@ NSString *staticTrackerId;
     return self;
 }
 
-- (id<GAITracker>)getTracker:(NSString*)trackerId {
-    if ([trackers objectForKey:trackerId] == nil) {
-        [trackers
-         setObject:[[GAI sharedInstance] trackerWithTrackingId:trackerId]
-         forKey:trackerId];
-    }
-    
-    return [trackers objectForKey:trackerId];
-}
-
 - (NSDictionary *)constantsToExport
 {
     return @{ @"nativeTrackerId": staticTrackerId != nil ? staticTrackerId : [NSNull null] };
@@ -52,7 +39,7 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(trackScreenView:(NSString *)trackerId screenName:(NSString *)screenName)
 {
-    id<GAITracker> tracker = [self getTracker:trackerId];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     [tracker set:kGAIScreenName
          value:screenName];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
@@ -60,7 +47,7 @@ RCT_EXPORT_METHOD(trackScreenView:(NSString *)trackerId screenName:(NSString *)s
 
 RCT_EXPORT_METHOD(trackEvent:(NSString *)trackerId category:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *)optionalValues)
 {
-    id<GAITracker> tracker = [self getTracker:trackerId];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     NSString *label = [RCTConvert NSString:optionalValues[@"label"]];
     NSNumber *value = [RCTConvert NSNumber:optionalValues[@"value"]];
     [tracker send:[[GAIDictionaryBuilder createEventWithCategory:category
@@ -71,7 +58,7 @@ RCT_EXPORT_METHOD(trackEvent:(NSString *)trackerId category:(NSString *)category
 
 RCT_EXPORT_METHOD(trackTiming:(NSString *)trackerId category:(nonnull NSString *)category value:(nonnull NSNumber *)value optionalValues:(nonnull NSDictionary *)optionalValues)
 {
-    id<GAITracker> tracker = [self getTracker:trackerId];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     NSString *name = [RCTConvert NSString:optionalValues[@"name"]];
     NSString *label = [RCTConvert NSString:optionalValues[@"label"]];
     [tracker send:[[GAIDictionaryBuilder createTimingWithCategory:category
@@ -82,7 +69,7 @@ RCT_EXPORT_METHOD(trackTiming:(NSString *)trackerId category:(nonnull NSString *
 
 RCT_EXPORT_METHOD(trackPurchaseEvent:(NSString *)trackerId product:(NSDictionary *)product transaction:(NSDictionary *)transaction eventCategory:(NSString *)eventCategory eventAction:(NSString *)eventAction)
 {
-    id<GAITracker> tracker = [self getTracker:trackerId];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     NSString *productId = [RCTConvert NSString:product[@"id"]];
     NSString *productName = [RCTConvert NSString:product[@"name"]];
     NSString *productCategory = [RCTConvert NSString:product[@"category"]];
@@ -125,27 +112,27 @@ RCT_EXPORT_METHOD(trackPurchaseEvent:(NSString *)trackerId product:(NSDictionary
 
 RCT_EXPORT_METHOD(trackException:(NSString *)trackerId error:(NSString *)error fatal:(BOOL)fatal)
 {
-    id<GAITracker> tracker = [self getTracker:trackerId];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     [tracker send:[[GAIDictionaryBuilder createExceptionWithDescription:error
                                                             withFatal:[NSNumber numberWithBool:fatal]] build]];
 }
 
 RCT_EXPORT_METHOD(setUser:(NSString *)trackerId userId:(NSString *)userId)
 {
-    id<GAITracker> tracker = [self getTracker:trackerId];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     [tracker set:kGAIUserId
          value:userId];
 }
 
 RCT_EXPORT_METHOD(allowIDFA:(NSString *)trackerId enabled:(BOOL)enabled)
 {
-    id<GAITracker> tracker = [self getTracker:trackerId];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     tracker.allowIDFACollection = enabled;
 }
 
 RCT_EXPORT_METHOD(trackSocialInteraction:(NSString *)trackerId network:(NSString *)network action:(NSString *)action targetUrl:(NSString *)targetUrl)
 {
-    id<GAITracker> tracker = [self getTracker:trackerId];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     [tracker send:[[GAIDictionaryBuilder createSocialWithNetwork:network
                                                         action:action
                                                         target:targetUrl] build]];
@@ -168,7 +155,7 @@ RCT_EXPORT_METHOD(setTrackUncaughtExceptions:(BOOL)enabled)
 
 RCT_EXPORT_METHOD(setAnonymizeIp:(NSString *)trackerId enabled:(BOOL)enabled)
 {
-    id<GAITracker> tracker = [self getTracker:trackerId];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     [tracker set:kGAIAnonymizeIp value:enabled ? @"1" : @"0"];
 }
 
