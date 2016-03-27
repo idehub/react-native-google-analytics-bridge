@@ -142,4 +142,6 @@ class GoogleAnalytics {
 
 }
 
+GoogleAnalytics.GoogleTagManager = GoogleTagManager;
+
 module.exports = GoogleAnalytics;

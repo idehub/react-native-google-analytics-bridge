@@ -11,10 +11,12 @@
 
 RCT_EXPORT_MODULE();
 
+@synthesize methodQueue = _methodQueue;
+
 NSString* pack;
 
 
-RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId screenName:(NSString *)screenName)
+RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId)
 {
     self.tagManager = [TAGManager instance];
     
@@ -29,8 +31,10 @@ RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId screenName:(NSStri
 }
 
 - (void)containerAvailable:(TAGContainer *)container {
-    self.container = container;
-    pack = [self.container stringForKey:@"pack"];
+    dispatch_async(_methodQueue, ^{
+        self.container = container;
+        pack = [self.container stringForKey:@"pack"];
+    });
 }
 
 @end

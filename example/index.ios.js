@@ -13,10 +13,14 @@ var {
 } = React;
 
 const GoogleAnalytics = require('react-native-google-analytics-bridge');
+const GoogleTagManager = require('react-native-google-analytics-bridge').GoogleTagManager;
 
 var example = React.createClass({
   render: function() {
+
     GoogleAnalytics.setTrackerId('UA-12345-2');
+          
+    GoogleTagManager.openContainerWithId('');
       
     // Recommend you set this much higher in real app! 30 seconds+
     GoogleAnalytics.setDispatchInterval(2);
