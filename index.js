@@ -139,6 +139,22 @@ class GoogleAnalytics {
         _trackerId = trackerId;
     }
 
+    static TAGopenContainerWithId(TAGId, callback){
+        GoogleAnalyticsBridge.openTAGContainerWithId(TAGId, callback);
+    }
+
+    static TAGboolForKey(key, callback){
+        GoogleAnalyticsBridge.booleanForKey(key, callback);
+    }
+
+    static TAGstringForKey(key, callback){
+        GoogleAnalyticsBridge.stringForKey(key, callback);
+    }
+
+    static TAGdoubleForKey(key, callback){
+        GoogleAnalyticsBridge.doubleForKey(key, callback);
+    }
+
 }
 
 module.exports = GoogleAnalytics;

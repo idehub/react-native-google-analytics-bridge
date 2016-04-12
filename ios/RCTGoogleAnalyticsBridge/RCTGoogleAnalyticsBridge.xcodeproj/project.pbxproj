@@ -40,6 +40,11 @@
 		A79185DB1C3070E8001236A6 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
 		A79185DC1C3070E8001236A6 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
 		A79185DD1C3070E8001236A6 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		C9C74AC31CBD4E9F00F3BD12 /* TAGContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TAGContainer.h; sourceTree = "<group>"; };
+		C9C74AC41CBD4E9F00F3BD12 /* TAGContainerOpener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TAGContainerOpener.h; sourceTree = "<group>"; };
+		C9C74AC51CBD4E9F00F3BD12 /* TAGDataLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TAGDataLayer.h; sourceTree = "<group>"; };
+		C9C74AC61CBD4E9F00F3BD12 /* TAGLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TAGLogger.h; sourceTree = "<group>"; };
+		C9C74AC71CBD4E9F00F3BD12 /* TAGManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TAGManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +88,11 @@
 		A79185D21C3070E8001236A6 /* google-analytics-lib */ = {
 			isa = PBXGroup;
 			children = (
+				C9C74AC31CBD4E9F00F3BD12 /* TAGContainer.h */,
+				C9C74AC41CBD4E9F00F3BD12 /* TAGContainerOpener.h */,
+				C9C74AC51CBD4E9F00F3BD12 /* TAGDataLayer.h */,
+				C9C74AC61CBD4E9F00F3BD12 /* TAGLogger.h */,
+				C9C74AC71CBD4E9F00F3BD12 /* TAGManager.h */,
 				A79185D31C3070E8001236A6 /* GAI.h */,
 				A79185D41C3070E8001236A6 /* GAIDictionaryBuilder.h */,
 				A79185D51C3070E8001236A6 /* GAIEcommerceFields.h */,

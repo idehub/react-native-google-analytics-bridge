@@ -1,5 +1,6 @@
 package com.idehub.GoogleAnalyticsBridge;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -10,9 +11,14 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.analytics.ecommerce.Product;
 import com.google.android.gms.analytics.ecommerce.ProductAction;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.TagManager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
 
@@ -22,6 +28,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
     }
 
     private final String _trackingId;
+    private ContainerHolder mContainer;
 
     @Override
     public String getName() {
@@ -240,4 +247,40 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
             analytics.setAppOptOut(enabled);
         }
     }
+
+    @ReactMethod
+    public void openTAGContainerWithId(String tagId, final Callback callback){
+        TagManager mTagManager = TagManager.getInstance(getReactApplicationContext());
+        //using -1 here because it can't access raw in app
+        PendingResult<ContainerHolder> pending = mTagManager.loadContainerPreferNonDefault(tagId, -1);
+        pending.setResultCallback(new ResultCallback<ContainerHolder>() {
+            @Override
+            public void onResult(ContainerHolder containerHolder) {
+                mContainer = containerHolder;
+                callback.invoke();
+            }
+        }, 1000, TimeUnit.MILLISECONDS);
+    }
+
+    @ReactMethod
+    public void booleanForKey(String key, Callback callback){
+        if(mContainer != null){
+            callback.invoke(mContainer.getContainer().getBoolean(key));
+        }
+    }
+
+    @ReactMethod
+    public void stringForKey(String key, Callback callback){
+        if(mContainer != null){
+            callback.invoke(mContainer.getContainer().getString(key));
+        }
+    }
+
+    @ReactMethod
+    public void doubleForKey(String key, Callback callback){
+        if(mContainer != null){
+            callback.invoke(mContainer.getContainer().getDouble(key));
+        }
+    }
+
 }
