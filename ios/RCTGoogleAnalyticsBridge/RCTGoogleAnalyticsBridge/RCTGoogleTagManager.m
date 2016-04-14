@@ -16,7 +16,9 @@ RCT_EXPORT_MODULE();
 NSString* pack;
 
 
-RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId)
+RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     self.tagManager = [TAGManager instance];
     
@@ -29,6 +31,15 @@ RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId)
                                     timeout:nil
                                    notifier:self];
 }
+
+RCT_EXPORT_METHOD(stringForKey:(NSString *)key
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    NSString* str = [self.container stringForKey:key];
+    [resolve str];
+}
+
 
 - (void)containerAvailable:(TAGContainer *)container {
     dispatch_async(_methodQueue, ^{

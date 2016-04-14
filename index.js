@@ -1,7 +1,7 @@
 "use strict";
 
 const GoogleAnalyticsBridge = require("react-native").NativeModules.GoogleAnalyticsBridge;
-const GoogleTagManager = require("react-native").NativeModules.GoogleTagManager;
+const GoogleTagManagerBridge = require("react-native").NativeModules.GoogleTagManager;
 
 let _trackerId = GoogleAnalyticsBridge.nativeTrackerId;
 
@@ -140,6 +140,16 @@ class GoogleAnalytics {
         _trackerId = trackerId;
     }
 
+}
+
+class GoogleTagManager {
+     /**
+     * Sets new tracker ID for all subsequent static calls
+     * @param {String} tracker ID
+     */
+    static openContainerWithId(containerId) {
+        return GoogleTagManagerBridge.openContainerWithId(containerId);
+    }
 }
 
 GoogleAnalytics.GoogleTagManager = GoogleTagManager;
