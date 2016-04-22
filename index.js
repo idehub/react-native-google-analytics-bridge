@@ -142,7 +142,7 @@ class GoogleAnalytics {
 }
 
 class GoogleTagManager {
-    static openContainerWithId(tagId){
+    static openContainerWithId(containerId){
         return GoogleTagManagerBridge.openContainerWithId(containerId);
     }
 

@@ -1,6 +1,5 @@
 package com.idehub.GoogleAnalyticsBridge;
 
-import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -11,14 +10,9 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.analytics.ecommerce.Product;
 import com.google.android.gms.analytics.ecommerce.ProductAction;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.tagmanager.ContainerHolder;
-import com.google.android.gms.tagmanager.TagManager;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
 
@@ -28,7 +22,6 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     }
 
     private final String _trackingId;
-    private ContainerHolder mContainer;
 
     @Override
     public String getName() {

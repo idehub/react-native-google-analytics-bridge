@@ -7,19 +7,12 @@
 #import "GAIEcommerceProduct.h"
 #import "GAIEcommerceProductAction.h"
 #import "GAIEcommerceFields.h"
-#import "TAGContainer.h"
-#import "TAGContainerOpener.h"
-#import "TAGLogger.h"
-#import "TAGManager.h"
 
 @implementation RCTGoogleAnalyticsBridge {
 
 }
 
 NSString *staticTrackerId;
-TAGManager *tagManager;
-TAGContainer *tagContainer;
-RCTResponseSenderBlock tagContainerCallback;
 
 - (instancetype)init
 {
