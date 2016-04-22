@@ -1,6 +1,7 @@
 "use strict";
 
 const GoogleAnalyticsBridge = require("react-native").NativeModules.GoogleAnalyticsBridge;
+const GoogleTagManagerBridge = require("react-native").NativeModules.GoogleTagManagerBridge;
 
 let _trackerId = GoogleAnalyticsBridge.nativeTrackerId;
 
@@ -141,20 +142,20 @@ class GoogleAnalytics {
 }
 
 class GoogleTagManager {
-    static openContainerWithId(tagId, callback){
-        GoogleAnalyticsBridge.openTAGContainerWithId(TAGId, callback);
+    static openContainerWithId(tagId){
+        return GoogleTagManagerBridge.openContainerWithId(containerId);
     }
 
-    static boolForKey(key, callback){
-        GoogleAnalyticsBridge.booleanForKey(key, callback);
+    static boolForKey(key){
+        return GoogleTagManagerBridge.booleanForKey(key);
     }
 
-    static stringForKey(key, callback){
-        GoogleAnalyticsBridge.stringForKey(key, callback);
+    static stringForKey(key){
+        return GoogleTagManagerBridge.stringForKey(key);
     }
 
-    static doubleForKey(key, callback){
-        GoogleAnalyticsBridge.doubleForKey(key, callback);
+    static doubleForKey(key){
+        return GoogleTagManagerBridge.doubleForKey(key);
     }
 }
 
