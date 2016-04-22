@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
+public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
 
     public GoogleAnalyticsBridge(ReactApplicationContext reactContext, String trackingId) {
         super(reactContext);
@@ -247,40 +247,4 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule{
             analytics.setAppOptOut(enabled);
         }
     }
-
-    @ReactMethod
-    public void openTAGContainerWithId(String tagId, final Callback callback){
-        TagManager mTagManager = TagManager.getInstance(getReactApplicationContext());
-        //using -1 here because it can't access raw in app
-        PendingResult<ContainerHolder> pending = mTagManager.loadContainerPreferNonDefault(tagId, -1);
-        pending.setResultCallback(new ResultCallback<ContainerHolder>() {
-            @Override
-            public void onResult(ContainerHolder containerHolder) {
-                mContainer = containerHolder;
-                callback.invoke();
-            }
-        }, 1000, TimeUnit.MILLISECONDS);
-    }
-
-    @ReactMethod
-    public void booleanForKey(String key, Callback callback){
-        if(mContainer != null){
-            callback.invoke(mContainer.getContainer().getBoolean(key));
-        }
-    }
-
-    @ReactMethod
-    public void stringForKey(String key, Callback callback){
-        if(mContainer != null){
-            callback.invoke(mContainer.getContainer().getString(key));
-        }
-    }
-
-    @ReactMethod
-    public void doubleForKey(String key, Callback callback){
-        if(mContainer != null){
-            callback.invoke(mContainer.getContainer().getDouble(key));
-        }
-    }
-
 }

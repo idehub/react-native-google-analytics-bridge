@@ -28,6 +28,8 @@ public class GoogleAnalyticsBridgePackage implements ReactPackage {
         List<NativeModule> modules = new ArrayList<>();
 
         modules.add(new GoogleAnalyticsBridge(reactContext, _trackingId));
+        modules.add(new GoogleTagManagerBridge(reactContext));
+        
         return modules;
     }
 

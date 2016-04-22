@@ -20,7 +20,6 @@ RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId
     if (self.openContainerResolver != nil && self.container != nil) {
         if (self.tagManager == nil) {
             self.tagManager = [TAGManager instance];
-            [self.tagManager.logger setLogLevel:kTAGLoggerLogLevelVerbose];
         }
         
         self.openContainerResolver = resolve;
