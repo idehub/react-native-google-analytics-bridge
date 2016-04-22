@@ -171,48 +171,4 @@ RCT_EXPORT_METHOD(setOptOut:(BOOL)enabled)
     [GAI sharedInstance].optOut = enabled;
 }
 
-RCT_EXPORT_METHOD(openTAGContainerWithId:(NSString*)TAGId callback: (RCTResponseSenderBlock)callback){
-    tagManager = [TAGManager instance];
-    if(tagContainer == nil){
-        [TAGContainerOpener openContainerWithId:TAGId
-                                     tagManager:tagManager
-                                       openType:kTAGOpenTypePreferNonDefault
-                                        timeout:nil
-                                       notifier:self];
-        tagContainerCallback = callback;
-    }else{
-        callback(@[]);
-    }
-    
-}
-
-RCT_EXPORT_METHOD(booleanForKey:(NSString*)key callback: (RCTResponseSenderBlock)callback){
-    if(tagContainer != nil){
-        callback(@[@([tagContainer booleanForKey:key])]);
-    }else{
-        callback(@[@(NO)]);
-    }
-}
-
-RCT_EXPORT_METHOD(stringForKey:(NSString*)key callback: (RCTResponseSenderBlock)callback){
-    if(tagContainer != nil){
-        callback(@[[tagContainer stringForKey:key]]);
-    }else{
-        callback(@[@""]);
-    }
-}
-
-RCT_EXPORT_METHOD(doubleForKey:(NSString*)key callback: (RCTResponseSenderBlock)callback){
-    if(tagContainer != nil){
-        callback(@[@([tagContainer doubleForKey:key])]);
-    }else{
-        callback(@[@(0.0)]);
-    }
-}
-
-- (void)containerAvailable:(TAGContainer *)container {
-    tagContainer = container;
-    tagContainerCallback(@[]);
-}
-
 @end

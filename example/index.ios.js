@@ -12,7 +12,7 @@ var {
   View,
 } = React;
 
-const GoogleAnalytics = require('react-native-google-analytics-bridge');
+import GoogleAnalytics, { GoogleTagManager } from 'react-native-google-analytics-bridge';
 
 var example = React.createClass({
   render: function() {
