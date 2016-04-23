@@ -21,6 +21,14 @@ var example = React.createClass({
     // Recommend you set this much higher in real app! 30 seconds+
     GoogleAnalytics.setDispatchInterval(2);
     
+    GoogleTagManager.openContainerWithId("NZ12356")
+    .then(() => {
+      return GoogleTagManager.stringForKey("pack");
+    })
+    .then((str) => {
+      console.log("Str: ", str);
+    });
+    
     //GoogleAnalytics.setDryRun(true);
     GoogleAnalytics.trackEvent('testcategory', 'Hello iOS');
     GoogleAnalytics.trackScreenView('Home');

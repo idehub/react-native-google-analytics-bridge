@@ -17,7 +17,7 @@ RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-    if (self.openContainerResolver != nil && self.container != nil) {
+    if (!self.openContainerResolver && self.container == nil) {
         if (self.tagManager == nil) {
             self.tagManager = [TAGManager instance];
         }
@@ -69,7 +69,7 @@ RCT_EXPORT_METHOD(doubleForKey:(NSString*)key
     dispatch_async(_methodQueue, ^{
         self.container = container;
         self.openContainerResolver(@YES);
-        self.openContainerResolver = nil;
+        self.openContainerResolver = NULL;
     });
 }
 

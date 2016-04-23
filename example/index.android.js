@@ -11,7 +11,8 @@ var {
   Text,
   View,
 } = React;
-const GoogleAnalytics = require('react-native-google-analytics-bridge');
+
+import GoogleAnalytics, { GoogleTagManager } from 'react-native-google-analytics-bridge';
 
 var example = React.createClass({
   render: function() {
@@ -19,6 +20,14 @@ var example = React.createClass({
       
     // Recommend you set this much higher in real app! 30 seconds+
     GoogleAnalytics.setDispatchInterval(2);
+    
+    GoogleTagManager.openContainerWithId("NZ12356")
+    .then(() => {
+      return GoogleTagManager.stringForKey("pack");
+    })
+    .then((str) => {
+      console.log("Str: ", str);
+    });
     
     //GoogleAnalytics.setDryRun(true);
     GoogleAnalytics.trackEvent('testcategory', 'Hello Android');
