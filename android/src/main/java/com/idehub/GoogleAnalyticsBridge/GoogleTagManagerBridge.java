@@ -17,7 +17,7 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
         super(reactContext);
     }
 
-    private ContainerHolder mContainer;
+    private ContainerHolder mContainerHolder;
     private Boolean openOperationInProgress = false;
 
     @Override
@@ -27,19 +27,23 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void openContainerWithId(final String containerId, final Promise promise){
-        if (!openOperationInProgress && mContainer != null) {
+        if (!openOperationInProgress && mContainerHolder == null) {
             TagManager mTagManager = TagManager.getInstance(getReactApplicationContext());
             //using -1 here because it can't access raw in app
             openOperationInProgress = true;
-            PendingResult<ContainerHolder> pending = mTagManager.loadContainerPreferNonDefault(containerId, -1);
+            PendingResult<ContainerHolder> pending = mTagManager.loadContainerPreferFresh(containerId, -1);
             pending.setResultCallback(new ResultCallback<ContainerHolder>() {
                 @Override
                 public void onResult(ContainerHolder containerHolder) {
-                    mContainer = containerHolder;
-                    promise.resolve(true);
+                    if (containerHolder != null && containerHolder.getStatus().isSuccess()) {
+                        mContainerHolder = containerHolder;
+                        promise.resolve(true);
+                    } else {
+                        promise.reject("Failed to open container.");
+                    }
                     openOperationInProgress = false;
                 }
-            }, 1000, TimeUnit.MILLISECONDS);
+            }, 2000, TimeUnit.MILLISECONDS);
         } else {
             promise.reject("The container is either open, or open-operation is in progress");
         }
@@ -47,8 +51,8 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void booleanForKey(final String key, final Promise promise){
-        if (mContainer != null) {
-            promise.resolve(mContainer.getContainer().getBoolean(key));
+        if (mContainerHolder != null && mContainerHolder.getContainer() != null) {
+            promise.resolve(mContainerHolder.getContainer().getBoolean(key));
         } else {
             promise.reject("The container has not been opened. You must call openContainerWithId(..)");
         }
@@ -56,8 +60,8 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void stringForKey(final String key, final Promise promise){
-        if (mContainer != null) {
-            promise.resolve(mContainer.getContainer().getString(key));
+        if (mContainerHolder != null && mContainerHolder.getContainer() != null) {
+            promise.resolve(mContainerHolder.getContainer().getString(key));
         } else {
             promise.reject("The container has not been opened. You must call openContainerWithId(..)");
         }
@@ -65,8 +69,8 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void doubleForKey(final String key, final Promise promise){
-        if (mContainer != null) {
-            promise.resolve(mContainer.getContainer().getDouble(key));
+        if (mContainerHolder != null && mContainerHolder.getContainer() != null) {
+            promise.resolve(mContainerHolder.getContainer().getDouble(key));
         } else {
             promise.reject("The container has not been opened. You must call openContainerWithId(..)");
         }

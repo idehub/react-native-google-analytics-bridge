@@ -8,5 +8,6 @@
 @property (nonatomic, strong) TAGManager *tagManager;
 @property (nonatomic, strong) TAGContainer *container;
 @property (nonatomic, copy) RCTPromiseResolveBlock openContainerResolver;
+@property (nonatomic, copy) RCTPromiseRejectBlock openContainerRejecter;
 
 @end

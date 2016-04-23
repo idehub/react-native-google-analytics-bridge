@@ -2,20 +2,19 @@
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
 
-var React = require('react-native');
-var {
+import React, {
   AppRegistry,
+  Component,
   StyleSheet,
   Text,
-  View,
-} = React;
+  View
+} from 'react-native';
 
 import GoogleAnalytics, { GoogleTagManager } from 'react-native-google-analytics-bridge';
 
-var example = React.createClass({
-  render: function() {
+class example extends Component {
+  render() {
     GoogleAnalytics.setTrackerId('UA-12345-2');
       
     // Recommend you set this much higher in real app! 30 seconds+
@@ -68,7 +67,6 @@ var example = React.createClass({
     //GoogleAnalytics.setOptOut(true);
     
     GoogleAnalytics.setAnonymizeIp(true);
-
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
@@ -83,9 +81,9 @@ var example = React.createClass({
       </View>
     );
   }
-});
+}
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
