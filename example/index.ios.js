@@ -27,7 +27,14 @@ class example extends Component {
     })
     .then((str) => {
       console.log("Str: ", str);
-      return GoogleTagManager.openContainerWithId("GT-NZT48")
+      return GoogleTagManager.boolForKey("wat");
+    })
+    .then((wat) => {
+      console.log("Wat: ", wat);
+      return GoogleTagManager.doubleForKey("orly");
+    })
+    .then((orly) => {
+      console.log("Orly: ", orly);
     })
     .catch((err) => {
       console.log(err);
