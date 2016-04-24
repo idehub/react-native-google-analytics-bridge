@@ -20,12 +20,16 @@ class example extends Component {
     // Recommend you set this much higher in real app! 30 seconds+
     GoogleAnalytics.setDispatchInterval(2);
     
-    GoogleTagManager.openContainerWithId("NZ12356")
+    GoogleTagManager.openContainerWithId("GT-NZT48")
     .then(() => {
       return GoogleTagManager.stringForKey("pack");
     })
     .then((str) => {
       console.log("Str: ", str);
+      return GoogleTagManager.openContainerWithId("GT-NZT48")
+    })
+    .catch((err) => {
+      console.log(err);
     });
     
     //GoogleAnalytics.setDryRun(true);
