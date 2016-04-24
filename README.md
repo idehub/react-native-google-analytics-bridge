@@ -2,12 +2,14 @@ GoogleAnalyticsBridge ![npm version](https://img.shields.io/npm/v/react-native-g
 =============
 **Google Analytics Bridge** is built to provide an easy interface to the native Google Analytics libraries on both **iOS** and **Android**.
 
+**Important**: This library requires React Native v0.19+.
+
 ## Why a native bridge? Why not use just JavaScript?
 The key difference with the native bridge is that you get a lot of the metadata handled automatically by the Google Analytics native library. This will include the device UUID, device model, viewport size, OS version etc.
 
 You will only have to send in a few parameteres when tracking, e.g:
 ```javascript
-const GoogleAnalytics = require('react-native-google-analytics-bridge');
+import GoogleAnalytics from 'react-native-google-analytics-bridge';
 GoogleAnalytics.setTrackerId('UA-12345-1');
 
 GoogleAnalytics.trackScreenView('Home');
@@ -70,30 +72,21 @@ Consult [this guide](https://developer.android.com/sdk/installing/adding-package
   // Step 1; import package:
   import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 
-  public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
-      ...
-
+  public class MainActivity extends ReactActivity {
+    ...
+    
       @Override
-      protected void onCreate(Bundle savedInstanceState) {
-          ...
-
-          mReactInstanceManager = ReactInstanceManager.builder()
-                  .setApplication(getApplication())
-                  .setBundleAssetName("index.android.bundle")
-                  .setJSMainModuleName("index.android")
-                  .addPackage(new MainReactPackage())
-                  // Step 2; register package:
-                  .addPackage(new GoogleAnalyticsBridgePackage())
-                  .setUseDeveloperSupport(BuildConfig.DEBUG)
-                  .setInitialLifecycleState(LifecycleState.RESUMED)
-                  .build();
-
-          ...
+      protected List<ReactPackage> getPackages() {
+          return Arrays.<ReactPackage>asList(
+              new MainReactPackage(),
+              // Step 2; register package:
+              new GoogleAnalyticsBridgePackage()
+          );
       }
-      ...
+  }
   ```
 
-## Javascript API
+## Google Analytics Javascript API
 
 ### setTrackerId(trackerId)
 * **trackerId (required):** String, your tracker id, something like: UA-12345-1
@@ -101,7 +94,7 @@ Consult [this guide](https://developer.android.com/sdk/installing/adding-package
 **Important**: Call **once** on app startup to set the tracker id for all subsequent static calls.
 
 ```javascript
-const GoogleAnalytics = require('react-native-google-analytics-bridge');
+import GoogleAnalytics from 'react-native-google-analytics-bridge';
 GoogleAnalytics.setTrackerId('UA-12345-1')
 ```
     
@@ -296,7 +289,77 @@ Note: This has to be set each time the App starts.
 GoogleAnalytics.setOptOut(true);
 ```
 
-## Logging
+## Google Tag Manager Javascript API
+
+The `GoogleTagManager` type is available at `GoogleAnalytics.GoogleTagManager`. If you want to use it alongside `GoogleAnalytics`:
+```javascript
+import GoogleAnalytics, { GoogleTagManager } from 'react-native-google-analytics-bridge';
+GoogleTagManager.openContainerWithId('GT-NZT48')
+.then(() => GoogleTagManager.stringForKey('pack'))
+.then((str) => console.log('Pack: ', str));
+```
+
+All methods returns a `Promise`.
+
+### openContainerWithId(containerId)
+* **containerId (required):** String, your container id.
+
+**Important**: Call **once** to open the container for all subsequent static calls.
+
+```javascript
+GoogleTagManager.openContainerWithId('GT-NZT48')
+.then((..) => ..)
+```
+
+### stringForKey(key)
+##### Parameter(s)
+* **key (required):** String
+
+##### Returns:
+* **value:** String 
+
+Retrieves a string with the given key from the opened container.
+
+```javascript
+GoogleTagManager.stringForKey('key').then((val) => console.log(val));
+```
+
+### boolForKey(key)
+##### Parameter(s)
+* **key (required):** String
+
+##### Returns:
+* **value:** Boolean 
+
+Retrieves a boolean value with the given key from the opened container.
+
+```javascript
+GoogleTagManager.boolForKey('key').then((val) => console.log(val));
+```
+
+### doubleForKey(key)
+##### Parameter(s)
+* **key (required):** String
+
+##### Returns:
+* **value:** Number 
+
+Retrieves a number with the given key from the opened container.
+
+```javascript
+GoogleTagManager.doubleForKey('key').then((val) => console.log(val));
+```
+
+## Simple A/B-testing
+Setting up A/B-testing requires setup of containers in Google Tag Manager, and connecting this with Goals/Experiments in Google Analytics.
+
+Read [this guide from Google](https://support.google.com/tagmanager/answer/6003007?hl=en) on how to do the above.
+
+Then you can use our Google Tag Manager implementation to pull values out of the container, and track events in Google Analytics in order to complete "goals".
+
+In this way, the different containers (A/B) the user is given, will be linked to whether or not they accomplish the given goal.
+
+## Google Analytics Logging
 There is a divergence in how the iOS and Android versions of the native library handles logging. 
 
 [For Android](https://developers.google.com/analytics/devguides/collection/android/v4/advanced#logger) you can check the GA logs with your favorite terminal by using `adb logcat`.
@@ -312,15 +375,10 @@ In order to control the `logLevel` you can add an item in your `Info.plist` with
 
 ## Roadmap
 
-- [ ] Support for A/B testing
+- [x] Support for A/B testing
 - [ ] Ecommerce: checkout process
 - [ ] Ecommerce: impressions
 - [ ] Campaigns
 - [x] dryRun flag
 - [x] Simple ecommerce
 - [x] Make the library more configureable
-
-## peerDependencies
-This library should work with at least React Native 0.11 and up, but has been tested mostly with 0.17.
-
-I've decided to remove the React Native peerDependency since some users have had issues with how npm handles peerDependencies, especially with -rc versions.
