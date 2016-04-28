@@ -353,7 +353,7 @@ GoogleTagManager.doubleForKey('key').then((val) => console.log(val));
 ## Simple A/B-testing
 Setting up A/B-testing requires setup of containers in Google Tag Manager, and connecting this with Goals/Experiments in Google Analytics.
 
-Read [this guide from Google](https://support.google.com/tagmanager/answer/6003007?hl=en) on how to do the above. This [blog post](http://www.cbrevik.com/google-tag-manager-and-ab-testing-with-react-native/) might also prove useful.
+This [blog post](http://www.cbrevik.com/google-tag-manager-and-ab-testing-with-react-native/) details how to do this. [This guide from Google](https://support.google.com/tagmanager/answer/6003007?hl=en) will also prove helpful (and is referenced in the aforementioned blog post).
 
 Then you can use our Google Tag Manager implementation to pull values out of the container, and track events in Google Analytics in order to complete "goals".
 
@@ -375,10 +375,10 @@ In order to control the `logLevel` you can add an item in your `Info.plist` with
 
 ## Roadmap
 
-- [x] Support for A/B testing
 - [ ] Ecommerce: checkout process
 - [ ] Ecommerce: impressions
 - [ ] Campaigns
+- [x] Support for A/B testing
 - [x] dryRun flag
 - [x] Simple ecommerce
 - [x] Make the library more configureable
