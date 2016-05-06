@@ -1,4 +1,4 @@
-GoogleAnalyticsBridge ![npm version](https://img.shields.io/npm/v/react-native-google-analytics-bridge.svg)
+GoogleAnalyticsBridge [![npm version](https://img.shields.io/npm/v/react-native-google-analytics-bridge.svg)](https://www.npmjs.com/package/react-native-google-analytics-bridge)
 =============
 **Google Analytics Bridge** is built to provide an easy interface to the native Google Analytics libraries on both **iOS** and **Android**.
 
