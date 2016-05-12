@@ -86,6 +86,22 @@ Consult [this guide](https://developer.android.com/sdk/installing/adding-package
   }
   ```
 
+### Android build problem
+Some people have had problems being hit with `Unknown source file : com.android.dex.DexException: Multiple dex files define Lcom/google/android/gms/internal/zzmu;` after installing this (or similar modules). 
+
+This might be because you are using another module which also uses `play-services`, but targets a different version of `play-services`. In the `build.gradle`-file of this module, we target `com.google.android.gms:play-services-analytics:8.+`. In other words, we try to use the latest (8.x.x) version of `play-services`.
+
+If some other module is targetting a previous version, say 8.3.0, then adding the following to your (React Native-project) `build.gradle` may be helpful:
+```gradle
+compile("com.google.android.gms:play-services-analytics:8.3.0"){
+    force = true
+}
+```
+
+That should force the app to compile the 8.3.0 version of the dependency my module uses. Obviously, this might not be a solution if several modules are depending on conflicting versions.
+
+I would recommend other module authors which also depend on `play-services` to target `8.+` instead of a specific minor version.
+
 ## Google Analytics Javascript API
 
 ### setTrackerId(trackerId)
