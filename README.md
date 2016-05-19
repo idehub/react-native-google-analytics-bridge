@@ -1,4 +1,4 @@
-GoogleAnalyticsBridge [![npm version](https://img.shields.io/npm/v/react-native-google-analytics-bridge.svg)](https://www.npmjs.com/package/react-native-google-analytics-bridge)
+GoogleAnalyticsBridge [![npm version](https://img.shields.io/npm/v/react-native-google-analytics-bridge.svg)](https://www.npmjs.com/package/react-native-google-analytics-bridge) [![Build Status](https://travis-ci.org/idehub/react-native-google-analytics-bridge.svg?branch=master)](https://travis-ci.org/idehub/react-native-google-analytics-bridge)
 =============
 **Google Analytics Bridge** is built to provide an easy interface to the native Google Analytics libraries on both **iOS** and **Android**.
 
@@ -74,7 +74,7 @@ Consult [this guide](https://developer.android.com/sdk/installing/adding-package
 
   public class MainActivity extends ReactActivity {
     ...
-    
+
       @Override
       protected List<ReactPackage> getPackages() {
           return Arrays.<ReactPackage>asList(
@@ -87,7 +87,7 @@ Consult [this guide](https://developer.android.com/sdk/installing/adding-package
   ```
 
 ### Android build problem
-Some people have had problems being hit with `Unknown source file : com.android.dex.DexException: Multiple dex files define Lcom/google/android/gms/internal/zzmu;` after installing this (or similar modules). 
+Some people have had problems being hit with `Unknown source file : com.android.dex.DexException: Multiple dex files define Lcom/google/android/gms/internal/zzmu;` after installing this (or similar modules).
 
 This might be because you are using another module which also uses `play-services`, but targets a different version of `play-services`. In the `build.gradle`-file of this module, we target `com.google.android.gms:play-services-analytics:8.+`. In other words, we try to use the latest (8.x.x) version of `play-services`.
 
@@ -113,7 +113,7 @@ I would recommend other module authors which also depend on `play-services` to t
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
 GoogleAnalytics.setTrackerId('UA-12345-1')
 ```
-    
+
 ### trackScreenView(screenName)
 
 * **screenName (required):** String, name of current screen
@@ -332,7 +332,7 @@ GoogleTagManager.openContainerWithId('GT-NZT48')
 * **key (required):** String
 
 ##### Returns:
-* **value:** String 
+* **value:** String
 
 Retrieves a string with the given key from the opened container.
 
@@ -345,7 +345,7 @@ GoogleTagManager.stringForKey('key').then((val) => console.log(val));
 * **key (required):** String
 
 ##### Returns:
-* **value:** Boolean 
+* **value:** Boolean
 
 Retrieves a boolean value with the given key from the opened container.
 
@@ -358,7 +358,7 @@ GoogleTagManager.boolForKey('key').then((val) => console.log(val));
 * **key (required):** String
 
 ##### Returns:
-* **value:** Number 
+* **value:** Number
 
 Retrieves a number with the given key from the opened container.
 
@@ -376,11 +376,11 @@ Then you can use our Google Tag Manager implementation to pull values out of the
 In this way, the different containers (A/B) the user is given, will be linked to whether or not they accomplish the given goal.
 
 ## Google Analytics Logging
-There is a divergence in how the iOS and Android versions of the native library handles logging. 
+There is a divergence in how the iOS and Android versions of the native library handles logging.
 
 [For Android](https://developers.google.com/analytics/devguides/collection/android/v4/advanced#logger) you can check the GA logs with your favorite terminal by using `adb logcat`.
 
-For iOS there is a logger in the [internal library](https://developers.google.com/analytics/devguides/collection/ios/v3/advanced#logger) that writes events to the XCode output window. 
+For iOS there is a logger in the [internal library](https://developers.google.com/analytics/devguides/collection/ios/v3/advanced#logger) that writes events to the XCode output window.
 In order to control the `logLevel` you can add an item in your `Info.plist` with the key `GAILogLevel`. The value you use is a number which corresponds to your desired log-level:
 
 * 0: None
