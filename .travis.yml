@@ -1,8 +1,9 @@
 language: nodejs
-
 install:
-  - npm config set spin=false
-  - npm config set progress=false
-  - npm install
-
+- npm config set spin=false
+- npm config set progress=false
+- npm install
 script: npm test
+notifications:
+  slack:
+    secure: qYpqErlZSfd5a88azsJqRkR0dKGXJknLoNsB/MuutbMbsX2HZzRfee9pDR1CDfcLlyBInRoN2lzv2B6xfrRDFnXWB/K9sRjTmzwXVPZbI1KDIi0CpQpgioZeNu2vaqJroX++1RdBCqUE9cHPRUmgo5/SqS4Qnl13uGTyGX4rYHrRK6HC1mXZ7/rVvLg6UnXn6Mb46DSRnFEmGRNlHbw/TmaYDZpFtjxqI9UyTfgrTNaMpXkSrfXlQzYwAfJUaWNClXtk87SFx54UIeu2elCwoPYZozeGDQMi1evPnGUFXwQ+vfnJTFzwt4klr6cdZ1/spmzxzewGheG3pmUnYaKxf3QTD3ppOyE+A44/9eEMib7qUxo2cIv2KOyYLE/pAu3293GhvP4SEdBELLzVHDh4brc6nNndNetJ+GKHeXqIOx48fe3hwfZ+UDCV3KzjUbeiSfh45eEUqEGRRkRLgkB3vC8sKx101vQj2N990h50/CW0+F0nz0S7sDEVfbN9M3RuCtDmpUikTlYCEb1Y6k2uCNbgLuhV99VBVWOrUSB8aBhLPui+xYd+tSUD476mjqqowxYy5O0fbTouf2VzKgGmpyZ3DFvRgG1jbLKKBJxIQJcGq9fITTlh/BouoCAt2BK0JPG1rd+T91lovyqfMrnzrgiGrVIBHzpbh8i3V1H/vN0=
