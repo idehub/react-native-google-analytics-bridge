@@ -164,4 +164,10 @@ RCT_EXPORT_METHOD(setOptOut:(BOOL)enabled)
     [GAI sharedInstance].optOut = enabled;
 }
 
+RCT_EXPORT_METHOD(setAppName:(NSString *)trackerId appName:(NSString *)appName)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    [tracker set:kGAIAppName value:appName];
+}
+
 @end
