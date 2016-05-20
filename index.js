@@ -88,6 +88,14 @@ class GoogleAnalytics {
     }
 
     /**
+     * Sets the current userId for tracking.
+     * @param {String} userId The current userId
+     */
+    static setUser(customDimensionIndex, customDimensionValue) {
+        GoogleAnalyticsBridge.setCustomDimensionForValue(getTrackerId(), userId);
+    }
+    
+    /**
      * Sets if the tracker should have dry run enabled.
      * If dry run is enabled, no analytics data will be sent to your tracker.
      * @param {Boolean} enabled
