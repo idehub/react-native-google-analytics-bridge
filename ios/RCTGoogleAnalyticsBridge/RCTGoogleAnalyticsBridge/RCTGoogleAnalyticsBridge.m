@@ -138,6 +138,14 @@ RCT_EXPORT_METHOD(trackSocialInteraction:(NSString *)trackerId network:(NSString
                                                         target:targetUrl] build]];
 }
 
+RCT_EXPORT_METHOD(setCustomDimensionValue:(NSString *)trackerId dimensionIndex:(NSInteger)dimensionIndex dimensionValue:(NSString *)dimensionValue)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    
+    [tracker set:[GAIFields customDimensionForIndex:dimensionIndex] value:dimensionValue];
+}
+
+
 RCT_EXPORT_METHOD(setDryRun:(BOOL)enabled)
 {
     [GAI sharedInstance].dryRun = enabled;

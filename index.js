@@ -88,6 +88,15 @@ class GoogleAnalytics {
     }
 
     /**
+     * Sets a custom dimension value.
+     * @param {Number} dimensionIndex The dimension index to set (must be set up in GA first)
+     * @param {String} dimensionValue The value to set
+     */
+    static setCustomDimensionValue(dimensionIndex, dimensionValue) {
+        GoogleAnalyticsBridge.setCustomDimensionValue(getTrackerId(), dimensionIndex, dimensionValue);
+    }
+    
+    /**
      * Sets if the tracker should have dry run enabled.
      * If dry run is enabled, no analytics data will be sent to your tracker.
      * @param {Boolean} enabled
