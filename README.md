@@ -228,6 +228,17 @@ See the [Google Analytics](https://developers.google.com/analytics/devguides/col
 GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
 ```
 
+### setCustomDimensionValue(dimensionIndex, dimensionValue)
+
+* **dimensionIndex (required):** Number, index of the custom dimension to set (configure in your google analytics dashboard)
+* **dimensionValue (required):** String, value of the custom dimension
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/customdimsmets) docs for more info.
+
+```javascript
+GoogleAnalytics.setCustomDimensionValue(1, 'premium');
+```
+
 ### setUser(userId)
 
 * **userId (required):** String, an **anonymous** identifier that complies with Google Analytic's user ID policy
