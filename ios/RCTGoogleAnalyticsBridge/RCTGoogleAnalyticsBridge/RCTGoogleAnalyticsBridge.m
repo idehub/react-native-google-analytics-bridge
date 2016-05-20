@@ -65,7 +65,7 @@ RCT_EXPORT_METHOD(trackScreenViewWithCustomDimensionValues:(NSString *)trackerId
     GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createScreenView];
 
     for (NSString *dimensionIndex in dimensionIndexValues)
-        [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:dimensionIndex]];
+        [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
 
     [tracker send:[builder build]];
 }
@@ -81,7 +81,7 @@ RCT_EXPORT_METHOD(trackEventWithCustomDimensionValues:(NSString *)trackerId cate
                                                                             label:label
                                                                             value:value];
     for (NSString *dimensionIndex in dimensionIndexValues)
-        [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:dimensionIndex]];
+        [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
 
     [tracker send:[builder build]];
 }
