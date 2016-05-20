@@ -4,6 +4,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -210,7 +211,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void trackEventWithCustomDimensionValues(String trackerId, String category, String action, ReadableMap optionalValues, , ReadableMap dimensionIndexValues)
+    public void trackEventWithCustomDimensionValues(String trackerId, String category, String action, ReadableMap optionalValues, ReadableMap dimensionIndexValues)
     {
         Tracker tracker = getTracker(trackerId);
 
@@ -218,9 +219,8 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
         {
             HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
                         .setCategory(category)
-                        .setAction(action)
-                        .setCustomDimension(customDimensionIndex, customDimensionValue);
-
+                        .setAction(action);
+                        
             if (optionalValues.hasKey("label"))
             {
                 hit.setLabel(optionalValues.getString("label"));
