@@ -133,6 +133,15 @@ class GoogleAnalytics {
     }
 
     /**
+     * Sets the trackers appName
+     * The Bundle name is used by default
+     * @param {String} appName
+     */
+    static setAppName(appName) {
+        GoogleAnalyticsBridge.setAppName(getTrackerId(), appName);
+    }
+
+    /**
      * Sets new tracker ID for all subsequent static calls
      * @param {String} tracker ID
      */

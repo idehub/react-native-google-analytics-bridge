@@ -240,4 +240,14 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
             analytics.setAppOptOut(enabled);
         }
     }
+
+    @ReactMethod
+    public void setAppName(String trackerId, String appName){
+        Tracker tracker = getTracker(trackerId);
+
+        if (tracker != null)
+        {
+            tracker.setAppName(appName);
+        }
+    }
 }

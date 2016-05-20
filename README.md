@@ -305,6 +305,17 @@ Note: This has to be set each time the App starts.
 GoogleAnalytics.setOptOut(true);
 ```
 
+### setAppName(appName)
+
+* **appName (required):** String
+
+Overrides the app name logged in Google Analytics. The Bundle name is used by default.
+Note: This has to be set each time the App starts.
+
+```javascript
+GoogleAnalytics.setAppName('someAppName');
+```
+
 ## Google Tag Manager Javascript API
 
 The `GoogleTagManager` type is available at `GoogleAnalytics.GoogleTagManager`. If you want to use it alongside `GoogleAnalytics`:
