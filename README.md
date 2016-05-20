@@ -236,7 +236,7 @@ GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
 Tracks a screen view with one or more customDimensionValues. See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/customdimsmets) docs for more info.
 
 ```javascript
-GoogleAnalytics.trackScreenViewWithCustomDimensionValues('Home', {'1':'premium', '5':'foo');
+GoogleAnalytics.trackScreenViewWithCustomDimensionValues('Home', {'1':'premium', '5':'foo'});
 ```
 
 ### trackEventWithCustomDimensionValues(category, action, optionalValues, dimensionIndexValueDict)
