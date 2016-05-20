@@ -88,11 +88,12 @@ class GoogleAnalytics {
     }
 
     /**
-     * Sets the current userId for tracking.
-     * @param {String} userId The current userId
+     * Sets a custom dimension value.
+     * @param {Number} dimensionIndex The dimension index to set (must be set up in GA first)
+     * @param {String} dimensionValue The value to set
      */
-    static setUser(customDimensionIndex, customDimensionValue) {
-        GoogleAnalyticsBridge.setCustomDimensionForValue(getTrackerId(), userId);
+    static setCustomDimensionValue(dimensionIndex, dimensionValue) {
+        GoogleAnalyticsBridge.setCustomDimensionValue(getTrackerId(), dimensionIndex, dimensionValue);
     }
     
     /**
