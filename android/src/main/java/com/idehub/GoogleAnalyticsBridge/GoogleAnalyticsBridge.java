@@ -191,12 +191,53 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setCustomDimensionValue(String trackerId, Integer dimensionIndex, String dimensionValue)
+    public void trackScreenViewWithCustomDimensionValues(String trackerId, String screenName, ReadableMap dimensionIndexValues)
     {
         Tracker tracker = getTracker(trackerId);
 
-        if (tracker != null) {
-          tracker.set(Fields.customDimension(dimensionIndex), dimensionValue);
+        if (tracker != null)
+        {
+            tracker.setScreenName(screenName);
+            HitBuilders.ScreenViewBuilder screenBuilder = new HitBuilders.ScreenViewBuilder();
+            ReadableMapKeySetIterator iterator = dimensionIndexValues.keySetIterator();
+            while (iterator.hasNextKey()) {
+                String dimensionIndex = iterator.nextKey();
+                String dimensionValue = dimensionIndexValues.getString(dimensionIndex);
+                screenBuilder.setCustomDimension(Integer.parseInt(dimensionIndex), dimensionValue);
+            }
+            tracker.send(screenBuilder.build());
+        }
+    }
+
+    @ReactMethod
+    public void trackEventWithCustomDimensionValues(String trackerId, String category, String action, ReadableMap optionalValues, , ReadableMap dimensionIndexValues)
+    {
+        Tracker tracker = getTracker(trackerId);
+
+        if (tracker != null)
+        {
+            HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
+                        .setCategory(category)
+                        .setAction(action)
+                        .setCustomDimension(customDimensionIndex, customDimensionValue);
+
+            if (optionalValues.hasKey("label"))
+            {
+                hit.setLabel(optionalValues.getString("label"));
+            }
+            if (optionalValues.hasKey("value"))
+            {
+                hit.setValue(optionalValues.getInt("value"));
+            }
+
+            ReadableMapKeySetIterator iterator = dimensionIndexValues.keySetIterator();
+            while (iterator.hasNextKey()) {
+                String dimensionIndex = iterator.nextKey();
+                String dimensionValue = dimensionIndexValues.getString(dimensionIndex);
+                hit.setCustomDimension(Integer.parseInt(dimensionIndex), dimensionValue);
+            }
+
+            tracker.send(hit.build());
         }
     }
 

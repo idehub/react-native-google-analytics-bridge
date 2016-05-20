@@ -228,15 +228,30 @@ See the [Google Analytics](https://developers.google.com/analytics/devguides/col
 GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
 ```
 
-### setCustomDimensionValue(dimensionIndex, dimensionValue)
+### trackScreenViewWithCustomDimensionValues(screenName, dimensionIndexValueDict)
 
-* **dimensionIndex (required):** Number, index of the custom dimension to set (configure in your google analytics dashboard)
-* **dimensionValue (required):** String, value of the custom dimension
+* **screenName (required):** String, name of current screen
+* **dimensionIndexValueDict (required):** Dict of dimension index / values.
 
-See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/customdimsmets) docs for more info.
+Tracks a screen view with one or more customDimensionValues. See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/customdimsmets) docs for more info.
 
 ```javascript
-GoogleAnalytics.setCustomDimensionValue(1, 'premium');
+GoogleAnalytics.trackScreenViewWithCustomDimensionValues('Home', {'1':'premium', '5':'foo');
+```
+
+### trackEventWithCustomDimensionValues(category, action, optionalValues, dimensionIndexValueDict)
+
+* **category (required):** String, category of event
+* **action (required):** String, name of action
+* **optionalValues:** Object
+  * **label:** String
+  * **value:** Number
+* **dimensionIndexValueDict (required):** Dict of dimension index / values.
+
+Tracks an event with one or more customDimensionValues. See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/customdimsmets) docs for more info.
+
+```javascript
+GoogleAnalytics.trackEventWithCustomDimensionValues('testcategory', 'testaction', {label: 'v1.0.3', value: 22}, {'1':'premium', '5':'foo'});
 ```
 
 ### setUser(userId)
