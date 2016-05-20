@@ -32,6 +32,26 @@ class GoogleAnalytics {
     }
 
     /**
+     * Track the current screen/view with custom dimension values
+     * @param  {String} screenName The name of the current screen
+     * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
+     */
+    static trackScreenViewWithCustomDimensionValues(screenName, customDimensionValues) {
+        GoogleAnalyticsBridge.trackScreenViewWithCustomDimensionValues(getTrackerId(), screenName, customDimensionValues);
+    }
+
+    /**
+     * Track an event that has occured with custom dimension values
+     * @param  {String} category       The event category
+     * @param  {String} action         The event action
+     * @param  {Object} optionalValues An object containing optional label and value
+     * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
+     */
+    static trackEventWithCustomDimensionValues(category, action, optionalValues = {}, customDimensionValues) {
+        GoogleAnalyticsBridge.trackEventWithCustomDimensionValues(getTrackerId(), category, action, optionalValues, customDimensionValues);
+    }
+
+    /**
      * Track an event that has occured
      * @param  {String} category       The event category
      * @param  {Number} value         	The timing measurement in milliseconds
@@ -158,7 +178,7 @@ class GoogleTagManager {
     static openContainerWithId(containerId){
         return GoogleTagManagerBridge.openContainerWithId(containerId);
     }
-    
+
     /**
      * Retrieves a boolean value with the given key from the opened container.
      * @param {String} key

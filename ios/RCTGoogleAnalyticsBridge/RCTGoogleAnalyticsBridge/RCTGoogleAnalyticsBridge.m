@@ -16,12 +16,12 @@ NSString *staticTrackerId;
 
 - (instancetype)init
 {
-    if ((self = [super init])) {        
+    if ((self = [super init])) {
         [GAI sharedInstance].trackUncaughtExceptions = YES;
         [GAI sharedInstance].dispatchInterval = 20;
 
         staticTrackerId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"GAITrackingId"];
-        
+
         NSString *logLevel = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"GAILogLevel"];
         if (logLevel != nil) {
             [[GAI sharedInstance].logger setLogLevel:[logLevel intValue]];
@@ -54,6 +54,36 @@ RCT_EXPORT_METHOD(trackEvent:(NSString *)trackerId category:(NSString *)category
                                                         action:action
                                                          label:label
                                                          value:value] build]];
+}
+
+RCT_EXPORT_METHOD(trackScreenViewWithCustomDimensionValues:(NSString *)trackerId screenName:(NSString *)screenName dimensionIndexValues:(NSDictionary *)dimensionIndexValues)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    [tracker set:kGAIScreenName
+         value:screenName];
+
+    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createScreenView];
+
+    for (NSString *dimensionIndex in dimensionIndexValues)
+        [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
+
+    [tracker send:[builder build]];
+}
+
+RCT_EXPORT_METHOD(trackEventWithCustomDimensionValues:(NSString *)trackerId category:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *)optionalValues dimensionIndexValues:(NSDictionary *)dimensionIndexValues)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    NSString *label = [RCTConvert NSString:optionalValues[@"label"]];
+    NSNumber *value = [RCTConvert NSNumber:optionalValues[@"value"]];
+
+    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createEventWithCategory:category
+                                                                           action:action
+                                                                            label:label
+                                                                            value:value];
+    for (NSString *dimensionIndex in dimensionIndexValues)
+        [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
+
+    [tracker send:[builder build]];
 }
 
 RCT_EXPORT_METHOD(trackTiming:(NSString *)trackerId category:(nonnull NSString *)category value:(nonnull NSNumber *)value optionalValues:(nonnull NSDictionary *)optionalValues)

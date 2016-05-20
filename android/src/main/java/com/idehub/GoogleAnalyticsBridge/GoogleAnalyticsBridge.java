@@ -4,6 +4,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -187,6 +188,56 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
                     .setAction(action)
                     .setTarget(targetUrl)
                     .build());
+        }
+    }
+
+    @ReactMethod
+    public void trackScreenViewWithCustomDimensionValues(String trackerId, String screenName, ReadableMap dimensionIndexValues)
+    {
+        Tracker tracker = getTracker(trackerId);
+
+        if (tracker != null)
+        {
+            tracker.setScreenName(screenName);
+            HitBuilders.ScreenViewBuilder screenBuilder = new HitBuilders.ScreenViewBuilder();
+            ReadableMapKeySetIterator iterator = dimensionIndexValues.keySetIterator();
+            while (iterator.hasNextKey()) {
+                String dimensionIndex = iterator.nextKey();
+                String dimensionValue = dimensionIndexValues.getString(dimensionIndex);
+                screenBuilder.setCustomDimension(Integer.parseInt(dimensionIndex), dimensionValue);
+            }
+            tracker.send(screenBuilder.build());
+        }
+    }
+
+    @ReactMethod
+    public void trackEventWithCustomDimensionValues(String trackerId, String category, String action, ReadableMap optionalValues, ReadableMap dimensionIndexValues)
+    {
+        Tracker tracker = getTracker(trackerId);
+
+        if (tracker != null)
+        {
+            HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
+                        .setCategory(category)
+                        .setAction(action);
+                        
+            if (optionalValues.hasKey("label"))
+            {
+                hit.setLabel(optionalValues.getString("label"));
+            }
+            if (optionalValues.hasKey("value"))
+            {
+                hit.setValue(optionalValues.getInt("value"));
+            }
+
+            ReadableMapKeySetIterator iterator = dimensionIndexValues.keySetIterator();
+            while (iterator.hasNextKey()) {
+                String dimensionIndex = iterator.nextKey();
+                String dimensionValue = dimensionIndexValues.getString(dimensionIndex);
+                hit.setCustomDimension(Integer.parseInt(dimensionIndex), dimensionValue);
+            }
+
+            tracker.send(hit.build());
         }
     }
 
