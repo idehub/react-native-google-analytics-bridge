@@ -43,7 +43,7 @@ Make sure you have the following SDK packages installed in the Android SDK Manag
   * Google Play services
   * Google APIs (Atom) system image
 
-Consult [this guide](https://developer.android.com/sdk/installing/adding-packages.html) if you are unsure how to do this. Specifically step 3 for the mentioned packages.
+Consult [this guide](https://developer.android.com/studio/intro/update.html#sdk-manager) if you are unsure how to do this. 
 
 ## Manual installation Android
 
