@@ -17,8 +17,7 @@ GoogleAnalytics.trackEvent('testcategory', 'testaction');
 ```
 
 ## Installation with rnpm
-1. `npm install --save react-native-google-analytics-bridge`
-2. `rnpm link react-native-google-analytics-bridge`
+`rnpm install react-native-google-analytics-bridge`
 
 With this, [rnpm](https://github.com/rnpm/rnpm) will do most of the heavy lifting for linking, **but** for iOS you will still need to do step 5 from the manual installation guide below.
 
