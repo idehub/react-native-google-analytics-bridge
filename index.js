@@ -168,6 +168,16 @@ class GoogleAnalytics {
     static setTrackerId(trackerId) {
         _trackerId = trackerId;
     }
+
+    /**
+     * Sets the trackers appVersion
+     * @param {String} appVersion
+     */
+    static setAppVersion(appVersion) {
+        GoogleAnalyticsBridge.setAppVersion(getTrackerId(), appVersion);
+    }
+
+
 }
 
 class GoogleTagManager {

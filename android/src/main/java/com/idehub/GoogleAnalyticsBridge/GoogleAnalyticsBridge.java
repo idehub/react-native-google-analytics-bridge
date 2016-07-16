@@ -301,4 +301,13 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
             tracker.setAppName(appName);
         }
     }
+    @ReactMethod
+    public void setAppVersion(String trackerId, String appVersion){
+        Tracker tracker = getTracker(trackerId);
+
+        if (tracker != null)
+        {
+            tracker.setAppVersion(appVersion);
+        }
+    }
 }

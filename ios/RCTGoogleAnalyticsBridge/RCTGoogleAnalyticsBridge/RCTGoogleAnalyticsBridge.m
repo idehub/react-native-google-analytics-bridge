@@ -200,4 +200,10 @@ RCT_EXPORT_METHOD(setAppName:(NSString *)trackerId appName:(NSString *)appName)
     [tracker set:kGAIAppName value:appName];
 }
 
+RCT_EXPORT_METHOD(setAppVersion:(NSString *)trackerId appVersion:(NSString *)appVersion)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    [tracker set:kGAIAppVersion value:appVersion];
+}
+
 @end
