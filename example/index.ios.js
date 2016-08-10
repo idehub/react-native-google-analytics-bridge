@@ -68,6 +68,35 @@ class example extends Component {
       }
     );
 
+    GoogleAnalytics.trackMultiProductsPurchaseEvent(
+    [
+      {
+        id: '2224711',
+        name: 'Top "Meli"',
+        category: 'Women/Kleidung/Tops/Spitzentops',
+        brand: 'EDITED the label',
+        variant: 'rot',
+        price: 39.90,
+        quantity: 1
+      },
+      {
+        id: '2224706',
+        name: 'Shorts "Totsi"',
+        category: 'Apparel/T-Shirts',
+        brand: 'EDITED the label',
+        variant: 'grau',
+        price: 59.90,
+        quantity: 1
+      }
+    ], {
+      id: 'T12345',
+      affiliation: 'EDITED.de',
+      revenue: 83.87,
+      tax: 15.93,
+      shipping: 0.00,
+      couponCode: 'SUMMER2013'
+    });
+
     GoogleAnalytics.trackException("This is an error message", false);
 
     GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');

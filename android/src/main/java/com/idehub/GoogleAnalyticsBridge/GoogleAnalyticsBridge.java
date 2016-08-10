@@ -4,6 +4,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -116,32 +117,64 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
         Tracker tracker = getTracker(trackerId);
 
         if (tracker != null) {
-            Product ecommerceProduct = new Product()
-                    .setId(product.getString("id"))
-                    .setName(product.getString("name"))
-                    .setCategory(product.getString("category"))
-                    .setBrand(product.getString("brand"))
-                    .setVariant(product.getString("variant"))
-                    .setPrice(product.getDouble("price"))
-                    .setCouponCode(product.getString("couponCode"))
-                    .setQuantity(product.getInt("quantity"));
-
-            ProductAction productAction = new ProductAction(ProductAction.ACTION_PURCHASE)
-                    .setTransactionId(transaction.getString("id"))
-                    .setTransactionAffiliation(transaction.getString("affiliation"))
-                    .setTransactionRevenue(transaction.getDouble("revenue"))
-                    .setTransactionTax(transaction.getDouble("tax"))
-                    .setTransactionShipping(transaction.getDouble("shipping"))
-                    .setTransactionCouponCode(transaction.getString("couponCode"));
 
             HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
-                    .addProduct(ecommerceProduct)
-                    .setProductAction(productAction)
-                    .setCategory(eventCategory)
-                    .setAction(eventAction);
+                   .addProduct(this.getPurchaseProduct(product))
+                   .setProductAction(this.getPurchaseTransaction(transaction))
+                   .setCategory(eventCategory)
+                   .setAction(eventAction);
 
             tracker.send(hit.build());
         }
+    }
+
+    @ReactMethod
+    public void trackMultiProductsPurchaseEvent(String trackerId, ReadableArray products, ReadableMap transaction, String eventCategory, String eventAction) {
+        Tracker tracker = getTracker(trackerId);
+
+        if (tracker != null) {
+
+            HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
+                   .setProductAction(this.getPurchaseTransaction(transaction))
+                   .setCategory(eventCategory)
+                   .setAction(eventAction);
+
+            for (int i = 0; i < products.size(); i++) {
+                ReadableMap product = products.getMap(i);
+                hit.addProduct(this.getPurchaseProduct(product));
+            }
+
+            tracker.send(hit.build());
+        }
+    }
+
+    private ProductAction getPurchaseTransaction(ReadableMap transaction) {
+        ProductAction productAction = new ProductAction(ProductAction.ACTION_PURCHASE)
+           .setTransactionId(transaction.getString("id"))
+           .setTransactionTax(transaction.getDouble("tax"))
+           .setTransactionRevenue(transaction.getDouble("revenue"))
+           .setTransactionShipping(transaction.getDouble("shipping"))
+           .setTransactionCouponCode(transaction.getString("couponCode"))
+           .setTransactionAffiliation(transaction.getString("affiliation"));
+
+        return productAction;
+    }
+
+    private Product getPurchaseProduct(ReadableMap product) {
+        Product ecommerceProduct = new Product()
+           .setId(product.getString("id"))
+           .setName(product.getString("name"))
+           .setBrand(product.getString("brand"))
+           .setPrice(product.getDouble("price"))
+           .setQuantity(product.getInt("quantity"))
+           .setVariant(product.getString("variant"))
+           .setCategory(product.getString("category"));
+
+        if(product.hasKey("couponCode")) {
+           ecommerceProduct.setCouponCode(product.getString("couponCode"));
+        }
+
+        return ecommerceProduct;
     }
 
     @ReactMethod
