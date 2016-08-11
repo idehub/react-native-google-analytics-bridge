@@ -47,7 +47,7 @@ Consult [this guide](https://developer.android.com/studio/intro/update.html#sdk-
 ## Manual installation Android
 
 1. `npm install --save react-native-google-analytics-bridge`
-2. Add the following in `android/setting.gradle`
+2. Add the following in `android/settings.gradle`
 
   ```gradle
   ...
@@ -65,7 +65,7 @@ Consult [this guide](https://developer.android.com/studio/intro/update.html#sdk-
   }
   ```
 
-4. Register package in `MainActivity.java`
+4. Register package in `MainApplication.java`
 
   ```java
   // Step 1; import package:
