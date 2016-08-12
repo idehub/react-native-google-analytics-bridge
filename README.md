@@ -200,6 +200,10 @@ GoogleAnalytics.trackPurchaseEvent({
 }, 'Ecommerce', 'Purchase');
 ```
 
+### trackMultiProductsPurchaseEvent(products, transaction, eventCategory, eventAction)
+
+same as trackPurchaseEvent but instead of one product you can provide an Array of products
+
 ### trackException(error, fatal)
 
 * **error:** String, a description of the exception (up to 100 characters), accepts nil
