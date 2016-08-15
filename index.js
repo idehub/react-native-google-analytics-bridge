@@ -212,6 +212,17 @@ class GoogleTagManager {
     static doubleForKey(key){
         return GoogleTagManagerBridge.doubleForKey(key);
     }
+
+    /**
+     * push a datalayer event for Google Analytics through Google Tag Manager.
+     * @param {String} eventName
+     * @param {Object} dictionaly An Map<String, Object> containing key and value pairs.
+              it must have atleast one key "event" with event name
+     *         example: {event: "eventName", pageId: "/home"}
+     */
+    static pushDataLayerEvent(dictionaly = {}){
+        GoogleTagManagerBridge.pushDataLayerEvent(dictionaly);
+    }
 }
 
 GoogleAnalytics.GoogleTagManager = GoogleTagManager;
