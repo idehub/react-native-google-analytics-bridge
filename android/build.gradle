@@ -17,6 +17,6 @@ android {
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:0.19.+'
-    compile 'com.google.android.gms:play-services-analytics:9.+'
+    compile 'com.facebook.react:react-native:+'
+    compile 'com.google.android.gms:play-services-analytics:+'
 }
