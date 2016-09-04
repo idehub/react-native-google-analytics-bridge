@@ -1,12 +1,13 @@
 #import "RCTGoogleTagManagerBridge.h"
 #import "TAGContainer.h"
 #import "TagContainerOpener.h"
+#import "TAGDataLayer.h"
 
 @interface RCTGoogleTagManagerBridge ()<TAGContainerOpenerNotifier>
 @end
 
 @implementation RCTGoogleTagManagerBridge {
-    
+
 }
 
 RCT_EXPORT_MODULE();
@@ -16,6 +17,7 @@ RCT_EXPORT_MODULE();
 NSString *const E_CONTAINER_ALREADY_OPEN = @"E_CONTAINER_ALREADY_OPEN";
 NSString *const E_ONGOING_OPEN_OPERATION = @"E_ONGOING_OPEN_OPERATION";
 NSString *const E_CONTAINER_NOT_OPENED = @"E_CONTAINER_NOT_OPENED";
+NSString *const E_PUSH_EVENT_FAILED = @"E_PUSH_EVENT_FAILED";
 
 
 RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId
@@ -26,18 +28,18 @@ RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId
         reject(E_CONTAINER_ALREADY_OPEN, nil, RCTErrorWithMessage(@"The container is already open."));
         return;
     }
-    
+
     if (self.openContainerResolver) {
         reject(E_ONGOING_OPEN_OPERATION, nil, RCTErrorWithMessage(@"Container open-operation already in progress."));
         return;
     }
-    
+
     if (self.tagManager == nil) {
         self.tagManager = [TAGManager instance];
     }
-        
+
     self.openContainerResolver = resolve;
-        
+
     [TAGContainerOpener openContainerWithId:containerId
                                  tagManager:self.tagManager
                                  openType:kTAGOpenTypePreferFresh
@@ -73,6 +75,22 @@ RCT_EXPORT_METHOD(doubleForKey:(NSString*)key
         resolve([NSNumber numberWithDouble:[self.container doubleForKey:key]]);
     } else {
         reject(E_CONTAINER_NOT_OPENED, nil, RCTErrorWithMessage(@"The container has not been opened. You must call openContainerWithId(..)"));
+    }
+}
+
+RCT_EXPORT_METHOD(pushDataLayerEvent:(NSDictionary*)dictionary
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject){
+    if (self.container != nil && [[dictionary allKeys] containsObject:@"event"]) {
+        [[TAGManager instance].dataLayer push:dictionary];
+        [[TAGManager instance] dispatch];
+        resolve(@YES);
+    } else {
+        if (self.container == nil) {
+            reject(E_CONTAINER_NOT_OPENED, nil, RCTErrorWithMessage(@"The container has not been opened. You must call openContainerWithId(..)"));
+        } else {
+            reject(E_PUSH_EVENT_FAILED, nil, RCTErrorWithMessage(@"Validation error, data must have a key \"event\" with valid event name"));
+        }
     }
 }
 

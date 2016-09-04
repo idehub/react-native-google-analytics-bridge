@@ -4,11 +4,17 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
+import com.facebook.stetho.common.StringUtil;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.DataLayer;
 import com.google.android.gms.tagmanager.TagManager;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
@@ -22,9 +28,11 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     private final String E_ONGOING_OPEN_OPERATION = "E_ONGOING_OPEN_OPERATION";
     private final String E_CONTAINER_NOT_OPENED = "E_CONTAINER_NOT_OPENED";
     private final String E_OPEN_CONTAINER_FAILED = "E_OPEN_CONTAINER_FAILED";
+    private final String E_PUSH_EVENT_FAILED = "E_PUSH_EVENT_FAILED";
 
     private ContainerHolder mContainerHolder;
     private Boolean openOperationInProgress = false;
+    private DataLayer mDatalayer;
 
     @Override
     public String getName() {
@@ -86,5 +94,44 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
         } else {
             promise.reject(E_CONTAINER_NOT_OPENED, new Throwable("The container has not been opened. You must call openContainerWithId(..)"));
         }
+    }
+
+    @ReactMethod
+    public void pushDataLayerEvent(ReadableMap dictionary, final Promise promise){
+
+      if (mContainerHolder != null && isValidMapToPushEvent(dictionary)) {
+          getDataLayer().push(getMap(dictionary));
+          promise.resolve(true);
+      } else {
+          if (mContainerHolder == null) {
+              promise.reject(E_CONTAINER_NOT_OPENED, new Throwable("The container has not been opened. You must call openContainerWithId(..)"));
+          } else {
+              promise.reject(E_PUSH_EVENT_FAILED, new Throwable("Validation error, data must have a key \"event\" with valid event name"));
+          }
+      }
+    }
+
+    private boolean isValidMapToPushEvent(ReadableMap dictionary) {
+        return (dictionary != null && dictionary.getString("event") != null
+                && dictionary.getString("event").length() > 0);
+    }
+
+    private Map<String,Object> getMap(ReadableMap dictionary) {
+        Map<String, Object> map = new HashMap<>();
+        ReadableMapKeySetIterator iterator = dictionary.keySetIterator();
+        while (iterator.hasNextKey()) {
+            String key = iterator.nextKey();
+            String value = dictionary.getString(key);
+            map.put(key, value);
+        }
+        return map;
+    }
+
+    private DataLayer getDataLayer() {
+        if (mDatalayer == null) {
+            TagManager tagManager = TagManager.getInstance(getReactApplicationContext());
+            mDatalayer = tagManager.getDataLayer();
+        }
+        return mDatalayer;
     }
 }
