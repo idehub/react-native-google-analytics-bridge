@@ -73,6 +73,17 @@ class GoogleAnalytics {
     }
 
     /**
+     * Track a purchase event. This uses the Enhanced Ecommerce GA feature.
+     * @param  {Array} products       An array with products
+     * @param  {Object} transaction   An object with transaction values
+     * @param  {String} eventCategory The event category, defaults to Ecommerce
+     * @param  {String} eventAction   The event action, defaults to Purchase
+     */
+    static trackMultiProductsPurchaseEvent(products = [], transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
+        GoogleAnalyticsBridge.trackMultiProductsPurchaseEvent(getTrackerId(), products, transaction, eventCategory, eventAction);
+    }
+
+    /**
      * Track an exception
      * @param  {String} error The description of the error
      * @param  {Boolean} fatal A value indiciating if the error was fatal, defaults to false
