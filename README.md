@@ -42,7 +42,7 @@ Make sure you have the following SDK packages installed in the Android SDK Manag
   * Google Play services
   * Google APIs (Atom) system image
 
-Consult [this guide](https://developer.android.com/studio/intro/update.html#sdk-manager) if you are unsure how to do this. 
+Consult [this guide](https://developer.android.com/studio/intro/update.html#sdk-manager) if you are unsure how to do this.
 
 ## Manual installation Android
 
@@ -146,13 +146,13 @@ GoogleAnalytics.trackEvent('testcategory', 'testaction', {label: 'v1.0.3', value
 * **category (required):** String, category of the timed event
 * **value (required):** Number, the timing measurement in milliseconds
 * **optionalValues:** Object
-  * **name:** String, the name of the timed event
+  * **name (required):** String, the name of the timed event
   * **label:** String, the label of the timed event
 
 See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/usertimings) for more info.
 
 ```javascript
-GoogleAnalytics.trackTiming('testcategory', 13000);
+GoogleAnalytics.trackTiming('testcategory', 13000, {name: 'LoadList'}); // name option is required
 // or
 GoogleAnalytics.trackTiming('testcategory', 13000, {name: 'loadList', label: 'v1.0.3'});
 ```
