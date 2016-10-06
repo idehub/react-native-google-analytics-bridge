@@ -111,11 +111,8 @@
  * http://my.site.com/index.html?utm_campaign=wow&utm_source=source
  * utm_campaign=wow&utm_source=source.
  * <p>
- * For more information on auto-tagging, see
- * http://support.google.com/googleanalytics/bin/answer.py?hl=en&answer=55590
- * <p>
- * For more information on manual tagging, see
- * http://support.google.com/googleanalytics/bin/answer.py?hl=en&answer=55518
+ * For more information on manual and auto-tagging, see
+ * https://support.google.com/analytics/answer/1733663?hl=en
  */
 - (GAIDictionaryBuilder *)setCampaignParametersFromUrl:(NSString *)urlString;
 
