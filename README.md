@@ -204,6 +204,49 @@ GoogleAnalytics.trackPurchaseEvent({
 
 same as trackPurchaseEvent but instead of one product you can provide an Array of products
 
+### trackMultiProductsPurchaseEventWithCustomDimensionValues(products, transaction, eventCategory, eventAction, dimensionIndexValueDict)
+
+* **products (required):** Array, array of products
+* **transaction (required):** Object, transaction object
+* **eventCategory (required):** String, defaults to "Ecommerce"
+* **eventAction (required):** String, defaults to "Purchase"
+* **dimensionIndexValueDict (required):** Dict of dimension index / values.
+
+```javascript
+GoogleAnalytics.trackMultiProductsPurchaseEventWithCustomDimensionValues([
+{
+  id: 'P12345',
+  name: 'Android Warhol T-Shirt',
+  category: 'Apparel/T-Shirts',
+  brand: 'Google',
+  variant: 'Black',
+  price: 29.20,
+  quantity: 1,
+  couponCode: 'APPARELSALE'
+},
+{
+  id: 'P54321',
+  name: 'IOS T-Shirt',
+  category: 'Apparel/T-Shirts',
+  brand: 'Apple',
+  variant: 'Black',
+  price: 10.10,
+  quantity: 1,
+  couponCode: 'APPARELSALE'
+}],
+{
+  id: 'T12345',
+  affiliation: 'Store - Online',
+  revenue: 52.5,
+  tax: 7.86,
+  shipping: 5.34,
+  couponCode: 'SUMMER2013'
+}, 
+'Ecommerce',
+'Purchase',
+{'1':'premium', '5':'foo'}
+);
+```
 ### trackException(error, fatal)
 
 * **error:** String, a description of the exception (up to 100 characters), accepts nil

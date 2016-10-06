@@ -148,6 +148,33 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
         }
     }
 
+    @ReactMethod
+    public void trackMultiProductsPurchaseEventWithCustomDimensionValues(String trackerId, ReadableArray products, ReadableMap transaction, String eventCategory, String eventAction, ReadableMap dimensionIndexValues) {
+        Tracker tracker = getTracker(trackerId);
+
+        if (tracker != null) {
+
+            HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
+                   .setProductAction(this.getPurchaseTransaction(transaction))
+                   .setCategory(eventCategory)
+                   .setAction(eventAction);
+
+            for (int i = 0; i < products.size(); i++) {
+                ReadableMap product = products.getMap(i);
+                hit.addProduct(this.getPurchaseProduct(product));
+            }
+
+            ReadableMapKeySetIterator iterator = dimensionIndexValues.keySetIterator();
+            while (iterator.hasNextKey()) {
+                String dimensionIndex = iterator.nextKey();
+                String dimensionValue = dimensionIndexValues.getString(dimensionIndex);
+                hit.setCustomDimension(Integer.parseInt(dimensionIndex), dimensionValue);
+            }
+
+            tracker.send(hit.build());
+        }
+    }
+
     private ProductAction getPurchaseTransaction(ReadableMap transaction) {
         ProductAction productAction = new ProductAction(ProductAction.ACTION_PURCHASE)
            .setTransactionId(transaction.getString("id"))
