@@ -246,7 +246,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     @ReactMethod
     public void trackEventWithCustomDimensionValues(String trackerId, String category, String action, ReadableMap optionalValues, ReadableMap dimensionIndexValues)
     {
-        self.trackEventWithCustomDimensionAndMetricValues(trackerId, category, action, optionalValues, dimensionIndexValues, null)
+        self.trackEventWithCustomDimensionAndMetricValues(trackerId, category, action, optionalValues, dimensionIndexValues, null);
     }
 
     @ReactMethod
