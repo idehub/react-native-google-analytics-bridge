@@ -246,7 +246,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     @ReactMethod
     public void trackEventWithCustomDimensionValues(String trackerId, String category, String action, ReadableMap optionalValues, ReadableMap dimensionIndexValues)
     {
-        self.trackEventWithCustomDimensionAndMetricValues(trackerId, category, action, optionalValues, dimensionIndexValues, null);
+        this.trackEventWithCustomDimensionAndMetricValues(trackerId, category, action, optionalValues, dimensionIndexValues, null);
     }
 
     @ReactMethod
@@ -280,7 +280,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
               ReadableMapKeySetIterator metricIterator = metricIndexValues.keySetIterator();
               while (metricIterator.hasNextKey()) {
                   String metricIndex = metricIterator.nextKey();
-                  String metricValue = metricIndexValues.getInt(metricIndex);
+                  int metricValue = metricIndexValues.getInt(metricIndex);
                   hit.setCustomMetric(Integer.parseInt(metricIndex), metricValue);
               }
             }
