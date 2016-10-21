@@ -73,7 +73,7 @@ class GoogleAnalytics {
     }
 
     /**
-     * Track a purchase event. This uses the Enhanced Ecommerce GA feature.
+     * Track a multiproduct purchase event. This uses the Enhanced Ecommerce GA feature.
      * @param  {Array} products       An array with products
      * @param  {Object} transaction   An object with transaction values
      * @param  {String} eventCategory The event category, defaults to Ecommerce
@@ -81,6 +81,18 @@ class GoogleAnalytics {
      */
     static trackMultiProductsPurchaseEvent(products = [], transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
         GoogleAnalyticsBridge.trackMultiProductsPurchaseEvent(getTrackerId(), products, transaction, eventCategory, eventAction);
+    }
+
+    /**
+     * Track a multiproduct purchase event with custom dimension values. This uses the Enhanced Ecommerce GA feature.
+     * @param  {Array} products       An array of products
+     * @param  {Object} transaction   An object with transaction values
+     * @param  {String} eventCategory The event category, defaults to Ecommerce
+     * @param  {String} eventAction   The event action, defaults to Purchase
+     * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
+     */
+    static trackMultiProductsPurchaseEventWithCustomDimensionValues(products = [], transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase", customDimensionValues) {
+        GoogleAnalyticsBridge.trackMultiProductsPurchaseEventWithCustomDimensionValues(getTrackerId(), products, transaction, eventCategory, eventAction, customDimensionValues);
     }
 
     /**
@@ -228,7 +240,7 @@ class GoogleTagManager {
      * push a datalayer event for Google Analytics through Google Tag Manager.
      * @param {String} eventName
      * @param {Object} dictionaly An Map<String, Object> containing key and value pairs.
-              it must have atleast one key "event" with event name
+     it must have atleast one key "event" with event name
      *         example: {event: "eventName", pageId: "/home"}
      */
     static pushDataLayerEvent(dictionaly = {}){

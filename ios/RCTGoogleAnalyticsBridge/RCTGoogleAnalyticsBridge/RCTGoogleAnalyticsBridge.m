@@ -187,6 +187,56 @@ RCT_EXPORT_METHOD(trackMultiProductsPurchaseEvent:(NSString *)trackerId products
     [tracker send:[builder build]];
 }
 
+RCT_EXPORT_METHOD(trackMultiProductsPurchaseEventWithCustomDimensionValues:(NSString *)trackerId products:(NSArray *)products transaction:(NSDictionary *)transaction eventCategory:(NSString *)eventCategory eventAction:(NSString *)eventAction dimensionIndexValues:(NSDictionary *)dimensionIndexValues) {
+
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    NSString *transactionId = [RCTConvert NSString:transaction[@"id"]];
+    NSString *transactionAffiliation = [RCTConvert NSString:transaction[@"affiliation"]];
+    NSNumber *transactionRevenue = [RCTConvert NSNumber:transaction[@"revenue"]];
+    NSNumber *transactionTax = [RCTConvert NSNumber:transaction[@"tax"]];
+    NSNumber *transactionShipping = [RCTConvert NSNumber:transaction[@"shipping"]];
+    NSString *transactionCouponCode = [RCTConvert NSString:transaction[@"couponCode"]];
+    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createEventWithCategory:eventCategory
+                                                                           action:eventAction
+                                                                            label:nil
+                                                                            value:nil];
+    for (NSString *dimensionIndex in dimensionIndexValues)
+        [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
+
+    GAIEcommerceProductAction *action = [[GAIEcommerceProductAction alloc] init];
+    [action setAction:kGAIPAPurchase];
+    [action setTransactionId:transactionId];
+    [action setAffiliation:transactionAffiliation];
+    [action setRevenue:transactionRevenue];
+    [action setTax:transactionTax];
+    [action setShipping:transactionShipping];
+    [action setCouponCode:transactionCouponCode];
+    [builder setProductAction:action];
+    for (id product in products) {
+        NSString *productId = [RCTConvert NSString:product[@"id"]];
+        NSString *productName = [RCTConvert NSString:product[@"name"]];
+        NSString *productBrand = [RCTConvert NSString:product[@"brand"]];
+        NSNumber *productPrice = [RCTConvert NSNumber:product[@"price"]];
+        NSString *productVariant = [RCTConvert NSString:product[@"variant"]];
+        NSString *productCategory = [RCTConvert NSString:product[@"category"]];
+        NSNumber *productQuantity = [RCTConvert NSNumber:product[@"quantity"]];
+        GAIEcommerceProduct *ecommerceProduct = [[GAIEcommerceProduct alloc] init];
+        [ecommerceProduct setId:productId];
+        [ecommerceProduct setName:productName];
+        [ecommerceProduct setCategory:productCategory];
+        [ecommerceProduct setBrand:productBrand];
+        [ecommerceProduct setVariant:productVariant];
+        [ecommerceProduct setPrice:productPrice];
+        [ecommerceProduct setQuantity:productQuantity];
+        if ([product objectForKey:@"couponCode"]) {
+            NSString *productCouponCode = [RCTConvert NSString:product[@"couponCode"]];
+            [ecommerceProduct setCouponCode:productCouponCode];
+        }
+        [builder addProduct:ecommerceProduct];
+    }
+    [tracker send:[builder build]];
+}
+
 RCT_EXPORT_METHOD(trackException:(NSString *)trackerId error:(NSString *)error fatal:(BOOL)fatal)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
