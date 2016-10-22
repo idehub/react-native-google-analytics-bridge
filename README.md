@@ -76,7 +76,7 @@ Consult [this guide](https://developer.android.com/studio/intro/update.html#sdk-
   // Step 1; import package:
   import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 
-  public class MainActivity extends ReactActivity {
+  public class MainApplication extends Application implements ReactApplication {
     ...
 
       @Override
