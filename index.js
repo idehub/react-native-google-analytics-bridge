@@ -52,6 +52,18 @@ class GoogleAnalytics {
     }
 
     /**
+     * Track an event that has both custom dimension and metric values.
+     * @param  {String} category       The event category
+     * @param  {String} action         The event action
+     * @param  {Object} optionalValues An object containing optional label and value
+     * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
+     * @param  {Object} customMetricValues An object containing custom metric key/value pairs
+     */
+    static trackEventWithCustomDimensionAndMetricValues(category, action, optionalValues = {}, customDimensionValues, customMetricValues) {
+        GoogleAnalyticsBridge.trackEventWithCustomDimensionAndMetricValues(getTrackerId(), category, action, optionalValues, customDimensionValues, customMetricValues);
+    }
+
+    /**
      * Track an event that has occured
      * @param  {String} category       The event category
      * @param  {Number} value         	The timing measurement in milliseconds
