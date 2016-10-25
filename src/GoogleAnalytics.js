@@ -57,7 +57,7 @@ export class GoogleAnalytics {
    * @param {String} trackerId
    */
   addTrackerId(trackerId) {
-    this.trackerIds.push(trackerId);
+    this.trackerIds.add(trackerId);
   }
 
   /**
@@ -75,7 +75,7 @@ export class GoogleAnalytics {
    * @param {Function} method
    * @param {Arguments} args Passed method arguments
    */
-  callNativeMethod(method, args) {
+  callNativeGoogleAnalyticsMethod(method, args) {
     this.trackerIds.forEach(
       trackerId =>
         method.call(GoogleAnalyticsBridge, trackerId, ...args)
@@ -87,7 +87,7 @@ export class GoogleAnalytics {
    * @param  {String} screenName The name of the current screen
    */
   trackScreenView(screenName) {
-    this.callNativeMethod(trackScreenView, arguments);
+    this.callNativeGoogleAnalyticsMethod(trackScreenView, arguments);
   }
 
   /**
@@ -97,7 +97,7 @@ export class GoogleAnalytics {
    * @param  {Object} optionalValues An object containing optional label and value
    */
   trackEvent(category, action, optionalValues = {}) {
-    this.callNativeMethod(trackEvent, arguments);
+    this.callNativeGoogleAnalyticsMethod(trackEvent, arguments);
   }
 
   /**
@@ -106,7 +106,7 @@ export class GoogleAnalytics {
    * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
    */
   trackScreenViewWithCustomDimensionValues(screenName, customDimensionValues) {
-    this.callNativeMethod(trackScreenViewWithCustomDimensionValues, arguments);
+    this.callNativeGoogleAnalyticsMethod(trackScreenViewWithCustomDimensionValues, arguments);
   }
 
   /**
@@ -117,7 +117,7 @@ export class GoogleAnalytics {
    * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
    */
   trackEventWithCustomDimensionValues(category, action, optionalValues = {}, customDimensionValues) {
-    this.callNativeMethod(trackEventWithCustomDimensionValues, arguments);
+    this.callNativeGoogleAnalyticsMethod(trackEventWithCustomDimensionValues, arguments);
   }
 
   /**
@@ -127,7 +127,7 @@ export class GoogleAnalytics {
    * @param  {Object} optionalValues An object containing optional name and label
    */
   trackTiming(category, value, optionalValues = {}) {
-    this.callNativeMethod(trackTiming, arguments);
+    this.callNativeGoogleAnalyticsMethod(trackTiming, arguments);
   }
 
   /**
@@ -138,7 +138,7 @@ export class GoogleAnalytics {
    * @param  {String} eventAction   The event action, defaults to Purchase
    */
   trackPurchaseEvent(product = {}, transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
-    this.callNativeMethod(trackPurchaseEvent, arguments);
+    this.callNativeGoogleAnalyticsMethod(trackPurchaseEvent, arguments);
   }
 
   /**
@@ -149,7 +149,7 @@ export class GoogleAnalytics {
    * @param  {String} eventAction   The event action, defaults to Purchase
    */
   trackMultiProductsPurchaseEvent(products = [], transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
-    this.callNativeMethod(trackMultiProductsPurchaseEvent, arguments);
+    this.callNativeGoogleAnalyticsMethod(trackMultiProductsPurchaseEvent, arguments);
   }
 
   /**
@@ -158,7 +158,7 @@ export class GoogleAnalytics {
    * @param  {Boolean} fatal A value indiciating if the error was fatal, defaults to false
    */
   trackException(error, fatal = false) {
-    this.callNativeMethod(trackException, arguments);
+    this.callNativeGoogleAnalyticsMethod(trackException, arguments);
   }
 
   /**
@@ -166,7 +166,7 @@ export class GoogleAnalytics {
    * @param {String} userId The current userId
    */
   setUser(userId) {
-    this.callNativeMethod(setUser, arguments);
+    this.callNativeGoogleAnalyticsMethod(setUser, arguments);
   }
 
   /**
@@ -174,7 +174,7 @@ export class GoogleAnalytics {
    * @param  {Boolean} enabled Defaults to true
    */
   allowIDFA(enabled = true) {
-    this.callNativeMethod(allowIDFA, arguments);
+    this.callNativeGoogleAnalyticsMethod(allowIDFA, arguments);
   }
 
   /**
@@ -184,7 +184,7 @@ export class GoogleAnalytics {
    * @param  {String} targetUrl
    */
   trackSocialInteraction(network, action, targetUrl) {
-    this.callNativeMethod(trackSocialInteraction, arguments);
+    this.callNativeGoogleAnalyticsMethod(trackSocialInteraction, arguments);
   }
 
   /**
@@ -192,7 +192,7 @@ export class GoogleAnalytics {
    * @param {Boolean} enabled
    */
   setTrackUncaughtExceptions(enabled) {
-    this.callNativeMethod(setTrackUncaughtExceptions, arguments);
+    this.callNativeGoogleAnalyticsMethod(setTrackUncaughtExceptions, arguments);
   }
 
   /**
@@ -201,7 +201,7 @@ export class GoogleAnalytics {
    * @param {String} appName
    */
   setAppName(appName) {
-    this.callNativeMethod(setAppName, arguments);
+    this.callNativeGoogleAnalyticsMethod(setAppName, arguments);
   }
 
   /**
@@ -209,7 +209,7 @@ export class GoogleAnalytics {
    * @param {String} appVersion
    */
   setAppVersion(appVersion) {
-    this.callNativeMethod(setAppVersion, arguments);
+    this.callNativeGoogleAnalyticsMethod(setAppVersion, arguments);
   }
 
   /**
@@ -218,7 +218,7 @@ export class GoogleAnalytics {
    * @param {Boolean} enabled
    */
   setAnonymizeIp(enabled) {
-    this.callNativeMethod(setAnonymizeIp, arguments);
+    this.callNativeGoogleAnalyticsMethod(setAnonymizeIp, arguments);
   }
 
   /**
