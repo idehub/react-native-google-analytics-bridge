@@ -35,6 +35,8 @@ export class GoogleAnalytics {
     } else {
       this.setTrackerIds([]);
     }
+
+    this.addTrackerId = this.addTrackerId.bind(this);
   }
 
   /**
@@ -53,11 +55,19 @@ export class GoogleAnalytics {
   }
 
   /**
-   * Push trackerId into tracker ids set.
+   * Add trackerId to trackers set.
    * @param {String} trackerId
    */
   addTrackerId(trackerId) {
     this.trackerIds.add(trackerId);
+  }
+
+  /**
+   * Add trackerIds to trackers set.
+   * @param {Array} trackerId
+   */
+  addTrackerIds(trackerIds) {
+    trackerIds.forEach(this.addTrackerId);
   }
 
   /**
