@@ -1,10 +1,11 @@
-import { GoogleAnalytics } from './src/GoogleAnalytics';
+import { GoogleAnalyticsBackwardsCompability } from './src/GoogleAnalyticsBackwardsCompability';
+import { GoogleAnalyticsTracker } from './src/GoogleAnalyticsTracker';
 import { GoogleAnalyticsSettings } from './src/GoogleAnalyticsSettings';
 import { GoogleTagManager } from './src/GoogleTagManager';
 import { GoogleAnalyticsBridge } from './src/NativeBridges';
 
 export {
-  GoogleAnalytics,
+  GoogleAnalyticsTracker,
   GoogleAnalyticsSettings,
   GoogleTagManager,
 };
@@ -14,4 +15,19 @@ export {
  * Versions bellow 3.1.0 used static GoogleAnalytics class.
  * This exported instance makes sure older implementations work.
  */
-export default new GoogleAnalytics(GoogleAnalyticsBridge.nativeTrackerId);
+export default new Proxy(new GoogleAnalyticsBackwardsCompability(GoogleAnalyticsBridge.nativeTrackerId), {
+  get: (target, key) => {
+    if (key in target) {
+      return target[key];
+    } else if (key in GATrackerPrototype) {
+      const trackerProperty = target.tracker[key];
+      if (_.isFunction(trackerProperty)) {
+        return function (...args) {
+          trackerProperty(...args);
+        };
+      }
+      return trackerProperty[key];
+    }
+    return undefined;
+  },
+});
