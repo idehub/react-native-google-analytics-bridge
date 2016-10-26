@@ -1,95 +1,8 @@
-import { GoogleTagManager } from './GoogleTagManager';
-import { GoogleAnalyticsSettings } from './GoogleAnalyticsSettings';
 import { GoogleAnalyticsBridge } from './NativeBridges';
 
-// Exported Google analytics native bridged method that
-// accepts trackerId as first argument.
-const {
-  trackScreenView,
-  trackEvent,
-  trackScreenViewWithCustomDimensionValues,
-  trackEventWithCustomDimensionValues,
-  trackTiming,
-  trackPurchaseEvent,
-  trackMultiProductsPurchaseEvent,
-  trackException,
-  setUser,
-  allowIDFA,
-  trackSocialInteraction,
-  setTrackUncaughtExceptions,
-  setAppName,
-  setAppVersion,
-  setAnonymizeIp,
-} = GoogleAnalyticsBridge;
-
-export class GoogleAnalytics {
-  // Backwards compatibility
-  // GoogleTagManager was static property of GoogleAnalytics class in previous version.
-  static GoogleTagManager = GoogleTagManager;
-
-  constructor(trackerIds = []) {
-    if (Array.isArray(trackerIds)) {
-      this.setTrackerIds(trackerIds);
-    } else if (trackerIds) {
-      this.setTrackerId([trackerIds]);
-    } else {
-      this.setTrackerIds([]);
-    }
-
-    this.addTrackerId = this.addTrackerId.bind(this);
-  }
-
-  /**
-   * Backwards compatibility, old API support.
-   * @param {String} trackerId
-   */
-  setTrackerId(trackerId) {
-    this.setTrackerIds([trackerId]);
-  }
-
-  /**
-   * @param {Array} trackerIds
-   */
-  setTrackerIds(trackerIds) {
-    this.trackerIds = new Set(trackerIds);
-  }
-
-  /**
-   * Add trackerId to trackers set.
-   * @param {String} trackerId
-   */
-  addTrackerId(trackerId) {
-    this.trackerIds.add(trackerId);
-  }
-
-  /**
-   * Add trackerIds to trackers set.
-   * @param {Array} trackerId
-   */
-  addTrackerIds(trackerIds) {
-    trackerIds.forEach(this.addTrackerId);
-  }
-
-  /**
-   * Remove trackerId from tracker ids set.
-   * @param {String} trackerId
-   */
-  removeTrackerId(trackerId) {
-    this.trackerIds.delete(trackerId);
-  }
-
-  /**
-   * Call provided method with provided arguments for every trackerId.
-   * Injects trackerId as first argument.
-   *
-   * @param {Function} method
-   * @param {Arguments} args Passed method arguments
-   */
-  callNativeGoogleAnalyticsMethod(method, args) {
-    this.trackerIds.forEach(
-      trackerId =>
-        method.call(GoogleAnalyticsBridge, trackerId, ...args)
-    );
+export class GoogleAnalyticsTracker {
+  constructor(trackerId) {
+    this.id = trackerId;
   }
 
   /**
@@ -97,7 +10,7 @@ export class GoogleAnalytics {
    * @param  {String} screenName The name of the current screen
    */
   trackScreenView(screenName) {
-    this.callNativeGoogleAnalyticsMethod(trackScreenView, arguments);
+    GoogleAnalyticsBridge.trackScreenView(this.id, ...arguments);
   }
 
   /**
@@ -107,7 +20,7 @@ export class GoogleAnalytics {
    * @param  {Object} optionalValues An object containing optional label and value
    */
   trackEvent(category, action, optionalValues = {}) {
-    this.callNativeGoogleAnalyticsMethod(trackEvent, arguments);
+    GoogleAnalyticsBridge.trackEvent(this.id, ...arguments);
   }
 
   /**
@@ -116,7 +29,7 @@ export class GoogleAnalytics {
    * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
    */
   trackScreenViewWithCustomDimensionValues(screenName, customDimensionValues) {
-    this.callNativeGoogleAnalyticsMethod(trackScreenViewWithCustomDimensionValues, arguments);
+    GoogleAnalyticsBridge.trackScreenViewWithCustomDimensionValues(this.id, ...arguments);
   }
 
   /**
@@ -127,7 +40,7 @@ export class GoogleAnalytics {
    * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
    */
   trackEventWithCustomDimensionValues(category, action, optionalValues = {}, customDimensionValues) {
-    this.callNativeGoogleAnalyticsMethod(trackEventWithCustomDimensionValues, arguments);
+    GoogleAnalyticsBridge.trackEventWithCustomDimensionValues(this.id, ...arguments);
   }
 
   /**
@@ -137,7 +50,7 @@ export class GoogleAnalytics {
    * @param  {Object} optionalValues An object containing optional name and label
    */
   trackTiming(category, value, optionalValues = {}) {
-    this.callNativeGoogleAnalyticsMethod(trackTiming, arguments);
+    GoogleAnalyticsBridge.trackTiming(this.id, ...arguments);
   }
 
   /**
@@ -148,7 +61,7 @@ export class GoogleAnalytics {
    * @param  {String} eventAction   The event action, defaults to Purchase
    */
   trackPurchaseEvent(product = {}, transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
-    this.callNativeGoogleAnalyticsMethod(trackPurchaseEvent, arguments);
+    GoogleAnalyticsBridge.trackPurchaseEvent(this.id, ...arguments);
   }
 
   /**
@@ -159,7 +72,7 @@ export class GoogleAnalytics {
    * @param  {String} eventAction   The event action, defaults to Purchase
    */
   trackMultiProductsPurchaseEvent(products = [], transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
-    this.callNativeGoogleAnalyticsMethod(trackMultiProductsPurchaseEvent, arguments);
+    GoogleAnalyticsBridge.trackMultiProductsPurchaseEvent(this.id, ...arguments);
   }
 
   /**
@@ -168,7 +81,7 @@ export class GoogleAnalytics {
    * @param  {Boolean} fatal A value indiciating if the error was fatal, defaults to false
    */
   trackException(error, fatal = false) {
-    this.callNativeGoogleAnalyticsMethod(trackException, arguments);
+    GoogleAnalyticsBridge.trackException(this.id, ...arguments);
   }
 
   /**
@@ -176,7 +89,7 @@ export class GoogleAnalytics {
    * @param {String} userId The current userId
    */
   setUser(userId) {
-    this.callNativeGoogleAnalyticsMethod(setUser, arguments);
+    GoogleAnalyticsBridge.setUser(this.id, ...arguments);
   }
 
   /**
@@ -184,7 +97,7 @@ export class GoogleAnalytics {
    * @param  {Boolean} enabled Defaults to true
    */
   allowIDFA(enabled = true) {
-    this.callNativeGoogleAnalyticsMethod(allowIDFA, arguments);
+    GoogleAnalyticsBridge.allowIDFA(this.id, ...arguments);
   }
 
   /**
@@ -194,7 +107,7 @@ export class GoogleAnalytics {
    * @param  {String} targetUrl
    */
   trackSocialInteraction(network, action, targetUrl) {
-    this.callNativeGoogleAnalyticsMethod(trackSocialInteraction, arguments);
+    GoogleAnalyticsBridge.trackSocialInteraction(this.id, ...arguments);
   }
 
   /**
@@ -202,7 +115,7 @@ export class GoogleAnalytics {
    * @param {Boolean} enabled
    */
   setTrackUncaughtExceptions(enabled) {
-    this.callNativeGoogleAnalyticsMethod(setTrackUncaughtExceptions, arguments);
+    GoogleAnalyticsBridge.setTrackUncaughtExceptions(this.id, ...arguments);
   }
 
   /**
@@ -211,7 +124,7 @@ export class GoogleAnalytics {
    * @param {String} appName
    */
   setAppName(appName) {
-    this.callNativeGoogleAnalyticsMethod(setAppName, arguments);
+    GoogleAnalyticsBridge.setAppName(this.id, ...arguments);
   }
 
   /**
@@ -219,7 +132,7 @@ export class GoogleAnalytics {
    * @param {String} appVersion
    */
   setAppVersion(appVersion) {
-    this.callNativeGoogleAnalyticsMethod(setAppVersion, arguments);
+    GoogleAnalyticsBridge.setAppVersion(this.id, ...arguments);
   }
 
   /**
@@ -228,35 +141,15 @@ export class GoogleAnalytics {
    * @param {Boolean} enabled
    */
   setAnonymizeIp(enabled) {
-    this.callNativeGoogleAnalyticsMethod(setAnonymizeIp, arguments);
+    GoogleAnalyticsBridge.setAnonymizeIp(this.id, ...arguments);
   }
 
   /**
-   * Backwards compatibility for Single instance.
-   * Proxy to static method.
-   * @param enabled
+   * Sets if AnonymizeIp is enabled
+   * If enabled the last octet of the IP address will be removed
+   * @param {Boolean} enabled
    */
-  setDryRun(enabled) {
-    GoogleAnalyticsSettings.setDryRun(enabled);
-  }
-
-
-  /**
-   * Backwards compatibility for Single instance.
-   * Proxy to static method.
-   * @param intervalInSeconds
-   */
-  setDispatchInterval(intervalInSeconds) {
-    GoogleAnalyticsSettings.setDispatchInterval(intervalInSeconds);
-  }
-
-
-  /**
-   * Backwards compatibility for Single instance.
-   * Proxy to static method.
-   * @param enabled
-   */
-  setOptOut(enabled) {
-    GoogleAnalyticsSettings.setOptOut(enabled);
+  setSamplingRate(sampleRatio) {
+    GoogleAnalyticsBridge.setSamplingRate(this.id, ...arguments);
   }
 }
