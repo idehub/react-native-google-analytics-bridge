@@ -1,8 +1,42 @@
 import { GoogleAnalyticsBridge } from './NativeBridges';
 
+/**
+ * Used to bridge tracker data to native Google analytics.
+ * Saves necessary tracker (specific) data to format data as native part of Google analytics expect.
+ */
 export class GoogleAnalyticsTracker {
-  constructor(trackerId) {
+  /**
+   * Save all tracker related data that is needed to call native methods with proper data.
+   * @param trackerId {String}
+   * @param customDimensionsFieldsIndexMap {{fieldName: fieldIndex}} Custom dimensions field/index pairs
+   */
+  constructor(trackerId, customDimensionsFieldsIndexMap) {
     this.id = trackerId;
+    this.customDimensionsFieldsIndexMap = customDimensionsFieldsIndexMap;
+  }
+
+  /**
+   * If Tracker has customDimensionsFieldsIndexMap, it will transform
+   * customDimensions map pairs {field: value} to {fieldIndex: value}.
+   * Otherwise customDimensions are passed trough untouched.
+   * Underlay native methods will transform provided customDimensions map to expected format.
+   * Google analytics expect dimensions to be tracker with 'dimension{index}' keys,
+   * not dimension field names.
+   * @param customDimensions {Object}
+   * @returns {Object}
+   */
+  transformCustomDimensionsFieldsToIndexes(customDimensions) {
+    if (this.customDimensionsFieldsIndexMap) {
+      const mappedCustomDimensions = {};
+      Object.keys(this.customDimensionsFieldsIndexMap).forEach(key => {
+        const dimensionIndex = this.customDimensionsFieldsIndexMap[key];
+        if (customDimensions[key]) {
+          mappedCustomDimensions[dimensionIndex] = customDimensions[key];
+        }
+      });
+      return mappedCustomDimensions;
+    }
+    return customDimensions;
   }
 
   /**
@@ -29,7 +63,8 @@ export class GoogleAnalyticsTracker {
    * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
    */
   trackScreenViewWithCustomDimensionValues(screenName, customDimensionValues) {
-    GoogleAnalyticsBridge.trackScreenViewWithCustomDimensionValues(this.id, ...arguments);
+    const formattedCustomDimensions = this.transformCustomDimensionsFieldsToIndexes(customDimensionValues);
+    GoogleAnalyticsBridge.trackScreenViewWithCustomDimensionValues(this.id, screenName, formattedCustomDimensions);
   }
 
   /**
@@ -40,7 +75,8 @@ export class GoogleAnalyticsTracker {
    * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
    */
   trackEventWithCustomDimensionValues(category, action, optionalValues = {}, customDimensionValues) {
-    GoogleAnalyticsBridge.trackEventWithCustomDimensionValues(this.id, ...arguments);
+    const formattedCustomDimensions = this.transformCustomDimensionsFieldsToIndexes(customDimensionValues);
+    GoogleAnalyticsBridge.trackEventWithCustomDimensionValues(this.id, category, action, optionalValues, formattedCustomDimensions);
   }
 
   /**
@@ -145,9 +181,8 @@ export class GoogleAnalyticsTracker {
   }
 
   /**
-   * Sets if AnonymizeIp is enabled
-   * If enabled the last octet of the IP address will be removed
-   * @param {Boolean} enabled
+   * Sets tracker sampling rate.
+   * @param {Float} sampleRatio Percentage 0 - 100
    */
   setSamplingRate(sampleRatio) {
     GoogleAnalyticsBridge.setSamplingRate(this.id, ...arguments);
