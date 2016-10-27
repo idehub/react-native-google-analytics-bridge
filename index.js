@@ -15,19 +15,4 @@ export {
  * Versions bellow 3.1.0 used static GoogleAnalytics class.
  * This exported instance makes sure older implementations work.
  */
-export default new Proxy(new GoogleAnalyticsBackwardsCompability(GoogleAnalyticsBridge.nativeTrackerId), {
-  get: (target, key) => {
-    if (key in target) {
-      return target[key];
-    } else if (key in GATrackerPrototype) {
-      const trackerProperty = target.tracker[key];
-      if (_.isFunction(trackerProperty)) {
-        return function (...args) {
-          trackerProperty(...args);
-        };
-      }
-      return trackerProperty[key];
-    }
-    return undefined;
-  },
-});
+export default new GoogleAnalyticsBackwardsCompability(GoogleAnalyticsBridge.nativeTrackerId);
