@@ -302,6 +302,16 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void setSamplingRate(String trackerId, Double sampleRate){
+        Tracker tracker = getTracker(trackerId);
+
+        if (tracker != null)
+        {
+            tracker.setSampleRate(sampleRate);
+        }
+    }
+
+    @ReactMethod
     public void setDryRun(Boolean enabled){
         GoogleAnalytics analytics = getAnalyticsInstance();
 

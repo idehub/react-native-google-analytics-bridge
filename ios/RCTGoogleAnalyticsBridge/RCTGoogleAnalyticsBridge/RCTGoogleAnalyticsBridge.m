@@ -265,6 +265,13 @@ RCT_EXPORT_METHOD(trackSocialInteraction:(NSString *)trackerId network:(NSString
                                                         target:targetUrl] build]];
 }
 
+
+RCT_EXPORT_METHOD(setSamplingRate:(NSString *)trackerId sampleRate:(nonnull NSNumber *)sampleRate)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    [tracker set:kGAISampleRate value:[sampleRate stringValue]];
+}
+
 RCT_EXPORT_METHOD(setDryRun:(BOOL)enabled)
 {
     [GAI sharedInstance].dryRun = enabled;
