@@ -30,7 +30,10 @@ export class GoogleAnalyticsTracker {
       const mappedCustomDimensions = {};
       Object.keys(this.customDimensionsFieldsIndexMap).forEach(key => {
         const dimensionIndex = this.customDimensionsFieldsIndexMap[key];
-        if (customDimensions[key]) {
+        const customDimensionVal = customDimensions[key];
+        const customDimensionValType = typeof customDimensionVal;
+        // Custom dimensions accept only strings and numbers
+        if (customDimensionValType === 'string' || customDimensionValType === 'number') {
           mappedCustomDimensions[dimensionIndex] = customDimensions[key];
         }
       });
