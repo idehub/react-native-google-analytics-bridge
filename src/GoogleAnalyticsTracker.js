@@ -1,6 +1,16 @@
 import { GoogleAnalyticsBridge } from './NativeBridges';
 
 /**
+ * Custom dimensions accept only strings and numbers.
+ * @param customDimensionVal
+ * @returns {boolean}
+ */
+function isValidCustomDimension(customDimensionVal) {
+  const customDimensionValType = typeof customDimensionVal;
+  return customDimensionValType === 'string' || customDimensionValType === 'number';
+}
+
+/**
  * Used to bridge tracker data to native Google analytics.
  * Saves necessary tracker (specific) data to format data as native part of Google analytics expect.
  */
@@ -27,17 +37,13 @@ export class GoogleAnalyticsTracker {
    */
   transformCustomDimensionsFieldsToIndexes(customDimensions) {
     if (this.customDimensionsFieldsIndexMap) {
-      const mappedCustomDimensions = {};
-      Object.keys(this.customDimensionsFieldsIndexMap).forEach(key => {
-        const dimensionIndex = this.customDimensionsFieldsIndexMap[key];
-        const customDimensionVal = customDimensions[key];
-        const customDimensionValType = typeof customDimensionVal;
-        // Custom dimensions accept only strings and numbers
-        if (customDimensionValType === 'string' || customDimensionValType === 'number') {
+      return Object.keys(this.customDimensionsFieldsIndexMap)
+        .filter(key => isValidCustomDimension(customDimensions[key]))
+        .reduce((mappedCustomDimensions, key) => {
+          const dimensionIndex = this.customDimensionsFieldsIndexMap[key];
           mappedCustomDimensions[dimensionIndex] = customDimensions[key];
-        }
-      });
-      return mappedCustomDimensions;
+          return mappedCustomDimensions;
+        }, {});
     }
     return customDimensions;
   }
