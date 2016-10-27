@@ -1,7 +1,7 @@
 import { GoogleAnalyticsBridge } from './NativeBridges';
 
 /**
- * Google analytics settings shared cross all instances.
+ * Google analytics settings shared across all GoogleAnalyticsTracker instances.
  */
 export class GoogleAnalyticsSettings {
   /**
