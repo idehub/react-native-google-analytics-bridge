@@ -69,6 +69,10 @@ export class GoogleAnalyticsBackwardsCompability {
     this.tracker.trackMultiProductsPurchaseEvent(...arguments);
   }
 
+  trackMultiProductsPurchaseEventWithCustomDimensionValues(products = [], transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase", customDimensionValues) {
+    this.tracker.trackMultiProductsPurchaseEventWithCustomDimensionValues(...arguments);
+  }
+
   trackException(error, fatal = false) {
     this.tracker.trackException(...arguments);
   }
