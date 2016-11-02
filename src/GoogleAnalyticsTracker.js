@@ -121,6 +121,19 @@ export class GoogleAnalyticsTracker {
   }
 
   /**
+   * Track a purchase event with custom dimensions. This uses the Enhanced Ecommerce GA feature.
+   * @param  {Array} products       An array with products
+   * @param  {Object} transaction   An object with transaction values
+   * @param  {String} eventCategory The event category, defaults to Ecommerce
+   * @param  {String} eventAction   The event action, defaults to Purchase
+   * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
+   */
+  trackMultiProductsPurchaseEventWithCustomDimensionValues(products = [], transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase", customDimensions) {
+    const formattedCustomDimensions = this.transformCustomDimensionsFieldsToIndexes(customDimensions);
+    GoogleAnalyticsBridge.trackMultiProductsPurchaseEvent(this.id, products, transaction, eventCategory, eventAction, formattedCustomDimensions);
+  }
+
+  /**
    * Track an exception
    * @param  {String} error The description of the error
    * @param  {Boolean} fatal A value indiciating if the error was fatal, defaults to false
