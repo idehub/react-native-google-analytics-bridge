@@ -53,7 +53,7 @@ export class GoogleAnalyticsTracker {
    * @param  {String} screenName The name of the current screen
    */
   trackScreenView(screenName) {
-    GoogleAnalyticsBridge.trackScreenView(this.id, ...arguments);
+    GoogleAnalyticsBridge.trackScreenView(this.id, screenName);
   }
 
   /**
@@ -63,7 +63,7 @@ export class GoogleAnalyticsTracker {
    * @param  {Object} optionalValues An object containing optional label and value
    */
   trackEvent(category, action, optionalValues = {}) {
-    GoogleAnalyticsBridge.trackEvent(this.id, ...arguments);
+    GoogleAnalyticsBridge.trackEvent(this.id, category, action, optionalValues);
   }
 
   /**
@@ -95,7 +95,7 @@ export class GoogleAnalyticsTracker {
    * @param  {Object} optionalValues An object containing optional name and label
    */
   trackTiming(category, value, optionalValues = {}) {
-    GoogleAnalyticsBridge.trackTiming(this.id, ...arguments);
+    GoogleAnalyticsBridge.trackTiming(this.id, category, value, optionalValues);
   }
 
   /**
@@ -106,7 +106,7 @@ export class GoogleAnalyticsTracker {
    * @param  {String} eventAction   The event action, defaults to Purchase
    */
   trackPurchaseEvent(product = {}, transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
-    GoogleAnalyticsBridge.trackPurchaseEvent(this.id, ...arguments);
+    GoogleAnalyticsBridge.trackPurchaseEvent(this.id, product, transaction, eventCategory, eventAction);
   }
 
   /**
@@ -117,7 +117,7 @@ export class GoogleAnalyticsTracker {
    * @param  {String} eventAction   The event action, defaults to Purchase
    */
   trackMultiProductsPurchaseEvent(products = [], transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
-    GoogleAnalyticsBridge.trackMultiProductsPurchaseEvent(this.id, ...arguments);
+    GoogleAnalyticsBridge.trackMultiProductsPurchaseEvent(this.id, products, transaction, eventCategory, eventAction);
   }
 
   /**
@@ -139,7 +139,7 @@ export class GoogleAnalyticsTracker {
    * @param  {Boolean} fatal A value indiciating if the error was fatal, defaults to false
    */
   trackException(error, fatal = false) {
-    GoogleAnalyticsBridge.trackException(this.id, ...arguments);
+    GoogleAnalyticsBridge.trackException(this.id, error, fatal);
   }
 
   /**
@@ -147,7 +147,7 @@ export class GoogleAnalyticsTracker {
    * @param {String} userId The current userId
    */
   setUser(userId) {
-    GoogleAnalyticsBridge.setUser(this.id, ...arguments);
+    GoogleAnalyticsBridge.setUser(this.id, userId);
   }
 
   /**
@@ -155,7 +155,7 @@ export class GoogleAnalyticsTracker {
    * @param  {Boolean} enabled Defaults to true
    */
   allowIDFA(enabled = true) {
-    GoogleAnalyticsBridge.allowIDFA(this.id, ...arguments);
+    GoogleAnalyticsBridge.allowIDFA(this.id, enabled);
   }
 
   /**
@@ -165,7 +165,7 @@ export class GoogleAnalyticsTracker {
    * @param  {String} targetUrl
    */
   trackSocialInteraction(network, action, targetUrl) {
-    GoogleAnalyticsBridge.trackSocialInteraction(this.id, ...arguments);
+    GoogleAnalyticsBridge.trackSocialInteraction(this.id, network, action, targetUrl);
   }
 
   /**
@@ -173,7 +173,7 @@ export class GoogleAnalyticsTracker {
    * @param {Boolean} enabled
    */
   setTrackUncaughtExceptions(enabled) {
-    GoogleAnalyticsBridge.setTrackUncaughtExceptions(this.id, ...arguments);
+    GoogleAnalyticsBridge.setTrackUncaughtExceptions(this.id, enabled);
   }
 
   /**
@@ -182,7 +182,7 @@ export class GoogleAnalyticsTracker {
    * @param {String} appName
    */
   setAppName(appName) {
-    GoogleAnalyticsBridge.setAppName(this.id, ...arguments);
+    GoogleAnalyticsBridge.setAppName(this.id, appName);
   }
 
   /**
@@ -190,7 +190,7 @@ export class GoogleAnalyticsTracker {
    * @param {String} appVersion
    */
   setAppVersion(appVersion) {
-    GoogleAnalyticsBridge.setAppVersion(this.id, ...arguments);
+    GoogleAnalyticsBridge.setAppVersion(this.id, appVersion);
   }
 
   /**
@@ -199,7 +199,7 @@ export class GoogleAnalyticsTracker {
    * @param {Boolean} enabled
    */
   setAnonymizeIp(enabled) {
-    GoogleAnalyticsBridge.setAnonymizeIp(this.id, ...arguments);
+    GoogleAnalyticsBridge.setAnonymizeIp(this.id, enabled);
   }
 
   /**
@@ -207,6 +207,6 @@ export class GoogleAnalyticsTracker {
    * @param {Float} sampleRatio Percentage 0 - 100
    */
   setSamplingRate(sampleRatio) {
-    GoogleAnalyticsBridge.setSamplingRate(this.id, ...arguments);
+    GoogleAnalyticsBridge.setSamplingRate(this.id, sampleRatio);
   }
 }
