@@ -282,7 +282,7 @@ RCT_EXPORT_METHOD(setDispatchInterval:(NSInteger)intervalInSeconds)
     [GAI sharedInstance].dispatchInterval = intervalInSeconds;
 }
 
-RCT_EXPORT_METHOD(setTrackUncaughtExceptions:(BOOL)enabled)
+RCT_EXPORT_METHOD(setTrackUncaughtExceptions:(NSString *)trackerId enabled:(BOOL)enabled)
 {
     [GAI sharedInstance].trackUncaughtExceptions = enabled;
 }
