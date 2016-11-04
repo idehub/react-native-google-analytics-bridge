@@ -12,43 +12,33 @@ import {
   View
 } from 'react-native';
 
-import GoogleAnalytics, { GoogleTagManager } from 'react-native-google-analytics-bridge';
+import { GoogleAnalyticsTracker, GoogleAnalyticsSettings, GoogleTagManager } from 'react-native-google-analytics-bridge';
 
 class example extends Component {
   render() {
-    GoogleAnalytics.setTrackerId('UA-12345-2');
-      
     // Recommend you set this much higher in real app! 30 seconds+
-    GoogleAnalytics.setDispatchInterval(2);
-    
-    GoogleTagManager.openContainerWithId("GT-NZT48")
-    .then(() => {
-      return GoogleTagManager.stringForKey("pack");
-    })
-    .then((str) => {
-      console.log("Str: ", str);
-      return GoogleTagManager.boolForKey("wat");
-    })
-    .then((wat) => {
-      console.log("Wat: ", wat);
-      return GoogleTagManager.doubleForKey("orly");
-    })
-    .then((orly) => {
-      console.log("Orly: ", orly);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-    
-    //GoogleAnalytics.setDryRun(true);
-    GoogleAnalytics.trackEvent('testcategory', 'Hello iOS');
-    GoogleAnalytics.trackScreenView('Home');
+    // GoogleAnalyticsSettings has static methods and is applied
+    // for all trackers
+    GoogleAnalyticsSettings.setDispatchInterval(2);
+    GoogleAnalyticsSettings.setDryRun(true);
+    //GoogleAnalyticsSettings.setOptOut(true);
 
-    GoogleAnalytics.trackEvent('testcategory', 'Hello iOS', { label: "notdry", value: 1 });
+    // The tracker is constructed
+    let tracker = new GoogleAnalyticsTracker('UA-12345-2');
+    // You can have multiple trackers
+    let tracker2 = new GoogleAnalyticsTracker('UA-12345-3');
 
-    GoogleAnalytics.trackTiming('testcategory', 13000, {label: 'notdry', name: 'testduration'});
+    tracker.trackEvent('testcategory', 'Hello iOS');
+    /*
 
-    GoogleAnalytics.trackPurchaseEvent(
+tracker.trackScreenView('Home');
+
+tracker.trackEvent('testcategory', 'Hello iOS', { label: "notdry", value: 1 });
+
+tracker.trackTiming('testcategory', 13000, { label: 'notdry', name: 'testduration' });
+
+tracker.setTrackUncaughtExceptions(true);
+    tracker.trackPurchaseEvent(
       {
         id: 'P12345',
         name: 'Android Warhol T-Shirt',
@@ -67,47 +57,65 @@ class example extends Component {
         couponCode: 'SUMMER2013'
       }
     );
-
-    GoogleAnalytics.trackMultiProductsPurchaseEvent(
-    [
-      {
-        id: '2224711',
-        name: 'Top Ilem',
-        category: 'Women/Kleidung/Tops/Spitzentops',
-        brand: 'THE label',
-        variant: 'rot',
-        price: 39.90,
-        quantity: 1
-      },
-      {
-        id: '2224706',
-        name: 'Shorts Isto',
-        category: 'Women/Kleidung/Hosen/Shirts',
-        brand: 'THE label',
-        variant: 'grau',
-        price: 59.90,
-        quantity: 1
-      }
-    ], {
-      id: 'T12345',
-      affiliation: 'THE label Shop',
-      revenue: 83.87,
-      tax: 15.93,
-      shipping: 0.00,
-      couponCode: 'SUMMER2016'
-    });
-
-    GoogleAnalytics.trackException("This is an error message", false);
-
-    GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
-
-    GoogleAnalytics.setUser('12345678');
-
-    GoogleAnalytics.allowIDFA(true);
-    
-    //GoogleAnalytics.setOptOut(true);
-    
-    GoogleAnalytics.setAnonymizeIp(true);
+ 
+    tracker.trackMultiProductsPurchaseEvent(
+      [
+        {
+          id: '2224711',
+          name: 'Top Ilem',
+          category: 'Women/Kleidung/Tops/Spitzentops',
+          brand: 'THE label',
+          variant: 'rot',
+          price: 39.90,
+          quantity: 1
+        },
+        {
+          id: '2224706',
+          name: 'Shorts Isto',
+          category: 'Women/Kleidung/Hosen/Shirts',
+          brand: 'THE label',
+          variant: 'grau',
+          price: 59.90,
+          quantity: 1
+        }
+      ], {
+        id: 'T12345',
+        affiliation: 'THE label Shop',
+        revenue: 83.87,
+        tax: 15.93,
+        shipping: 0.00,
+        couponCode: 'SUMMER2016'
+      });
+ 
+    tracker.trackException("This is an error message", false);
+ 
+    tracker.trackSocialInteraction('Twitter', 'Post');
+ 
+    tracker.setUser('12345678');
+ 
+    tracker.allowIDFA(true);
+ 
+    tracker.setAnonymizeIp(true);
+ 
+    GoogleTagManager.openContainerWithId("GT-NZT48")
+      .then(() => {
+        return GoogleTagManager.stringForKey("pack");
+      })
+      .then((str) => {
+        console.log("Str: ", str);
+        return GoogleTagManager.boolForKey("wat");
+      })
+      .then((wat) => {
+        console.log("Wat: ", wat);
+        return GoogleTagManager.doubleForKey("orly");
+      })
+      .then((orly) => {
+        console.log("Orly: ", orly);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+*/
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
