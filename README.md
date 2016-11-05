@@ -2,19 +2,26 @@ GoogleAnalyticsBridge [![npm version](https://img.shields.io/npm/v/react-native-
 =============
 **Google Analytics Bridge** is built to provide an easy interface to the native Google Analytics libraries on both **iOS** and **Android**.
 
-**Important**: This library requires React Native v0.19+.
-
 ## Why a native bridge? Why not use just JavaScript?
 The key difference with the native bridge is that you get a lot of the metadata handled automatically by the Google Analytics native library. This will include the device UUID, device model, viewport size, OS version etc.
 
 You will only have to send in a few parameteres when tracking, e.g:
 ```javascript
-import GoogleAnalytics from 'react-native-google-analytics-bridge';
-GoogleAnalytics.setTrackerId('UA-12345-1');
+import { GoogleAnalyticsTracker } from 'react-native-google-analytics-bridge';
+let tracker = new GoogleAnalyticsTracker('UA-12345-1');
 
-GoogleAnalytics.trackScreenView('Home');
-GoogleAnalytics.trackEvent('testcategory', 'testaction');
+tracker.trackScreenView('Home');
+tracker.trackEvent('testcategory', 'testaction');
 ```
+
+## Content
+  * [Installation](#Installation-and-linking-libraries)
+  * [Manual installation](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Manual-installation)
+  * [Usage](#Usage)
+  * [JavaScript API](#Javascript-API)
+  * [Troubleshooting](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Troubleshooting)
+  * [A/B testing](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Simple-A-B-testing)
+  * [Roadmap](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Roadmap)
 
 ## Installation and linking libraries
 
@@ -22,101 +29,80 @@ Install with npm: `npm install --save react-native-google-analytics-bridge`.
 
 Or, install with yarn: `yarn add react-native-google-analytics-bridge`.
 
-Either way, then link with `react-native link react-native-google-analytics-bridge`
+Either way, then link with `react-native link react-native-google-analytics-bridge`.
 
-With this, the `link` command will do most of the heavy lifting for native linking, **but** for iOS you will still need to do step 5 from the manual installation guide below.
+For iOS you must also link a few more SDK packages in Xcode, which are required by GA:
+  * CoreData.framework
+  * SystemConfiguration.framework
+  * libz.tbd
+  * libsqlite3.0.tbd
 
-## Manual installation iOS
-
-1. `npm install --save react-native-google-analytics-bridge`
-2. In XCode, right-click the Libraries folder under your project ➜ `Add Files to <your project>`.
-3. Go to `node_modules` ➜ `react-native-google-analytics-bridge` ➜ `ios` ➜ `RCTGoogleAnalyticsBridge` and add the `RCTGoogleAnalyticsBridge.xcodeproj` file.
-4. Add libRCTGoogleAnalyticsBridge.a from the linked project to your project properties ➜ "Build Phases" ➜ "Link Binary With Libraries"
-5. Next you will have to link a few more SDK framework/libraries which are required by GA (if you do not already have them linked.) Under the same "Link Binary With Libraries", click the + and add the following:
-  1. CoreData.framework
-  2. SystemConfiguration.framework
-  3. libz.tbd
-  4. libsqlite3.0.tbd
-6. **Optional step**: If you plan on using the advertising identifier (IDFA), then you need to do two things:
-  1. Add AdSupport.framework under "Link Binary With Libraries". (As with the other frameworks in step 5).
-  2. Go to Xcode ➜ `Libraries` ➜ `RCTGoogleAnalyticsBridge.xcodeproj` ➜ right-click `google-analytics-lib`. Here you need to `Add files to ..`, and add `libAdIdAccess.a` from the `google-analytics-lib` directory. This directory is located in the same `node_modules` path as in step 3.
-
-## Prerequisites for Android
-Make sure you have the following SDK packages installed in the Android SDK Manager:
+For Android, make sure you have the following SDK packages installed in the Android SDK Manager:
   * Google Repository
   * Google Play services
   * Google APIs (Atom) system image
 
-Consult [this guide](https://developer.android.com/studio/intro/update.html#sdk-manager) if you are unsure how to do this.
+For more details about the native SDKs, consult the [manual installation guide](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Manual-installation).
 
-## Manual installation Android
+## Usage
+```javascript
+// You have access to three classes in this module:
+import { 
+  GoogleAnalyticsTracker, 
+  GoogleTagManager, 
+  GoogleAnalyticsSettings 
+} from 'react-native-google-analytics-bridge';
 
-1. `npm install --save react-native-google-analytics-bridge`
-2. Add the following in `android/settings.gradle`
+// The tracker must be constructed, and you can have multiple:
+let tracker1 = new GoogleAnalyticsTracker('UA-12345-1');
+let tracker2 = new GoogleAnalyticsTracker('UA-12345-2');
 
-  ```gradle
-  ...
-  include ':react-native-google-analytics-bridge', ':app'
-  project(':react-native-google-analytics-bridge').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-analytics-bridge/android')
-  ```
+tracker1.trackScreenView('Home');
+tracker1.trackEvent('Customer', 'New');
 
-3. And the following in `android/app/build.gradle`
+// The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
+GoogleAnalyticsSettings.setDispatchInterval(30);
+GoogleAnalyticsSettings.setDryRun(true);
 
-  ```gradle
-  ...
-  dependencies {
-      ...
-      compile project(':react-native-google-analytics-bridge')
-  }
-  ```
+// GoogleTagManager is also static, and works only with one container. All functions here are Promises:
+GoogleTagManager.openContainerWithId("GT-NZT48")
+  .then(() => {
+    return GoogleTagManager.stringForKey("pack");
+  })
+  .then((pack) => {
+    console.log("Pack: ", pack);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+``` 
 
-4. Register package in `MainApplication.java`
+## JavaScript API
+  * [GoogleAnalyticsTracker](#GoogleAnalyticsTracker-API)
+  * [GoogleAnalyticsSettings](#GoogleAnalyticsSettings-API)
+  * [GoogleTagManager](#GoogleTagManager-API)
 
-  ```java
-  // Step 1; import package:
-  import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
+## GoogleAnalyticsTracker API
 
-  public class MainApplication extends Application implements ReactApplication {
-    ...
-
-      @Override
-      protected List<ReactPackage> getPackages() {
-          return Arrays.<ReactPackage>asList(
-              new MainReactPackage(),
-              // Step 2; register package:
-              new GoogleAnalyticsBridgePackage()
-          );
-      }
-  }
-  ```
-
-### Android build problem
-Some people have had problems being hit with `Unknown source file : com.android.dex.DexException: Multiple dex files define Lcom/google/android/gms/internal/zzmu;` after installing this (or similar modules).
-
-This might be because you are using another module which also uses `play-services`, but targets a different version of `play-services`. In the `build.gradle`-file of this module, we target `com.google.android.gms:play-services-analytics:8.+`. In other words, we try to use the latest (8.x.x) version of `play-services`.
-
-If some other module is targetting a previous version, say 8.3.0, then adding the following to your (React Native-project) `build.gradle` may be helpful:
-```gradle
-compile("com.google.android.gms:play-services-analytics:8.3.0"){
-    force = true
-}
-```
-
-That should force the app to compile the 8.3.0 version of the dependency my module uses. Obviously, this might not be a solution if several modules are depending on conflicting versions.
-
-I would recommend other module authors which also depend on `play-services` to target `8.+` instead of a specific minor version.
-
-## Google Analytics Javascript API
-
-### setTrackerId(trackerId)
+### new GoogleAnalyticsTracker(trackerId, customDimensionsFieldsIndexMap = {})
 * **trackerId (required):** String, your tracker id, something like: UA-12345-1
-
-**Important**: Call **once** on app startup to set the tracker id for all subsequent static calls.
+* **customDimensionsFieldsIndexMap (optional):** {{fieldName: fieldIndex}} Custom dimensions field/index pairs
 
 ```javascript
-import GoogleAnalytics from 'react-native-google-analytics-bridge';
-GoogleAnalytics.setTrackerId('UA-12345-1')
+import { GoogleAnalyticsTracker } from 'react-native-google-analytics-bridge';
+let tracker = new GoogleAnalyticsTracker('UA-12345-1');
 ```
+
+Google Analytics expects dimensions to be tracked by indices, and not field names. 
+To simplify this, you can construct a tracker with a customDimensionsFieldsIndexMap. With this, you can map field names to indices, e.g:
+
+```javascript
+let tracker2 = new GoogleAnalyticsTracker('UA-12345-3', { test: 1 });
+tracker2.trackScreenViewWithCustomDimensionValues('Home', { test: 'Beta' });
+```
+
+Here the underlying logic will transform the custom dimension, so what ends up being sent to GA is { 1: 'Beta' }.
+This should make it easier to use custom dimensions. If you do not provide a customDimensionsFieldsIndexMap, the custom dimensions are passed through untouched.
 
 ### trackScreenView(screenName)
 
@@ -127,7 +113,7 @@ GoogleAnalytics.setTrackerId('UA-12345-1')
 See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/screens) for more info
 
 ```javascript
-GoogleAnalytics.trackScreenView('Home')
+tracker.trackScreenView('Home')
 ```
 
 ### trackEvent(category, action, optionalValues)
@@ -141,9 +127,9 @@ GoogleAnalytics.trackScreenView('Home')
 See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/events) for more info.
 
 ```javascript
-GoogleAnalytics.trackEvent('testcategory', 'testaction');
+tracker.trackEvent('testcategory', 'testaction');
 // or
-GoogleAnalytics.trackEvent('testcategory', 'testaction', {label: 'v1.0.3', value: 22});
+tracker.trackEvent('testcategory', 'testaction', {label: 'v1.0.3', value: 22});
 ```
 
 ### trackTiming(category, value, optionalValues)
@@ -157,9 +143,9 @@ GoogleAnalytics.trackEvent('testcategory', 'testaction', {label: 'v1.0.3', value
 See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/usertimings) for more info.
 
 ```javascript
-GoogleAnalytics.trackTiming('testcategory', 13000, {name: 'LoadList'}); // name option is required
+tracker.trackTiming('testcategory', 13000, {name: 'LoadList'}); // name option is required
 // or
-GoogleAnalytics.trackTiming('testcategory', 13000, {name: 'loadList', label: 'v1.0.3'});
+tracker.trackTiming('testcategory', 13000, {name: 'loadList', label: 'v1.0.3'});
 ```
 
 ### trackPurchaseEvent(product, transaction, eventCategory, eventAction)
@@ -186,7 +172,7 @@ GoogleAnalytics.trackTiming('testcategory', 13000, {name: 'loadList', label: 'v1
 See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/enhanced-ecommerce#measuring-transactions) for more info.
 
 ```javascript
-GoogleAnalytics.trackPurchaseEvent({
+tracker.trackPurchaseEvent({
   id: 'P12345',
   name: 'Android Warhol T-Shirt',
   category: 'Apparel/T-Shirts',
@@ -218,7 +204,7 @@ same as trackPurchaseEvent but instead of one product you can provide an Array o
 * **dimensionIndexValueDict (required):** Dict of dimension index / values.
 
 ```javascript
-GoogleAnalytics.trackMultiProductsPurchaseEventWithCustomDimensionValues([
+tracker.trackMultiProductsPurchaseEventWithCustomDimensionValues([
 {
   id: 'P12345',
   name: 'Android Warhol T-Shirt',
@@ -263,7 +249,7 @@ See the [Google Analytics docs](https://developers.google.com/analytics/devguide
 try {
   ...
 } catch(error) {
-  GoogleAnalytics.trackException(error.message, false);
+  tracker.trackException(error.message, false);
 }
 ```
 
@@ -276,7 +262,7 @@ try {
 See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/social) docs for more info.
 
 ```javascript
-GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
+tracker.trackSocialInteraction('Twitter', 'Post');
 ```
 
 ### trackScreenViewWithCustomDimensionValues(screenName, dimensionIndexValueDict)
@@ -287,7 +273,7 @@ GoogleAnalytics.trackSocialInteraction('Twitter', 'Post');
 Tracks a screen view with one or more customDimensionValues. See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/customdimsmets) docs for more info.
 
 ```javascript
-GoogleAnalytics.trackScreenViewWithCustomDimensionValues('Home', {'1':'premium', '5':'foo'});
+tracker.trackScreenViewWithCustomDimensionValues('Home', {'1':'premium', '5':'foo'});
 ```
 
 ### trackEventWithCustomDimensionValues(category, action, optionalValues, dimensionIndexValueDict)
@@ -302,7 +288,7 @@ GoogleAnalytics.trackScreenViewWithCustomDimensionValues('Home', {'1':'premium',
 Tracks an event with one or more customDimensionValues. See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/customdimsmets) docs for more info.
 
 ```javascript
-GoogleAnalytics.trackEventWithCustomDimensionValues('testcategory', 'testaction', {label: 'v1.0.3', value: 22}, {'1':'premium', '5':'foo'});
+tracker.trackEventWithCustomDimensionValues('testcategory', 'testaction', {label: 'v1.0.3', value: 22}, {'1':'premium', '5':'foo'});
 ```
 
 ### setUser(userId)
@@ -312,7 +298,7 @@ GoogleAnalytics.trackEventWithCustomDimensionValues('testcategory', 'testaction'
 See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/user-id) for more info.
 
 ```javascript
-GoogleAnalytics.setUser('12345678');
+tracker.setUser('12345678');
 ```
 
 ### allowIDFA(enabled)
@@ -326,28 +312,7 @@ Also called advertising identifier collection, and is used for advertising featu
 See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/campaigns#ios-install) for more info.
 
 ```javascript
-GoogleAnalytics.allowIDFA(true);
-```
-
-### setDryRun(enabled)
-
-* **enabled (required):** Boolean, indicating if the `dryRun` flag should be enabled or not.
-
-When enabled the native library prevents any data from being sent to Google Analytics. This allows you to test or debug the implementation, without your test data appearing in your Google Analytics reports.
-
-```javascript
-GoogleAnalytics.setDryRun(true);
-```
-
-### setDispatchInterval(intervalInSeconds)
-
-* **intervalInSeconds (required):** Number, indicating how often dispatches should be sent
-
-Events, screen views, etc, are sent in batches to your tracker. This function allows you to configure how often (in seconds) the batches are sent to your tracker. Recommended to keep this around 20-120 seconds to preserve battery and network traffic.
-This is set to 20 seconds by default.
-
-```javascript
-GoogleAnalytics.setDispatchInterval(30);
+tracker.allowIDFA(true);
 ```
 
 ### setTrackUncaughtExceptions(enabled)
@@ -357,7 +322,7 @@ GoogleAnalytics.setDispatchInterval(30);
 Sets if uncaught exceptions should be tracked. This is enabled by default.
 
 ```javascript
-GoogleAnalytics.setTrackUncaughtExceptions(true);
+tracker.setTrackUncaughtExceptions(true);
 ```
 
 ### setAnonymizeIp(enabled)
@@ -368,18 +333,7 @@ Sets if AnonymizeIp is enabled. This is disabled by default.
 If enabled the last octet of the IP address will be removed.
 
 ```javascript
-GoogleAnalytics.setAnonymizeIp(true);
-```
-
-### setOptOut(enabled)
-
-* **enabled (required):** Boolean
-
-Sets if OptOut is active and disables Google Analytics. This is disabled by default.
-Note: This has to be set each time the App starts.
-
-```javascript
-GoogleAnalytics.setOptOut(true);
+tracker.setAnonymizeIp(true);
 ```
 
 ### setAppName(appName)
@@ -390,20 +344,65 @@ Overrides the app name logged in Google Analytics. The Bundle name is used by de
 Note: This has to be set each time the App starts.
 
 ```javascript
-GoogleAnalytics.setAppName('someAppName');
+tracker.setAppName('someAppName');
 ```
 
-## Google Tag Manager Javascript API
+### setSamplingRate(ratio)
 
-The `GoogleTagManager` type is available at `GoogleAnalytics.GoogleTagManager`. If you want to use it alongside `GoogleAnalytics`:
+* **ratio (required):** Number Percentage 0 - 100
+
+Sets tracker sampling rate.
+
 ```javascript
-import GoogleAnalytics, { GoogleTagManager } from 'react-native-google-analytics-bridge';
+tracker.setSamplingRate(50);
+```
+
+## GoogleAnalyticsSettings API
+
+Settings are applied across all trackers.
+
+### setDryRun(enabled)
+
+* **enabled (required):** Boolean, indicating if the `dryRun` flag should be enabled or not.
+
+When enabled the native library prevents any data from being sent to Google Analytics. This allows you to test or debug the implementation, without your test data appearing in your Google Analytics reports.
+
+```javascript
+GoogleAnalyticsSettings.setDryRun(true);
+```
+
+### setDispatchInterval(intervalInSeconds)
+
+* **intervalInSeconds (required):** Number, indicating how often dispatches should be sent
+
+Events, screen views, etc, are sent in batches to your tracker. This function allows you to configure how often (in seconds) the batches are sent to your tracker. Recommended to keep this around 20-120 seconds to preserve battery and network traffic.
+This is set to 20 seconds by default.
+
+```javascript
+GoogleAnalyticsSettings.setDispatchInterval(30);
+```
+
+### setOptOut(enabled)
+
+* **enabled (required):** Boolean
+
+Sets if OptOut is active and disables Google Analytics. This is disabled by default.
+Note: This has to be set each time the App starts.
+
+```javascript
+GoogleAnalyticsSettings.setOptOut(true);
+```
+
+## GoogleTagManager API
+
+```javascript
+import { GoogleTagManager } from 'react-native-google-analytics-bridge';
 GoogleTagManager.openContainerWithId('GT-NZT48')
 .then(() => GoogleTagManager.stringForKey('pack'))
 .then((str) => console.log('Pack: ', str));
 ```
 
-All methods returns a `Promise`.
+Can only be used with one container. All methods returns a `Promise`.
 
 ### openContainerWithId(containerId)
 * **containerId (required):** String, your container id.
@@ -454,35 +453,16 @@ Retrieves a number with the given key from the opened container.
 GoogleTagManager.doubleForKey('key').then((val) => console.log(val));
 ```
 
-## Simple A/B-testing
-Setting up A/B-testing requires setup of containers in Google Tag Manager, and connecting this with Goals/Experiments in Google Analytics.
+### pushDataLayerEvent(dictionary = {})
+##### Parameter(s)
+* **dictionary (required):** dictionary An Map<String, Object> containing key and value pairs.
 
-This [blog post](http://www.cbrevik.com/google-tag-manager-and-ab-testing-with-react-native/) details how to do this. [This guide from Google](https://support.google.com/tagmanager/answer/6003007?hl=en) will also prove helpful (and is referenced in the aforementioned blog post).
+##### Returns:
+* **value:** Boolean
 
-Then you can use our Google Tag Manager implementation to pull values out of the container, and track events in Google Analytics in order to complete "goals".
+Push a DataLayer event for Google Analytics through Google Tag Manager.
 
-In this way, the different containers (A/B) the user is given, will be linked to whether or not they accomplish the given goal.
-
-## Google Analytics Logging
-There is a divergence in how the iOS and Android versions of the native library handles logging.
-
-[For Android](https://developers.google.com/analytics/devguides/collection/android/v4/advanced#logger) you can check the GA logs with your favorite terminal by using `adb logcat`.
-
-For iOS there is a logger in the [internal library](https://developers.google.com/analytics/devguides/collection/ios/v3/advanced#logger) that writes events to the XCode output window.
-In order to control the `logLevel` you can add an item in your `Info.plist` with the key `GAILogLevel`. The value you use is a number which corresponds to your desired log-level:
-
-* 0: None
-* 1: Errors
-* 2: Warnings
-* 3: Info
-* 4: Verbose
-
-## Roadmap
-
-- [ ] Ecommerce: checkout process
-- [ ] Ecommerce: impressions
-- [ ] Campaigns
-- [x] Support for A/B testing
-- [x] dryRun flag
-- [x] Simple ecommerce
-- [x] Make the library more configureable
+```javascript
+GoogleTagManager.pushDataLayerEvent({event: "eventName", pageId: "/home"})
+.then((success) => console.log(success));
+```

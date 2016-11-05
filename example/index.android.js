@@ -26,7 +26,9 @@ class example extends Component {
     // The tracker is constructed
     let tracker = new GoogleAnalyticsTracker('UA-12345-2');
     // You can have multiple trackers
-    let tracker2 = new GoogleAnalyticsTracker('UA-12345-3');
+    let tracker2 = new GoogleAnalyticsTracker('UA-12345-3', { demo: 1 });
+
+    tracker2.trackScreenViewWithCustomDimensionValues('Home', { demo: 'Yes' });
 
     tracker.trackEvent('testcategory', 'Hello iOS');
     tracker.trackScreenView('Home');

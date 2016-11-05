@@ -26,18 +26,19 @@ class example extends Component {
     // The tracker is constructed
     let tracker = new GoogleAnalyticsTracker('UA-12345-2');
     // You can have multiple trackers
-    let tracker2 = new GoogleAnalyticsTracker('UA-12345-3');
+    let tracker2 = new GoogleAnalyticsTracker('UA-12345-3', { demo: 1 });
+
+    tracker2.trackScreenViewWithCustomDimensionValues('Home', { demo: 'Yes' });
 
     tracker.trackEvent('testcategory', 'Hello iOS');
-    /*
 
-tracker.trackScreenView('Home');
+    tracker.trackScreenView('Home');
 
-tracker.trackEvent('testcategory', 'Hello iOS', { label: "notdry", value: 1 });
+    tracker.trackEvent('testcategory', 'Hello iOS', { label: "notdry", value: 1 });
 
-tracker.trackTiming('testcategory', 13000, { label: 'notdry', name: 'testduration' });
+    tracker.trackTiming('testcategory', 13000, { label: 'notdry', name: 'testduration' });
 
-tracker.setTrackUncaughtExceptions(true);
+    tracker.setTrackUncaughtExceptions(true);
     tracker.trackPurchaseEvent(
       {
         id: 'P12345',
@@ -57,7 +58,7 @@ tracker.setTrackUncaughtExceptions(true);
         couponCode: 'SUMMER2013'
       }
     );
- 
+
     tracker.trackMultiProductsPurchaseEvent(
       [
         {
@@ -86,17 +87,17 @@ tracker.setTrackUncaughtExceptions(true);
         shipping: 0.00,
         couponCode: 'SUMMER2016'
       });
- 
+
     tracker.trackException("This is an error message", false);
- 
+
     tracker.trackSocialInteraction('Twitter', 'Post');
- 
+
     tracker.setUser('12345678');
- 
+
     tracker.allowIDFA(true);
- 
+
     tracker.setAnonymizeIp(true);
- 
+
     GoogleTagManager.openContainerWithId("GT-NZT48")
       .then(() => {
         return GoogleTagManager.stringForKey("pack");
@@ -115,7 +116,7 @@ tracker.setTrackUncaughtExceptions(true);
       .catch((err) => {
         console.log(err);
       });
-*/
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
