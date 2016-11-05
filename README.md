@@ -15,10 +15,10 @@ tracker.trackEvent('testcategory', 'testaction');
 ```
 
 ## Content
-  * [Installation](#Installation-and-linking-libraries)
+  * [Installation](#installation-and-linking-libraries)
   * [Manual installation](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Manual-installation)
-  * [Usage](#Usage)
-  * [JavaScript API](#Javascript-API)
+  * [Usage](#usage)
+  * [JavaScript API](#javascript-api)
   * [Troubleshooting](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Troubleshooting)
   * [A/B testing](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Simple-A-B-testing)
   * [Roadmap](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Roadmap)
@@ -78,9 +78,9 @@ GoogleTagManager.openContainerWithId("GT-NZT48")
 ``` 
 
 ## JavaScript API
-  * [GoogleAnalyticsTracker](#GoogleAnalyticsTracker-API)
-  * [GoogleAnalyticsSettings](#GoogleAnalyticsSettings-API)
-  * [GoogleTagManager](#GoogleTagManager-API)
+  * [GoogleAnalyticsTracker](#googleanalyticstracker-api)
+  * [GoogleAnalyticsSettings](#googleanalyticssettings-api)
+  * [GoogleTagManager](#googletagmanager-api)
 
 ## GoogleAnalyticsTracker API
 
@@ -101,7 +101,7 @@ let tracker2 = new GoogleAnalyticsTracker('UA-12345-3', { test: 1 });
 tracker2.trackScreenViewWithCustomDimensionValues('Home', { test: 'Beta' });
 ```
 
-Here the underlying logic will transform the custom dimension, so what ends up being sent to GA is { 1: 'Beta' }.
+Here the underlying logic will transform the custom dimension, so what ends up being sent to GA is `{ 1: 'Beta' }`.
 This should make it easier to use custom dimensions. If you do not provide a customDimensionsFieldsIndexMap, the custom dimensions are passed through untouched.
 
 ### trackScreenView(screenName)
