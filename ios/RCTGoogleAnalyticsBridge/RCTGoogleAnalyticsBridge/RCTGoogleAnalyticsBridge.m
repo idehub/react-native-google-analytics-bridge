@@ -70,7 +70,7 @@ RCT_EXPORT_METHOD(trackScreenViewWithCustomDimensionValues:(NSString *)trackerId
     [tracker send:[builder build]];
 }
 
-RCT_EXPORT_METHOD(trackContentGroup:(NSString *)trackerId contentGroupIndex:(NSNumber *)contentGroupIndex category:(NSString *)category)
+RCT_EXPORT_METHOD(trackContentGroup:(NSString *)trackerId contentGroupIndex:(nonnull NSNumber *)contentGroupIndex category:(NSString *)category)
 {
 	id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
 	[tracker set:[GAIFields contentGroupForIndex:contentGroupIndex]
