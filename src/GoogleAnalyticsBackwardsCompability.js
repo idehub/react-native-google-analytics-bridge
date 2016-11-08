@@ -82,7 +82,7 @@ export class GoogleAnalyticsBackwardsCompability {
   }
 
   allowIDFA(enabled = true) {
-    this.tracker.allowIDFA(enable);
+    this.tracker.allowIDFA(enabled);
   }
 
   trackSocialInteraction(network, action, targetUrl) {
