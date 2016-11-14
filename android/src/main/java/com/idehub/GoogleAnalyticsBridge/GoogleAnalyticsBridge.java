@@ -316,7 +316,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
             HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
                         .setCategory(category)
                         .setAction(action);
-                        
+
             if (optionalValues.hasKey("label"))
             {
                 hit.setLabel(optionalValues.getString("label"));
