@@ -190,12 +190,30 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     private Product getPurchaseProduct(ReadableMap product) {
         Product ecommerceProduct = new Product()
            .setId(product.getString("id"))
-           .setName(product.getString("name"))
-           .setBrand(product.getString("brand"))
-           .setPrice(product.getDouble("price"))
-           .setQuantity(product.getInt("quantity"))
-           .setVariant(product.getString("variant"))
-           .setCategory(product.getString("category"));
+           .setName(product.getString("name"));
+
+        // A Product must have a name or id value. All other values are optional and don't need to be set.
+        // https://developers.google.com/analytics/devguides/collection/android/v4/enhanced-ecommerce#measuring-impressions
+
+        if(product.hasKey("brand")) {
+           ecommerceProduct.setBrand(product.getString("brand"));
+        }
+
+        if(product.hasKey("price")) {
+           ecommerceProduct.setPrice(product.getDouble("price"));
+        }
+
+        if(product.hasKey("quantity")) {
+           ecommerceProduct.setQuantity(product.getInt("quantity"));
+        }
+
+        if(product.hasKey("variant")) {
+           ecommerceProduct.setVariant(product.getString("variant"));
+        }
+
+        if(product.hasKey("category")) {
+           ecommerceProduct.setCategory(product.getString("category"));
+        }
 
         if(product.hasKey("couponCode")) {
            ecommerceProduct.setCouponCode(product.getString("couponCode"));
