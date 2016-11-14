@@ -47,10 +47,10 @@ For more details about the native SDKs, consult the [manual installation guide](
 ## Usage
 ```javascript
 // You have access to three classes in this module:
-import { 
-  GoogleAnalyticsTracker, 
-  GoogleTagManager, 
-  GoogleAnalyticsSettings 
+import {
+  GoogleAnalyticsTracker,
+  GoogleTagManager,
+  GoogleAnalyticsSettings
 } from 'react-native-google-analytics-bridge';
 
 // The tracker must be constructed, and you can have multiple:
@@ -75,7 +75,7 @@ GoogleTagManager.openContainerWithId("GT-NZT48")
   .catch((err) => {
     console.log(err);
   });
-``` 
+```
 
 ## JavaScript API
   * [GoogleAnalyticsTracker](#googleanalyticstracker-api)
@@ -93,7 +93,7 @@ import { GoogleAnalyticsTracker } from 'react-native-google-analytics-bridge';
 let tracker = new GoogleAnalyticsTracker('UA-12345-1');
 ```
 
-Google Analytics expects dimensions to be tracked by indices, and not field names. 
+Google Analytics expects dimensions to be tracked by indices, and not field names.
 To simplify this, you can construct a tracker with a customDimensionsFieldsIndexMap. With this, you can map field names to indices, e.g:
 
 ```javascript
@@ -151,21 +151,21 @@ tracker.trackTiming('testcategory', 13000, {name: 'loadList', label: 'v1.0.3'});
 ### trackPurchaseEvent(product, transaction, eventCategory, eventAction)
 
 * **product (required):** Object
-  * **id:** String
-  * **name:** String
-  * **category:** String
-  * **brand:** String
-  * **variant:** String
-  * **price:** Number
-  * **quantity:** Number
-  * **couponCode:** String
+  * **id (required):** String
+  * **name (required):** String
+  * **category (optional):** String
+  * **brand (optional):** String
+  * **variant (optional):** String
+  * **price (optional):** Number
+  * **quantity (optional):** Number
+  * **couponCode (optional):** String
 * **transaction (required):** Object
-  * **id:** String
-  * **affiliation:** String, an entity with which the transaction should be affiliated (e.g. a particular store)
-  * **revenue:** Number
-  * **tax:** Number
-  * **shipping:** Number
-  * **couponCode:** String
+  * **id (required):** String
+  * **affiliation (optional):** String, an entity with which the transaction should be affiliated (e.g. a particular store)
+  * **revenue (optional):** Number
+  * **tax (optional):** Number
+  * **shipping (optional):** Number
+  * **couponCode (optional):** String
 * **eventCategory (required):** String, defaults to "Ecommerce"
 * **eventAction (required):** String, defaults to "Purchase"
 
@@ -232,7 +232,7 @@ tracker.trackMultiProductsPurchaseEventWithCustomDimensionValues([
   tax: 7.86,
   shipping: 5.34,
   couponCode: 'SUMMER2013'
-}, 
+},
 'Ecommerce',
 'Purchase',
 {'1':'premium', '5':'foo'}
