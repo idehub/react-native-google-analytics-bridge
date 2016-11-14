@@ -177,12 +177,30 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
 
     private ProductAction getPurchaseTransaction(ReadableMap transaction) {
         ProductAction productAction = new ProductAction(ProductAction.ACTION_PURCHASE)
-           .setTransactionId(transaction.getString("id"))
-           .setTransactionTax(transaction.getDouble("tax"))
-           .setTransactionRevenue(transaction.getDouble("revenue"))
-           .setTransactionShipping(transaction.getDouble("shipping"))
-           .setTransactionCouponCode(transaction.getString("couponCode"))
-           .setTransactionAffiliation(transaction.getString("affiliation"));
+           .setTransactionId(transaction.getString("id"));
+
+        // Id is the only required value
+        // https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce#action-data
+
+        if(transaction.hasKey("tax")) {
+           productAction.setTransactionTax(transaction.getDouble("tax"));
+        }
+
+        if(transaction.hasKey("revenue")) {
+           productAction.setTransactionRevenue(transaction.getDouble("revenue"));
+        }
+
+        if(transaction.hasKey("shipping")) {
+           productAction.setTransactionShipping(transaction.getDouble("shipping"));
+        }
+
+        if(transaction.hasKey("couponCode")) {
+           productAction.setTransactionCouponCode(transaction.getString("couponCode"));
+        }
+
+        if(transaction.hasKey("affiliation")) {
+           productAction.setTransactionAffiliation(transaction.getString("affiliation"));
+        }
 
         return productAction;
     }
