@@ -15,4 +15,4 @@ export {
  * Versions bellow 3.1.0 used static GoogleAnalytics class.
  * This exported instance makes sure older implementations work.
  */
-export default new GoogleAnalyticsBackwardsCompability(GoogleAnalyticsBridge.nativeTrackerId);
+export default new GoogleAnalyticsBackwardsCompability(GoogleAnalyticsBridge ? GoogleAnalyticsBridge.nativeTrackerId : null);
