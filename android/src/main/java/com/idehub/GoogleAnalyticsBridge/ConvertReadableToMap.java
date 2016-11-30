@@ -15,20 +15,6 @@ import java.util.ArrayList;
  */
 public class ConvertReadableToMap {
 
-    /*
-    private Map<String,Object> getMap(ReadableMap dictionary) {
-        Map<String, Object> map = new HashMap<>();
-        ReadableMapKeySetIterator iterator = dictionary.keySetIterator();
-        while (iterator.hasNextKey()) {
-            String key = iterator.nextKey();
-            String value = dictionary.getString(key);
-            map.put(key, value);
-        }
-        return map;
-    }
-    */
-
-
     public static HashMap<String, Object> getMap(ReadableMap dictionary) {
         HashMap<String, Object> parsedMap = new HashMap<String, Object>();
         ReadableMapKeySetIterator iterator = dictionary.keySetIterator();
