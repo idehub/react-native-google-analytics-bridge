@@ -99,7 +99,7 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     public void pushDataLayerEvent(ReadableMap dictionary, final Promise promise){
 
       if (mContainerHolder != null && isValidMapToPushEvent(dictionary)) {
-          getDataLayer().push(getMap(dictionary));
+          getDataLayer().push(ConvertReadableToMap.getMap(dictionary));
           promise.resolve(true);
       } else {
           if (mContainerHolder == null) {
@@ -115,17 +115,6 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
                 && dictionary.getString("event").length() > 0);
     }
 
-    private Map<String,Object> getMap(ReadableMap dictionary) {
-        Map<String, Object> map = new HashMap<>();
-        ReadableMapKeySetIterator iterator = dictionary.keySetIterator();
-        while (iterator.hasNextKey()) {
-            String key = iterator.nextKey();
-            String value = dictionary.getString(key);
-            map.put(key, value);
-        }
-        return map;
-    }
-
     private DataLayer getDataLayer() {
         if (mDatalayer == null) {
             TagManager tagManager = TagManager.getInstance(getReactApplicationContext());
@@ -133,4 +122,7 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
         }
         return mDatalayer;
     }
+
+
+
 }
