@@ -130,7 +130,7 @@ export class GoogleAnalyticsTracker {
    */
   trackMultiProductsPurchaseEventWithCustomDimensionValues(products = [], transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase", customDimensions) {
     const formattedCustomDimensions = this.transformCustomDimensionsFieldsToIndexes(customDimensions);
-    GoogleAnalyticsBridge.trackMultiProductsPurchaseEvent(this.id, products, transaction, eventCategory, eventAction, formattedCustomDimensions);
+    GoogleAnalyticsBridge.trackMultiProductsPurchaseEventWithCustomDimensionValues(this.id, products, transaction, eventCategory, eventAction, formattedCustomDimensions);
   }
 
   /**
