@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
   s.dependency "React"
 
-  s.frameworks = 'CoreData', 'SystemConfiguration'
+  s.frameworks = 'CoreData', 'SystemConfiguration', 'AdSupport'
   s.libraries = 'z', 'sqlite3.0','GoogleAnalyticsServices','AdIdAccess'
 
   s.vendored_libraries =
