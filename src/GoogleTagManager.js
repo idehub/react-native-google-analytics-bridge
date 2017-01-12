@@ -41,6 +41,6 @@ export class GoogleTagManager {
    *         example: {event: "eventName", pageId: "/home"}
    */
   static pushDataLayerEvent(dictionary = {}){
-    GoogleTagManagerBridge.pushDataLayerEvent(dictionary);
+    return GoogleTagManagerBridge.pushDataLayerEvent(dictionary);
   }
 }
