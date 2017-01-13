@@ -13,8 +13,7 @@ import {
 } from 'react-native';
 
 import { GoogleAnalyticsTracker, GoogleAnalyticsSettings, GoogleTagManager } from 'react-native-google-analytics-bridge';
-
-class example extends Component {
+export default class example extends Component {
   render() {
     // Recommend you set this much higher in real app! 30 seconds+
     // GoogleAnalyticsSettings has static methods and is applied
