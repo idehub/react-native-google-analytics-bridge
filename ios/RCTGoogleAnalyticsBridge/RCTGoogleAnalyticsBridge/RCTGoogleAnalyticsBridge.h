@@ -1,4 +1,4 @@
-#import "RCTBridgeModule.h"
+#import <React/RCTBridgeModule.h>
 
 @interface RCTGoogleAnalyticsBridge : NSObject <RCTBridgeModule>
 @end
