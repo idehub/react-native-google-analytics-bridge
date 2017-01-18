@@ -16,18 +16,24 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "7.0"
 
   s.source       = { :git => "https://github.com/idehub/react-native-google-analytics-bridge", :tag => "#{s.version}" }
+  s.default_subspec = 'Core'
 
-  s.dependency "React"
+  s.subspec 'Core' do |ss|
+    ss.dependency 'React'
+    ss.frameworks = 'CoreData', 'SystemConfiguration'
+    ss.libraries = 'z', 'sqlite3.0','GoogleAnalyticsServices','AdIdAccess'
 
-  s.frameworks = 'CoreData', 'SystemConfiguration'
-  s.libraries = 'z', 'sqlite3.0','GoogleAnalyticsServices','AdIdAccess'
+    ss.vendored_libraries =
+      galib_root+'/libGoogleAnalyticsServices.a',
+      galib_root+'/libAdIdAccess.a'
 
-  s.vendored_libraries =
-    galib_root+'/libGoogleAnalyticsServices.a',
-    galib_root+'/libAdIdAccess.a'
+    ss.source_files  =
+      galib_root+'/*.{h}',
+      ios_root+'/RCTGoogleAnalyticsBridge/*.{h,m}'
+  end
 
-  s.source_files  =
-    galib_root+'/*.{h}',
-    ios_root+'/RCTGoogleAnalyticsBridge/*.{h,m}'
-
+  s.subspec 'adSupport' do |ss|
+    ss.dependency       'react-native-google-analytics-bridge/Core'
+    ss.frameworks = 'AdSupport'
+  end
 end
