@@ -21,11 +21,10 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |ss|
     ss.dependency 'React'
     ss.frameworks = 'CoreData', 'SystemConfiguration'
-    ss.libraries = 'z', 'sqlite3.0','GoogleAnalyticsServices','AdIdAccess'
+    ss.libraries = 'z', 'sqlite3.0','GoogleAnalyticsServices'
 
     ss.vendored_libraries =
-      galib_root+'/libGoogleAnalyticsServices.a',
-      galib_root+'/libAdIdAccess.a'
+      galib_root+'/libGoogleAnalyticsServices.a'
 
     ss.source_files  =
       galib_root+'/*.{h}',
@@ -35,5 +34,9 @@ Pod::Spec.new do |s|
   s.subspec 'adSupport' do |ss|
     ss.dependency       'react-native-google-analytics-bridge/Core'
     ss.frameworks = 'AdSupport'
+    ss.libraries = 'AdIdAccess'
+    ss.vendored_libraries =
+      galib_root+'/libAdIdAccess.a'
   end
+
 end
