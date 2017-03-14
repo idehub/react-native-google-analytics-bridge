@@ -85,6 +85,8 @@ GoogleTagManager.openContainerWithId("GT-NZT48")
   * [GoogleAnalyticsSettings](#googleanalyticssettings-api)
   * [GoogleTagManager](#googletagmanager-api)
 
+-------------------------------------------------------------------------------
+
 ## GoogleAnalyticsTracker API
 
 ### new GoogleAnalyticsTracker(trackerId, customDimensionsFieldsIndexMap = {})
@@ -360,6 +362,8 @@ Sets tracker sampling rate.
 tracker.setSamplingRate(50);
 ```
 
+-------------------------------------------------------------------------------
+
 ## GoogleAnalyticsSettings API
 
 Settings are applied across all trackers.
@@ -396,13 +400,31 @@ Note: This has to be set each time the App starts.
 GoogleAnalyticsSettings.setOptOut(true);
 ```
 
+-------------------------------------------------------------------------------
+
 ## GoogleTagManager API
+
+> #### Bundling the Google Tag Manager Binary file with your app
+> 
+> #### Android
+>
+*Note:* You must rename the file to lowercase and replace hyphens `-` with underscores `_` (e.g: `GT-NZT48` → `gt_nzt48`).  
+> - Copy your pre-loaded GTM binary into → `YourReactApp/android/app/src/main/res/raw/gt_nzt48`.  
+>
+> #### iOS
+>
+> *Note: Do not rename the file on iOS*
+>
+> Copy your pre-loaded GTM binary into your project (copy items if needed).
+> - Project → Build Phases → Copy Bundle Resources → "Add GTM file here" 
+>
 
 ```javascript
 import { GoogleTagManager } from 'react-native-google-analytics-bridge';
 GoogleTagManager.openContainerWithId('GT-NZT48')
 .then(() => GoogleTagManager.stringForKey('pack'))
-.then((str) => console.log('Pack: ', str));
+.then((str) => console.log('Pack: ', str))
+.catch((err) => console.error('GTM failed to load, check your network or bundled file.', err));
 ```
 
 Can only be used with one container. All methods returns a `Promise`.
@@ -414,7 +436,7 @@ Can only be used with one container. All methods returns a `Promise`.
 
 ```javascript
 GoogleTagManager.openContainerWithId('GT-NZT48')
-.then((..) => ..)
+.then(() => {})
 ```
 
 ### stringForKey(key)
