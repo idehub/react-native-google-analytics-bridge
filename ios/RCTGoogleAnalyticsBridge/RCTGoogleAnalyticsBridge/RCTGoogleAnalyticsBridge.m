@@ -325,6 +325,7 @@ RCT_EXPORT_METHOD(trackCampaignFromUrl:(NSString *)trackerId urlString:(NSString
     
     // Campaign source is the only required campaign field. If previous call
     // did not set a campaign source, use the hostname as a referrer instead.
+    NSURL *url = [NSURL URLWithString:urlString];
     if(![hitParams get:kGAICampaignSource] && [url host].length !=0) {
         // Set campaign data on the map, not the tracker.
         [hitParams set:@"referrer" forKey:kGAICampaignMedium];
