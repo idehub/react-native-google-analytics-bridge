@@ -418,15 +418,15 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getCampaignFromUrl(String trackerId, String urlString){
+    public void trackCampaignFromUrl(String trackerId, String urlString){
         Tracker tracker = getTracker(trackerId);
 
         if (tracker != null)
         {
-            tracker.setScreenName("Init With Campaign")
+            tracker.setScreenName("Init With Campaign");
             tracker.send(new HitBuilders.ScreenViewBuilder()
-            .setCampaignParamsFromUrl(urlString)
-            .build()
+                                        .setCampaignParamsFromUrl(urlString)
+                                        .build());
         }
     }
 }
