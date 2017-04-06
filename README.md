@@ -28,11 +28,11 @@ tracker.trackEvent('testcategory', 'testaction');
 * For React Native > `0.40` use version `5.0.0` (and up) of this module.
 * For React Native < `0.40` use version `4.0.3`.
 
-Install with npm: `npm install --save react-native-google-analytics-bridge`.
+Install with npm: `npm install --save react-native-google-analytics-bridge`
 
-Or, install with yarn: `yarn add react-native-google-analytics-bridge`.
+Or, install with yarn: `yarn add react-native-google-analytics-bridge`
 
-Either way, then link with `react-native link react-native-google-analytics-bridge`.
+Either way, then link with: `react-native link react-native-google-analytics-bridge`
 
 For iOS you must also link a few more SDK packages in Xcode, which are required by GA:
   * CoreData.framework
