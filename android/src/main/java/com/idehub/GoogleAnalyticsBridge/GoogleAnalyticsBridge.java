@@ -76,13 +76,16 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
                         .setCategory(category)
                         .setAction(action);
 
-            if (optionalValues.hasKey("label"))
+            if (optionalValues != null)
             {
-                hit.setLabel(optionalValues.getString("label"));
-            }
-            if (optionalValues.hasKey("value"))
-            {
-                hit.setValue(optionalValues.getInt("value"));
+                if (optionalValues.hasKey("label"))
+                {
+                    hit.setLabel(optionalValues.getString("label"));
+                }
+                if (optionalValues.hasKey("value"))
+                {
+                    hit.setValue(optionalValues.getInt("value"));
+                }
             }
 
             tracker.send(hit.build());
@@ -99,13 +102,16 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
                         .setCategory(category)
                         .setValue(value.longValue());
 
-            if (optionalValues.hasKey("name"))
+            if (optionalValues != null)
             {
-                hit.setVariable(optionalValues.getString("name"));
-            }
-            if (optionalValues.hasKey("label"))
-            {
-                hit.setLabel(optionalValues.getString("label"));
+                if (optionalValues.hasKey("name"))
+                {
+                    hit.setVariable(optionalValues.getString("name"));
+                }
+                if (optionalValues.hasKey("label"))
+                {
+                    hit.setLabel(optionalValues.getString("label"));
+                }
             }
 
             tracker.send(hit.build());
@@ -317,13 +323,17 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
                         .setCategory(category)
                         .setAction(action);
 
-            if (optionalValues.hasKey("label"))
+
+            if (optionalValues != null)
             {
-                hit.setLabel(optionalValues.getString("label"));
-            }
-            if (optionalValues.hasKey("value"))
-            {
-                hit.setValue(optionalValues.getInt("value"));
+                if (optionalValues.hasKey("label"))
+                {
+                    hit.setLabel(optionalValues.getString("label"));
+                }
+                if (optionalValues.hasKey("value"))
+                {
+                    hit.setValue(optionalValues.getInt("value"));
+                }
             }
 
             ReadableMapKeySetIterator iterator = dimensionIndexValues.keySetIterator();
