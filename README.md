@@ -25,7 +25,7 @@ tracker.trackEvent('testcategory', 'testaction');
 
 ## Installation and linking libraries
 
-* For React Native > `0.40` use version `5.0.0` (and up) of this module.
+* For React Native >= `0.40` use version `5.0.0` (and up) of this module.
 * For React Native < `0.40` use version `4.0.3`.
 
 Install with npm: `npm install --save react-native-google-analytics-bridge`
