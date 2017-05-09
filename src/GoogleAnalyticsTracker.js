@@ -74,6 +74,15 @@ export class GoogleAnalyticsTracker {
     GoogleAnalyticsBridge.trackEvent(this.id, category, action, optionalValues);
   }
 
+	/**
+	 * Track content group
+	 * @param {Number} contentGroupIndex	The index of the content group in google analytics
+	 * @param {String} category	The category associated with the content group
+	 */
+	trackContentGroup(contentGroupIndex, category) {
+		GoogleAnalyticsBridge.trackContentGroup(this.id, contentGroupIndex, category);	
+	}
+
   /**
    * Track the current screen/view with custom dimension values
    * @param  {String} screenName The name of the current screen
