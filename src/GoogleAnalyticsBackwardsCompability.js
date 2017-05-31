@@ -108,4 +108,8 @@ export class GoogleAnalyticsBackwardsCompability {
   setSamplingRate(sampleRatio) {
     this.tracker.setSamplingRate(sampleRatio);
   }
+
+  setCurrency(currencyCode) {
+    this.tracker.setCurrency(currencyCode);
+  }
 }

@@ -310,4 +310,11 @@ RCT_EXPORT_METHOD(setAppVersion:(NSString *)trackerId appVersion:(NSString *)app
     [tracker set:kGAIAppVersion value:appVersion];
 }
 
+RCT_EXPORT_METHOD(setCurrency:(NSString *)trackerId currencyCode:(NSString *)currencyCode)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    [tracker set:kGAICurrencyCode
+         value:currencyCode];
+}
+
 @end
