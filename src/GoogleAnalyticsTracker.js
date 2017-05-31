@@ -55,6 +55,14 @@ export class GoogleAnalyticsTracker {
   trackScreenView(screenName) {
     GoogleAnalyticsBridge.trackScreenView(this.id, screenName);
   }
+  
+  /**
+   * Track the campaign from url
+   * @param  {String} urlString The url of the deep link
+   */
+  trackCampaignFromUrl(urlString) {
+    GoogleAnalyticsBridge.trackCampaignFromUrl(this.id, urlString);
+  }
 
   /**
    * Track an event that has occured
