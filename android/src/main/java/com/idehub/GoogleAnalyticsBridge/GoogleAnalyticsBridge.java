@@ -448,5 +448,5 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
                                         .setCampaignParamsFromUrl(urlString)
                                         .build());
         }
-
+    }
 }
