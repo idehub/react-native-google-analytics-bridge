@@ -428,6 +428,16 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void setCurrency(String trackerId, String currencyCode)
+    {
+        Tracker tracker = getTracker(trackerId);
+
+        if (tracker != null) {
+            tracker.set("&cu", currencyCode);
+        }
+    }
+
+    @ReactMethod
     public void trackCampaignFromUrl(String trackerId, String urlString){
         Tracker tracker = getTracker(trackerId);
 

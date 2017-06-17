@@ -217,4 +217,12 @@ export class GoogleAnalyticsTracker {
   setSamplingRate(sampleRatio) {
     GoogleAnalyticsBridge.setSamplingRate(this.id, sampleRatio);
   }
+  
+  /**
+   * Sets the currency for tracking.
+   * @param {String} currencyCode The currency ISO 4217 code
+   */
+  setCurrency(currencyCode) {
+    GoogleAnalyticsBridge.setCurrency(this.id, currencyCode);
+  }
 }

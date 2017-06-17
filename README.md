@@ -360,6 +360,16 @@ Sets tracker sampling rate.
 tracker.setSamplingRate(50);
 ```
 
+### setCurrency(currencyCode)
+
+* **currencyCode (required):** String, ISO 4217 currency code
+
+Sets tracker currency property, see [Currency Codes](https://developers.google.com/analytics/devguides/platform/features/currencies).
+
+```javascript
+tracker.setCurrency('EUR');
+```
+
 ## GoogleAnalyticsSettings API
 
 Settings are applied across all trackers.
