@@ -294,6 +294,15 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void trackContentGroup(String trackerId, int contentGroupIndex, String category) 
+    {
+        Tracker tracker = getTracker(trackerId);
+        if (tracker != null) {
+            tracker.set(contentGroup(contentGroupIndex),category);	
+        }	
+    }
+
+    @ReactMethod
     public void trackScreenViewWithCustomDimensionValues(String trackerId, String screenName, ReadableMap dimensionIndexValues)
     {
         Tracker tracker = getTracker(trackerId);
