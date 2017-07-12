@@ -30,5 +30,15 @@
     "react-native",
     "ios",
     "android"
-  ]
+  ],
+  "rnpm": {
+    "ios": {
+      "sharedLibraries": [
+        "CoreData.framework",
+        "SystemConfiguration.framework",
+        "libz.tbd",
+        "libsqlite3.0.tbd"
+      ]
+    }
+  }
 }

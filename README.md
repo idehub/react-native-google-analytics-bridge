@@ -34,18 +34,7 @@ Or, install with yarn: `yarn add react-native-google-analytics-bridge`
 
 Either way, then link with: `react-native link react-native-google-analytics-bridge`
 
-For iOS you must also link a few more SDK packages in Xcode, which are required by GA:
-  * CoreData.framework
-  * SystemConfiguration.framework
-  * libz.tbd
-  * libsqlite3.0.tbd
-
-For Android, make sure you have the following SDK packages installed in the Android SDK Manager:
-  * Google Repository
-  * Google Play services
-  * Google APIs (Atom) system image
-
-For more details about the native SDKs, consult the [manual installation guide](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Manual-installation).
+If it doesn't work immediately after this, consult the [manual installation guide](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Manual-installation). Both Android and iOS has a couple of prerequisite SDKs linked and installed.
 
 ## Usage
 ```javascript
