@@ -33,7 +33,7 @@ public class GoogleAnalyticsBridgePackage implements ReactPackage {
         return modules;
     }
 
-    @Override
+    // Deprecated from RN 0.47.0
     public List<Class<? extends JavaScriptModule>> createJSModules() {
         return Collections.emptyList();
     }
