@@ -36,6 +36,10 @@ Either way, then link with: `react-native link react-native-google-analytics-bri
 
 If it doesn't work immediately after this, consult the [manual installation guide](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Manual-installation). Both Android and iOS has a couple of prerequisite SDKs linked and installed.
 
+**Important**: Does this library work with Expo? We have to sort of invert the question a bit, because it should be: does Expo work with other libraries? And the [answer is no](https://docs.expo.io/versions/latest/introduction/faq.html#what-is-the-difference-between-expo-and-react-native):
+>The most limiting thing about Expo is that you can’t add in your own native modules without `detach`ing and using ExpoKit. 
+
+This includes using [`create-react-native-app`](https://github.com/react-community/create-react-native-app#what-are-the-limitations-of-create-react-native-app) which also makes use of Expo.
 ## Usage
 ```javascript
 // You have access to three classes in this module:
@@ -54,6 +58,7 @@ tracker1.trackEvent('Customer', 'New');
 
 // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
 GoogleAnalyticsSettings.setDispatchInterval(30);
+// Setting `dryRun` to `true` lets you test tracking without sending data to GA 
 GoogleAnalyticsSettings.setDryRun(true);
 
 // GoogleTagManager is also static, and works only with one container. All functions here are Promises:
