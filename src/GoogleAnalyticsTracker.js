@@ -225,4 +225,8 @@ export class GoogleAnalyticsTracker {
   setCurrency(currencyCode) {
     GoogleAnalyticsBridge.setCurrency(this.id, currencyCode);
   }
+  
+  createNewSession(screenName) {
+    GoogleAnalyticsBridge.createNewSession(this.id, screenName);
+  }
 }
