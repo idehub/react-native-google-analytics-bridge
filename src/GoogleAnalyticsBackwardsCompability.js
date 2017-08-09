@@ -112,4 +112,8 @@ export class GoogleAnalyticsBackwardsCompability {
   setCurrency(currencyCode) {
     this.tracker.setCurrency(currencyCode);
   }
+
+  createNewSession(screenName) {
+    this.tracker.createNewSession(screenName);
+  }
 }
