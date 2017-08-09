@@ -449,8 +449,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
                                         .build());
         }
     }
-    
-    
+  
     @ReactMethod
     public void createNewSession(String trackerId, String screenName) {
         Tracker tracker = getTracker(trackerId);
