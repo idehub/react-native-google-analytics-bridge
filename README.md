@@ -287,6 +287,21 @@ Tracks an event with one or more customDimensionValues. See the [Google Analytic
 ```javascript
 tracker.trackEventWithCustomDimensionValues('testcategory', 'testaction', {label: 'v1.0.3', value: 22}, {'1':'premium', '5':'foo'});
 ```
+### trackEventWithCustomDimensionAndMetricValues(category, action, optionalValues, dimensionIndexValueDict)
+
+* **category (required):** String, category of event
+* **action (required):** String, name of action
+* **optionalValues:** Object
+  * **label:** String
+  * **value:** Number
+* **dimensionIndexValueDict (required):** Dict of dimension index / values.
+* **metricIndexValueDict (required):** Dict of metric index / values.
+
+Tracks an event with one or more customDimensionValues and one or more customMetricValues. See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/customdimsmets) docs for more info.
+
+```javascript
+tracker.trackEventWithCustomDimensionAndMetricValues('testcategory', 'testaction', {label: 'v1.0.3', value: 22}, {'1':'premium', '5':'foo'}, , {'1': 3, '5': 4});
+```
 
 ### setUser(userId)
 
@@ -296,6 +311,26 @@ See the [Google Analytics](https://developers.google.com/analytics/devguides/col
 
 ```javascript
 tracker.setUser('12345678');
+```
+
+### setClient(clientId)
+
+* **clientId (required):** String, an **anonymous** identifier that complies with Google Analytic's client ID policy
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#clientId) for more info.
+
+```javascript
+tracker.setClient('35009a79-1a05-49d7-b876-2b884d0f825b');
+```
+
+### createNewSession(screenName)
+
+* **screenName (required):** String, the current screen which the session started on
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/sessions#manual) for more info.
+
+```javascript
+tracker.createNewSession('HomeScreen');
 ```
 
 ### allowIDFA(enabled)
