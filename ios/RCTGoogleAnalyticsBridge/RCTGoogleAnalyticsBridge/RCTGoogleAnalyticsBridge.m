@@ -72,6 +72,11 @@ RCT_EXPORT_METHOD(trackScreenViewWithCustomDimensionValues:(NSString *)trackerId
 
 RCT_EXPORT_METHOD(trackEventWithCustomDimensionValues:(NSString *)trackerId category:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *)optionalValues dimensionIndexValues:(NSDictionary *)dimensionIndexValues)
 {
+    [self trackEventWithCustomDimensionAndMetricValues:trackerId category:category action:action optionalValues:optionalValues dimensionIndexValues:dimensionIndexValues metricIndexValues:nil];
+}
+
+RCT_EXPORT_METHOD(trackEventWithCustomDimensionAndMetricValues:(NSString *)trackerId category:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *)optionalValues dimensionIndexValues:(NSDictionary *)dimensionIndexValues metricIndexValues:(NSDictionary *)metricIndexValues)
+{
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     NSString *label = [RCTConvert NSString:optionalValues[@"label"]];
     NSNumber *value = [RCTConvert NSNumber:optionalValues[@"value"]];
@@ -82,7 +87,12 @@ RCT_EXPORT_METHOD(trackEventWithCustomDimensionValues:(NSString *)trackerId cate
                                                                             value:value];
     for (NSString *dimensionIndex in dimensionIndexValues)
         [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
-
+    
+    if (metricIndexValues !=  nil){
+        for (NSString *metricIndex in metricIndexValues)
+            [builder set:[metricIndexValues objectForKey:metricIndex] forKey:[GAIFields customMetricForIndex:[metricIndex intValue]]];
+    }
+    
     [tracker send:[builder build]];
 }
 

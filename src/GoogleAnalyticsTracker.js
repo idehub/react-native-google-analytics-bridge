@@ -55,7 +55,7 @@ export class GoogleAnalyticsTracker {
   trackScreenView(screenName) {
     GoogleAnalyticsBridge.trackScreenView(this.id, screenName);
   }
-  
+
   /**
    * Track the campaign from url
    * @param  {String} urlString The url of the deep link
@@ -95,8 +95,19 @@ export class GoogleAnalyticsTracker {
     const formattedCustomDimensions = this.transformCustomDimensionsFieldsToIndexes(customDimensionValues);
     GoogleAnalyticsBridge.trackEventWithCustomDimensionValues(this.id, category, action, optionalValues, formattedCustomDimensions);
   }
-
   /**
+   * Track an event that has occured with custom dimension and metric values.
+   * @param  {String} category       The event category
+   * @param  {String} action         The event action
+   * @param  {Object} optionalValues An object containing optional label and value
+   * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
+   * @param  {Object} customMetricValues An object containing custom metric key/value pairs
+   */
+  trackEventWithCustomDimensionAndMetricValues(category, action, optionalValues = {}, customDimensionValues, customMetricValues) {
+    GoogleAnalyticsBridge.trackEventWithCustomDimensionAndMetricValues(this.id, category, action, optionalValues, customDimensionValues, customMetricValues);
+  }
+
+ /**
    * Track an event that has occured
    * @param  {String} category       The event category
    * @param  {Number} value         	The timing measurement in milliseconds
@@ -225,7 +236,7 @@ export class GoogleAnalyticsTracker {
   setSamplingRate(sampleRatio) {
     GoogleAnalyticsBridge.setSamplingRate(this.id, sampleRatio);
   }
-  
+
   /**
    * Sets the currency for tracking.
    * @param {String} currencyCode The currency ISO 4217 code
