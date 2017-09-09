@@ -251,6 +251,13 @@ RCT_EXPORT_METHOD(setUser:(NSString *)trackerId userId:(NSString *)userId)
          value:userId];
 }
 
+RCT_EXPORT_METHOD(setClient:(NSString *)trackerId clientId:(NSString *)clientId)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    [tracker set:kGAIClientId
+           value:clientId];
+}
+
 RCT_EXPORT_METHOD(allowIDFA:(NSString *)trackerId enabled:(BOOL)enabled)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];

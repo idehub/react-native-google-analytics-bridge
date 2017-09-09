@@ -159,6 +159,14 @@ export class GoogleAnalyticsTracker {
   }
 
   /**
+   * Sets the current clientId for tracking.
+   * @param {String} clientId The current userId
+   */
+  setClient(clientId) {
+    GoogleAnalyticsBridge.setClient(this.id, clientId);
+  }
+
+  /**
    * Sets if IDFA (identifier for advertisers) collection should be enabled
    * @param  {Boolean} enabled Defaults to true
    */
