@@ -352,7 +352,12 @@ RCT_EXPORT_METHOD(trackCampaignFromUrl:(NSString *)trackerId urlString:(NSString
 
 RCT_EXPORT_METHOD(createNewSession:(NSString *)trackerId screenName:(NSString *)screenName)
 {
-
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    
+    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createScreenView];
+    [builder set:@"start" forKey:kGAISessionControl];
+    [tracker set:kGAIScreenName value:screenName];
+    [tracker send:[builder build]];
 }
 
 @end
