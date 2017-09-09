@@ -350,4 +350,9 @@ RCT_EXPORT_METHOD(trackCampaignFromUrl:(NSString *)trackerId urlString:(NSString
     [tracker send:[[[GAIDictionaryBuilder createScreenView] setAll:hitParamsDict] build]];
 }
 
+RCT_EXPORT_METHOD(createNewSession:(NSString *)trackerId screenName:(NSString *)screenName)
+{
+
+}
+
 @end
