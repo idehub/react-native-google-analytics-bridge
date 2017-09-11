@@ -135,6 +135,29 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void trackPurchaseEventWithCustomDimensionValues(String trackerId, ReadableMap product, ReadableMap transaction, String eventCategory, String eventAction, ReadableMap dimensionIndexValues){
+        Tracker tracker = getTracker(trackerId);
+
+        if (tracker != null) {
+
+            HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
+                   .addProduct(this.getPurchaseProduct(product))
+                   .setProductAction(this.getPurchaseTransaction(transaction))
+                   .setCategory(eventCategory)
+                   .setAction(eventAction);
+
+           ReadableMapKeySetIterator iterator = dimensionIndexValues.keySetIterator();
+           while (iterator.hasNextKey()) {
+               String dimensionIndex = iterator.nextKey();
+               String dimensionValue = dimensionIndexValues.getString(dimensionIndex);
+               hit.setCustomDimension(Integer.parseInt(dimensionIndex), dimensionValue);
+           }
+
+          tracker.send(hit.build());
+        }
+    }
+
+    @ReactMethod
     public void trackMultiProductsPurchaseEvent(String trackerId, ReadableArray products, ReadableMap transaction, String eventCategory, String eventAction) {
         Tracker tracker = getTracker(trackerId);
 
@@ -474,7 +497,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
                                         .build());
         }
     }
-  
+
     @ReactMethod
     public void createNewSession(String trackerId, String screenName) {
         Tracker tracker = getTracker(trackerId);
