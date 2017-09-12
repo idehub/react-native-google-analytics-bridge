@@ -19,6 +19,32 @@ declare module "react-native-google-analytics-bridge" {
         couponCode?: string
     }
 
+    export interface OptionalValue {
+        label: string
+        value: number
+    }
+
+    export interface OptionalTimingValue {
+        name: string
+        label?: string
+    }
+
+    export interface CustomDimensionsFieldIndexMap {
+        [key: string]: number
+    }
+
+    export interface CustomDimensionByIndex {
+        [key: number]: any
+    }
+    
+    export interface CustomDimensionByField {
+        [key: string]: any
+    }
+
+    export interface CustomMetric {
+        [key: number]: number
+    }
+
     /**
      * Used to bridge tracker data to native Google analytics.
      * Saves necessary tracker (specific) data to format data as native part of Google analytics expect.
@@ -29,7 +55,7 @@ declare module "react-native-google-analytics-bridge" {
          * @param {String} trackerId 
          * @param {{fieldName: fieldIndex}} customDimensionsFieldsIndexMap Custom dimensions field/index pairs
          */
-        constructor(trackerId: string, customDimensionsFieldsIndexMap?: any)
+        constructor(trackerId: string, customDimensionsFieldsIndexMap?: CustomDimensionsFieldIndexMap)
 
         /**
          * If Tracker has customDimensionsFieldsIndexMap, it will transform
@@ -38,10 +64,10 @@ declare module "react-native-google-analytics-bridge" {
          * Underlay native methods will transform provided customDimensions map to expected format.
          * Google analytics expect dimensions to be tracker with 'dimension{index}' keys,
          * not dimension field names.
-         * @param {Object} customDimensions 
-         * @returns {Object}
+         * @param {CustomDimensionByIndex} customDimensions 
+         * @returns {CustomDimensionByField}
          */
-        transformCustomDimensionsFieldsToIndexes(customDimensions: any): any
+        transformCustomDimensionsFieldsToIndexes(customDimensions: CustomDimensionByIndex): CustomDimensionByField
 
         /**
          * Track the current screen/view
@@ -59,56 +85,56 @@ declare module "react-native-google-analytics-bridge" {
          * Track an event that has occured
          * @param  {String} category       The event category
          * @param  {String} action         The event action
-         * @param  {Object} optionalValues An object containing optional label and value
+         * @param  {OptionalValue} optionalValues An object containing optional label and value
          */
-        trackEvent(category: string, action: string, optionalValues?: any): void
+        trackEvent(category: string, action: string, optionalValues?: OptionalValue): void
 
         /**
          * Track the current screen/view with custom dimension values
          * @param  {String} screenName The name of the current screen
-         * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
+         * @param  {CustomDimensionByIndex | CustomDimensionByField} customDimensionValues An object containing custom dimension key/value pairs
          */
         trackScreenViewWithCustomDimensionValues(
             screenName: string,
-            customDimensionValues: any
+            customDimensionValues: CustomDimensionByIndex | CustomDimensionByField
         ): void
 
         /**
          * Track an event that has occured with custom dimension values
          * @param  {String} category       The event category
          * @param  {String} action         The event action
-         * @param  {Object} optionalValues An object containing optional label and value
-         * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
+         * @param  {OptionalValue} optionalValues An object containing optional label and value
+         * @param  {CustomDimensionByIndex | CustomDimensionByField} customDimensionValues An object containing custom dimension key/value pairs
          */
         trackEventWithCustomDimensionValues(
             category: string,
             action: string,
-            optionalValues?: any,
-            customDimensionValues?: any
+            optionalValues?: OptionalValue,
+            customDimensionValues?: CustomDimensionByIndex | CustomDimensionByField
         ): void
         /**
          * Track an event that has occured with custom dimension and metric values.
          * @param  {String} category       The event category
          * @param  {String} action         The event action
-         * @param  {Object} optionalValues An object containing optional label and value
-         * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
-         * @param  {Object} customMetricValues An object containing custom metric key/value pairs
+         * @param  {OptionalValue} optionalValues An object containing optional label and value
+         * @param  {CustomDimensionByIndex | CustomDimensionByField} customDimensionValues An object containing custom dimension key/value pairs
+         * @param  {CustomMetric} customMetricValues An object containing custom metric key/value pairs
          */
         trackEventWithCustomDimensionAndMetricValues(
             category: string,
             action: string,
-            optionalValues?: any,
-            customDimensionValues?: any,
-            customMetricValues?: any
+            optionalValues?: OptionalValue,
+            customDimensionValues?: CustomDimensionByIndex | CustomDimensionByField,
+            customMetricValues?: CustomMetric
         ): void
 
         /**
          * Track an event that has occured
          * @param  {String} category       The event category
          * @param  {Number} value         	The timing measurement in milliseconds
-         * @param  {Object} optionalValues An object containing optional name and label
+         * @param  {OptionalTimingValue} optionalValues An object containing optional name and label
          */
-        trackTiming(category: string, value: number, optionalValues?: any): void
+        trackTiming(category: string, value: number, optionalValues: OptionalTimingValue): void
 
         /**
          * Track a purchase event. This uses the Enhanced Ecommerce GA feature.
@@ -144,14 +170,14 @@ declare module "react-native-google-analytics-bridge" {
          * @param  {Transaction} transaction   An object with transaction values
          * @param  {String} eventCategory The event category, defaults to Ecommerce
          * @param  {String} eventAction   The event action, defaults to Purchase
-         * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
+         * @param  {CustomDimensionByIndex | CustomDimensionByField} customDimensionValues An object containing custom dimension key/value pairs
          */
         trackMultiProductsPurchaseEventWithCustomDimensionValues(
             products: Product[],
             transaction: Transaction,
             eventCategory?: string,
             eventAction?: string,
-            customDimensions?: any
+            customDimensions?: CustomDimensionByIndex | CustomDimensionByField
         ): void
 
         /**
