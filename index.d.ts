@@ -33,15 +33,15 @@ declare module "react-native-google-analytics-bridge" {
         [key: string]: number
     }
 
-    export interface CustomDimensionByIndex {
+    export interface CustomDimensionsByIndex {
         [key: number]: any
     }
     
-    export interface CustomDimensionByField {
+    export interface CustomDimensionsByField {
         [key: string]: any
     }
 
-    export interface CustomMetric {
+    export interface CustomMetrics {
         [key: number]: number
     }
 
@@ -64,10 +64,10 @@ declare module "react-native-google-analytics-bridge" {
          * Underlay native methods will transform provided customDimensions map to expected format.
          * Google analytics expect dimensions to be tracker with 'dimension{index}' keys,
          * not dimension field names.
-         * @param {CustomDimensionByIndex} customDimensions 
-         * @returns {CustomDimensionByField}
+         * @param {CustomDimensionsByIndex} customDimensions 
+         * @returns {CustomDimensionsByField}
          */
-        transformCustomDimensionsFieldsToIndexes(customDimensions: CustomDimensionByIndex): CustomDimensionByField
+        transformCustomDimensionsFieldsToIndexes(customDimensions: CustomDimensionsByIndex): CustomDimensionsByField
 
         /**
          * Track the current screen/view
@@ -92,11 +92,11 @@ declare module "react-native-google-analytics-bridge" {
         /**
          * Track the current screen/view with custom dimension values
          * @param  {String} screenName The name of the current screen
-         * @param  {CustomDimensionByIndex | CustomDimensionByField} customDimensionValues An object containing custom dimension key/value pairs
+         * @param  {CustomDimensionsByIndex | CustomDimensionsByField} customDimensionValues An object containing custom dimension key/value pairs
          */
         trackScreenViewWithCustomDimensionValues(
             screenName: string,
-            customDimensionValues: CustomDimensionByIndex | CustomDimensionByField
+            customDimensionValues: CustomDimensionsByIndex | CustomDimensionsByField
         ): void
 
         /**
@@ -104,28 +104,28 @@ declare module "react-native-google-analytics-bridge" {
          * @param  {String} category       The event category
          * @param  {String} action         The event action
          * @param  {OptionalValue} optionalValues An object containing optional label and value
-         * @param  {CustomDimensionByIndex | CustomDimensionByField} customDimensionValues An object containing custom dimension key/value pairs
+         * @param  {CustomDimensionsByIndex | CustomDimensionsByField} customDimensionValues An object containing custom dimension key/value pairs
          */
         trackEventWithCustomDimensionValues(
             category: string,
             action: string,
             optionalValues?: OptionalValue,
-            customDimensionValues?: CustomDimensionByIndex | CustomDimensionByField
+            customDimensionValues?: CustomDimensionsByIndex | CustomDimensionsByField
         ): void
         /**
          * Track an event that has occured with custom dimension and metric values.
          * @param  {String} category       The event category
          * @param  {String} action         The event action
          * @param  {OptionalValue} optionalValues An object containing optional label and value
-         * @param  {CustomDimensionByIndex | CustomDimensionByField} customDimensionValues An object containing custom dimension key/value pairs
-         * @param  {CustomMetric} customMetricValues An object containing custom metric key/value pairs
+         * @param  {CustomDimensionsByIndex | CustomDimensionsByField} customDimensionValues An object containing custom dimension key/value pairs
+         * @param  {CustomMetrics} customMetricValues An object containing custom metric key/value pairs
          */
         trackEventWithCustomDimensionAndMetricValues(
             category: string,
             action: string,
             optionalValues?: OptionalValue,
-            customDimensionValues?: CustomDimensionByIndex | CustomDimensionByField,
-            customMetricValues?: CustomMetric
+            customDimensionValues?: CustomDimensionsByIndex | CustomDimensionsByField,
+            customMetricValues?: CustomMetrics
         ): void
 
         /**
@@ -170,14 +170,14 @@ declare module "react-native-google-analytics-bridge" {
          * @param  {Transaction} transaction   An object with transaction values
          * @param  {String} eventCategory The event category, defaults to Ecommerce
          * @param  {String} eventAction   The event action, defaults to Purchase
-         * @param  {CustomDimensionByIndex | CustomDimensionByField} customDimensionValues An object containing custom dimension key/value pairs
+         * @param  {CustomDimensionsByIndex | CustomDimensionsByField} customDimensionValues An object containing custom dimension key/value pairs
          */
         trackMultiProductsPurchaseEventWithCustomDimensionValues(
             products: Product[],
             transaction: Transaction,
             eventCategory?: string,
             eventAction?: string,
-            customDimensions?: CustomDimensionByIndex | CustomDimensionByField
+            customDimensions?: CustomDimensionsByIndex | CustomDimensionsByField
         ): void
 
         /**
