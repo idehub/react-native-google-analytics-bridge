@@ -37,7 +37,7 @@ Either way, then link with: `react-native link react-native-google-analytics-bri
 If it doesn't work immediately after this, consult the [manual installation guide](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Manual-installation). Both Android and iOS has a couple of prerequisite SDKs linked and installed.
 
 **Important**: Does this library work with Expo? We have to sort of invert the question a bit, because it should be: does Expo work with other libraries? And the [answer is no](https://docs.expo.io/versions/latest/introduction/faq.html#what-is-the-difference-between-expo-and-react-native):
->The most limiting thing about Expo is that you can’t add in your own native modules without `detach`ing and using ExpoKit. 
+>The most limiting thing about Expo is that you can’t add in your own native modules without `detach`ing and using ExpoKit.
 
 This includes using [`create-react-native-app`](https://github.com/react-community/create-react-native-app#what-are-the-limitations-of-create-react-native-app) which also makes use of Expo.
 ## Usage
@@ -58,7 +58,7 @@ tracker1.trackEvent('Customer', 'New');
 
 // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
 GoogleAnalyticsSettings.setDispatchInterval(30);
-// Setting `dryRun` to `true` lets you test tracking without sending data to GA 
+// Setting `dryRun` to `true` lets you test tracking without sending data to GA
 GoogleAnalyticsSettings.setDryRun(true);
 
 // GoogleTagManager is also static, and works only with one container. All functions here are Promises:
@@ -188,6 +188,11 @@ tracker.trackPurchaseEvent({
 }, 'Ecommerce', 'Purchase');
 ```
 
+
+### trackPurchaseEventWithCustomDimensionValues(products, transaction, eventCategory, eventAction, dimensionIndexValueDict)
+
+same as trackPurchaseEvent with custom dimensions
+
 ### trackMultiProductsPurchaseEvent(products, transaction, eventCategory, eventAction)
 
 same as trackPurchaseEvent but instead of one product you can provide an Array of products
@@ -287,6 +292,21 @@ Tracks an event with one or more customDimensionValues. See the [Google Analytic
 ```javascript
 tracker.trackEventWithCustomDimensionValues('testcategory', 'testaction', {label: 'v1.0.3', value: 22}, {'1':'premium', '5':'foo'});
 ```
+### trackEventWithCustomDimensionAndMetricValues(category, action, optionalValues, dimensionIndexValueDict)
+
+* **category (required):** String, category of event
+* **action (required):** String, name of action
+* **optionalValues:** Object
+  * **label:** String
+  * **value:** Number
+* **dimensionIndexValueDict (required):** Dict of dimension index / values.
+* **metricIndexValueDict (required):** Dict of metric index / values.
+
+Tracks an event with one or more customDimensionValues and one or more customMetricValues. See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/customdimsmets) docs for more info.
+
+```javascript
+tracker.trackEventWithCustomDimensionAndMetricValues('testcategory', 'testaction', {label: 'v1.0.3', value: 22}, {'1':'premium', '5':'foo'}, , {'1': 3, '5': 4});
+```
 
 ### setUser(userId)
 
@@ -296,6 +316,26 @@ See the [Google Analytics](https://developers.google.com/analytics/devguides/col
 
 ```javascript
 tracker.setUser('12345678');
+```
+
+### setClient(clientId)
+
+* **clientId (required):** String, an **anonymous** identifier that complies with Google Analytic's client ID policy
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#clientId) for more info.
+
+```javascript
+tracker.setClient('35009a79-1a05-49d7-b876-2b884d0f825b');
+```
+
+### createNewSession(screenName)
+
+* **screenName (required):** String, the current screen which the session started on
+
+See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/sessions#manual) for more info.
+
+```javascript
+tracker.createNewSession('HomeScreen');
 ```
 
 ### allowIDFA(enabled)

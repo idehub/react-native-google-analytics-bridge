@@ -55,7 +55,7 @@ export class GoogleAnalyticsTracker {
   trackScreenView(screenName) {
     GoogleAnalyticsBridge.trackScreenView(this.id, screenName);
   }
-  
+
   /**
    * Track the campaign from url
    * @param  {String} urlString The url of the deep link
@@ -95,8 +95,19 @@ export class GoogleAnalyticsTracker {
     const formattedCustomDimensions = this.transformCustomDimensionsFieldsToIndexes(customDimensionValues);
     GoogleAnalyticsBridge.trackEventWithCustomDimensionValues(this.id, category, action, optionalValues, formattedCustomDimensions);
   }
-
   /**
+   * Track an event that has occured with custom dimension and metric values.
+   * @param  {String} category       The event category
+   * @param  {String} action         The event action
+   * @param  {Object} optionalValues An object containing optional label and value
+   * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
+   * @param  {Object} customMetricValues An object containing custom metric key/value pairs
+   */
+  trackEventWithCustomDimensionAndMetricValues(category, action, optionalValues = {}, customDimensionValues, customMetricValues) {
+    GoogleAnalyticsBridge.trackEventWithCustomDimensionAndMetricValues(this.id, category, action, optionalValues, customDimensionValues, customMetricValues);
+  }
+
+ /**
    * Track an event that has occured
    * @param  {String} category       The event category
    * @param  {Number} value         	The timing measurement in milliseconds
@@ -115,6 +126,19 @@ export class GoogleAnalyticsTracker {
    */
   trackPurchaseEvent(product = {}, transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
     GoogleAnalyticsBridge.trackPurchaseEvent(this.id, product, transaction, eventCategory, eventAction);
+  }
+
+  /**
+   * Track a purchase event with custom dimensions. This uses the Enhanced Ecommerce GA feature.
+   * @param  {Object} product       An object with product values
+   * @param  {Object} transaction   An object with transaction values
+   * @param  {String} eventCategory The event category, defaults to Ecommerce
+   * @param  {String} eventAction   The event action, defaults to Purchase
+   * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
+   */
+  trackPurchaseEventWithCustomDimensionValues(product = {}, transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase", customDimensions) {
+    const formattedCustomDimensions = this.transformCustomDimensionsFieldsToIndexes(customDimensions);
+    GoogleAnalyticsBridge.trackPurchaseEventWithCustomDimensionValues(this.id, product, transaction, eventCategory, eventAction, formattedCustomDimensions);
   }
 
   /**
@@ -225,7 +249,7 @@ export class GoogleAnalyticsTracker {
   setSamplingRate(sampleRatio) {
     GoogleAnalyticsBridge.setSamplingRate(this.id, sampleRatio);
   }
-  
+
   /**
    * Sets the currency for tracking.
    * @param {String} currencyCode The currency ISO 4217 code
@@ -233,7 +257,7 @@ export class GoogleAnalyticsTracker {
   setCurrency(currencyCode) {
     GoogleAnalyticsBridge.setCurrency(this.id, currencyCode);
   }
-  
+
   createNewSession(screenName) {
     GoogleAnalyticsBridge.createNewSession(this.id, screenName);
   }
