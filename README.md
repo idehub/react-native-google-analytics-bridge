@@ -191,6 +191,7 @@ tracker.trackPurchaseEvent({
 
 ### trackPurchaseEventWithCustomDimensionValues(products, transaction, eventCategory, eventAction, dimensionIndexValueDict)
 
+
 same as trackPurchaseEvent with custom dimensions
 
 ### trackMultiProductsPurchaseEvent(products, transaction, eventCategory, eventAction)
