@@ -1,8 +1,17 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
+    }
+}
+
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         minSdkVersion 16
@@ -14,6 +23,10 @@ android {
     lintOptions {
         warning 'InvalidPackage' // prevent error: https://github.com/square/okio/issues/58
     }
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
