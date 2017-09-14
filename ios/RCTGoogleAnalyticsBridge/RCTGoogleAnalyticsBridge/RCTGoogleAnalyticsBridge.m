@@ -9,7 +9,7 @@
 #import "GAIEcommerceFields.h"
 
 @implementation RCTGoogleAnalyticsBridge {
-
+    
 }
 
 NSString *staticTrackerId;
@@ -19,9 +19,9 @@ NSString *staticTrackerId;
     if ((self = [super init])) {
         [GAI sharedInstance].trackUncaughtExceptions = YES;
         [GAI sharedInstance].dispatchInterval = 20;
-
+        
         staticTrackerId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"GAITrackingId"];
-
+        
         NSString *logLevel = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"GAILogLevel"];
         if (logLevel != nil) {
             [[GAI sharedInstance].logger setLogLevel:[logLevel intValue]];
@@ -30,73 +30,49 @@ NSString *staticTrackerId;
     return self;
 }
 
-- (NSDictionary *)constantsToExport
-{
-    return @{ @"nativeTrackerId": staticTrackerId != nil ? staticTrackerId : [NSNull null] };
-}
-
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(trackScreenView:(NSString *)trackerId screenName:(NSString *)screenName)
+RCT_EXPORT_METHOD(trackScreenView:(NSString *)trackerId
+                  screenName:(NSString *)screenName
+                  payload:(NSDictionary *)payload)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     [tracker set:kGAIScreenName
-         value:screenName];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-}
-
-RCT_EXPORT_METHOD(trackEvent:(NSString *)trackerId category:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *)optionalValues)
-{
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
-    NSString *label = [RCTConvert NSString:optionalValues[@"label"]];
-    NSNumber *value = [RCTConvert NSNumber:optionalValues[@"value"]];
-    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:category
-                                                        action:action
-                                                         label:label
-                                                         value:value] build]];
-}
-
-RCT_EXPORT_METHOD(trackScreenViewWithCustomDimensionValues:(NSString *)trackerId screenName:(NSString *)screenName dimensionIndexValues:(NSDictionary *)dimensionIndexValues)
-{
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
-    [tracker set:kGAIScreenName
-         value:screenName];
-
+           value:screenName];
     GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createScreenView];
-
-    for (NSString *dimensionIndex in dimensionIndexValues)
-        [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
-
-    [tracker send:[builder build]];
-}
-
-RCT_EXPORT_METHOD(trackEventWithCustomDimensionValues:(NSString *)trackerId category:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *)optionalValues dimensionIndexValues:(NSDictionary *)dimensionIndexValues)
-{
-    [self trackEventWithCustomDimensionAndMetricValues:trackerId category:category action:action optionalValues:optionalValues dimensionIndexValues:dimensionIndexValues metricIndexValues:nil];
-}
-
-RCT_EXPORT_METHOD(trackEventWithCustomDimensionAndMetricValues:(NSString *)trackerId category:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *)optionalValues dimensionIndexValues:(NSDictionary *)dimensionIndexValues metricIndexValues:(NSDictionary *)metricIndexValues)
-{
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
-    NSString *label = [RCTConvert NSString:optionalValues[@"label"]];
-    NSNumber *value = [RCTConvert NSNumber:optionalValues[@"value"]];
-
-    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createEventWithCategory:category
-                                                                           action:action
-                                                                            label:label
-                                                                            value:value];
-    for (NSString *dimensionIndex in dimensionIndexValues)
-        [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
     
-    if (metricIndexValues !=  nil){
-        for (NSString *metricIndex in metricIndexValues)
-            [builder set:[metricIndexValues objectForKey:metricIndex] forKey:[GAIFields customMetricForIndex:[metricIndex intValue]]];
+    if (payload) {
+        addBuilderPayload(builder, payload);
     }
     
     [tracker send:[builder build]];
 }
 
-RCT_EXPORT_METHOD(trackTiming:(NSString *)trackerId category:(nonnull NSString *)category value:(nonnull NSNumber *)value optionalValues:(nonnull NSDictionary *)optionalValues)
+RCT_EXPORT_METHOD(trackEvent:(NSString *)trackerId
+                  category:(NSString *)category
+                  action:(NSString *)action
+                  label:(NSString *)label
+                  value:(NSString *)value
+                  payload:(NSDictionary *)payload)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    
+    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createEventWithCategory:category
+                                                                           action:action
+                                                                            label:label
+                                                                            value:value];
+    
+    if (payload) {
+        addBuilderPayload(builder, payload);
+    }
+    
+    [tracker send:[builder build]];
+}
+
+RCT_EXPORT_METHOD(trackTiming:(NSString *)trackerId
+                  category:(nonnull NSString *)category
+                  value:(nonnull NSNumber *)value
+                  optionalValues:(nonnull NSDictionary *)optionalValues)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     NSString *name = [RCTConvert NSString:optionalValues[@"name"]];
@@ -107,158 +83,150 @@ RCT_EXPORT_METHOD(trackTiming:(NSString *)trackerId category:(nonnull NSString *
                                                             label:label] build]];
 }
 
-RCT_EXPORT_METHOD(trackPurchaseEvent:(NSString *)trackerId product:(NSDictionary *)product transaction:(NSDictionary *)transaction eventCategory:(NSString *)eventCategory eventAction:(NSString *)eventAction)
+static void addBuilderPayload(GAIDictionaryBuilder *builder, NSDictionary *payload)
 {
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
-    NSString *productId = [RCTConvert NSString:product[@"id"]];
-    NSString *productName = [RCTConvert NSString:product[@"name"]];
-    NSString *productCategory = [RCTConvert NSString:product[@"category"]];
-    NSString *productBrand = [RCTConvert NSString:product[@"brand"]];
-    NSString *productVariant = [RCTConvert NSString:product[@"variant"]];
-    NSNumber *productPrice = [RCTConvert NSNumber:product[@"price"]];
-    NSString *productCouponCode = [RCTConvert NSString:product[@"couponCode"]];
-    NSNumber *productQuantity = [RCTConvert NSNumber:product[@"quantity"]];
-    NSString *transactionId = [RCTConvert NSString:transaction[@"id"]];
-    NSString *transactionAffiliation = [RCTConvert NSString:transaction[@"affiliation"]];
-    NSNumber *transactionRevenue = [RCTConvert NSNumber:transaction[@"revenue"]];
-    NSNumber *transactionTax = [RCTConvert NSNumber:transaction[@"tax"]];
-    NSNumber *transactionShipping = [RCTConvert NSNumber:transaction[@"shipping"]];
-    NSString *transactionCouponCode = [RCTConvert NSString:transaction[@"couponCode"]];
-    GAIEcommerceProduct *ecommerceProduct = [[GAIEcommerceProduct alloc] init];
-    [ecommerceProduct setId:productId];
-    [ecommerceProduct setName:productName];
-    [ecommerceProduct setCategory:productCategory];
-    [ecommerceProduct setBrand:productBrand];
-    [ecommerceProduct setVariant:productVariant];
-    [ecommerceProduct setPrice:productPrice];
-    [ecommerceProduct setCouponCode:productCouponCode];
-    [ecommerceProduct setQuantity:productQuantity];
-    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createEventWithCategory:eventCategory
-                                                                           action:eventAction
-                                                                            label:nil
-                                                                            value:nil];
-    GAIEcommerceProductAction *action = [[GAIEcommerceProductAction alloc] init];
-    [action setAction:kGAIPAPurchase];
-    [action setTransactionId:transactionId];
-    [action setAffiliation:transactionAffiliation];
-    [action setRevenue:transactionRevenue];
-    [action setTax:transactionTax];
-    [action setShipping:transactionShipping];
-    [action setCouponCode:transactionCouponCode];
-    [builder setProductAction:action];
-    [builder addProduct:ecommerceProduct];
-    [tracker send:[builder build]];
+    NSArray<NSDictionary*>* products = payload[@"products"];
+    if (products) {
+        NSArray<GAIEcommerceProduct*>* ecommerceProducts = getEcommerceProducts(products);
+        for (GAIEcommerceProduct* product in ecommerceProducts) {
+            [builder addProduct:product];
+        }
+    }
+    
+    NSArray<NSDictionary*>* impressionProducts = payload[@"impressionProducts"];
+    if (impressionProducts) {
+        NSArray<GAIEcommerceProduct*>* ecommerceProducts = getEcommerceProducts(impressionProducts);
+        for (GAIEcommerceProduct* product in ecommerceProducts) {
+            [builder addProductImpression:product
+                           impressionList:payload[@"impressionList"]
+                         impressionSource:payload[@"impressionSource"]];
+        }
+    }
+    
+    NSDictionary* productActionDict = payload[@"productAction"];
+    if (productActionDict) {
+        [builder setProductAction:getEcommerceProductAction(productActionDict)];
+    }
+    
+    NSDictionary* customDimensions = payload[@"customDimensions"];
+    if (customDimensions) {
+        for (NSString *dimensionIndex in customDimensions){
+            [builder set:[customDimensions objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
+        }
+    }
+    
+    NSDictionary* customMetrics = payload[@"customMetrics"];
+    if (customMetrics) {
+        for (NSString *metricIndex in customMetrics) {
+            [builder set:[customMetrics objectForKey:metricIndex] forKey:[GAIFields customMetricForIndex:[metricIndex intValue]]];
+        }
+    }
+    
+    NSString* nonInteraction = payload[@"nonInteraction"];
+    if (nonInteraction) {
+        [builder set:nonInteraction ? @"1" : @"0" forKey:kGAINonInteraction];
+    }
 }
 
-RCT_EXPORT_METHOD(trackMultiProductsPurchaseEvent:(NSString *)trackerId products:(NSArray *)products transaction:(NSDictionary *)transaction eventCategory:(NSString *)eventCategory eventAction:(NSString *)eventAction) {
-
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
-    NSString *transactionId = [RCTConvert NSString:transaction[@"id"]];
-    NSString *transactionAffiliation = [RCTConvert NSString:transaction[@"affiliation"]];
-    NSNumber *transactionRevenue = [RCTConvert NSNumber:transaction[@"revenue"]];
-    NSNumber *transactionTax = [RCTConvert NSNumber:transaction[@"tax"]];
-    NSNumber *transactionShipping = [RCTConvert NSNumber:transaction[@"shipping"]];
-    NSString *transactionCouponCode = [RCTConvert NSString:transaction[@"couponCode"]];
-    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createEventWithCategory:eventCategory
-                                                                           action:eventAction
-                                                                            label:nil
-                                                                            value:nil];
-    GAIEcommerceProductAction *action = [[GAIEcommerceProductAction alloc] init];
-    [action setAction:kGAIPAPurchase];
-    [action setTransactionId:transactionId];
-    [action setAffiliation:transactionAffiliation];
-    [action setRevenue:transactionRevenue];
-    [action setTax:transactionTax];
-    [action setShipping:transactionShipping];
-    [action setCouponCode:transactionCouponCode];
-    [builder setProductAction:action];
-    for (id product in products) {
-        NSString *productId = [RCTConvert NSString:product[@"id"]];
-        NSString *productName = [RCTConvert NSString:product[@"name"]];
-        NSString *productBrand = [RCTConvert NSString:product[@"brand"]];
-        NSNumber *productPrice = [RCTConvert NSNumber:product[@"price"]];
-        NSString *productVariant = [RCTConvert NSString:product[@"variant"]];
-        NSString *productCategory = [RCTConvert NSString:product[@"category"]];
-        NSNumber *productQuantity = [RCTConvert NSNumber:product[@"quantity"]];
+static NSArray<GAIEcommerceProduct*>* getEcommerceProducts(NSArray<NSDictionary*>* products)
+{
+    NSMutableArray<GAIEcommerceProduct*>* ecommerceProducts = [NSMutableArray new];
+    
+    for (NSDictionary* product in products)
+    {
         GAIEcommerceProduct *ecommerceProduct = [[GAIEcommerceProduct alloc] init];
-        [ecommerceProduct setId:productId];
-        [ecommerceProduct setName:productName];
-        [ecommerceProduct setCategory:productCategory];
-        [ecommerceProduct setBrand:productBrand];
-        [ecommerceProduct setVariant:productVariant];
-        [ecommerceProduct setPrice:productPrice];
-        [ecommerceProduct setQuantity:productQuantity];
-        if ([product objectForKey:@"couponCode"]) {
-            NSString *productCouponCode = [RCTConvert NSString:product[@"couponCode"]];
-            [ecommerceProduct setCouponCode:productCouponCode];
-        }
-        [builder addProduct:ecommerceProduct];
+        
+        [ecommerceProduct setId:[RCTConvert NSString:product[@"id"]]];
+        [ecommerceProduct setName:[RCTConvert NSString:product[@"name"]]];
+        [ecommerceProduct setCategory:[RCTConvert NSString:product[@"category"]]];
+        [ecommerceProduct setBrand:[RCTConvert NSString:product[@"brand"]]];
+        [ecommerceProduct setVariant:[RCTConvert NSString:product[@"variant"]]];
+        [ecommerceProduct setPrice:[RCTConvert NSNumber:product[@"price"]]];
+        [ecommerceProduct setCouponCode:[RCTConvert NSString:product[@"couponCode"]]];
+        [ecommerceProduct setQuantity:[RCTConvert NSNumber:product[@"quantity"]]];
+        
+        [ecommerceProducts addObject:ecommerceProduct];
     }
-    [tracker send:[builder build]];
+    
+    return ecommerceProducts;
 }
 
-RCT_EXPORT_METHOD(trackMultiProductsPurchaseEventWithCustomDimensionValues:(NSString *)trackerId products:(NSArray *)products transaction:(NSDictionary *)transaction eventCategory:(NSString *)eventCategory eventAction:(NSString *)eventAction dimensionIndexValues:(NSDictionary *)dimensionIndexValues) {
-
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
-    NSString *transactionId = [RCTConvert NSString:transaction[@"id"]];
-    NSString *transactionAffiliation = [RCTConvert NSString:transaction[@"affiliation"]];
-    NSNumber *transactionRevenue = [RCTConvert NSNumber:transaction[@"revenue"]];
-    NSNumber *transactionTax = [RCTConvert NSNumber:transaction[@"tax"]];
-    NSNumber *transactionShipping = [RCTConvert NSNumber:transaction[@"shipping"]];
-    NSString *transactionCouponCode = [RCTConvert NSString:transaction[@"couponCode"]];
-    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createEventWithCategory:eventCategory
-                                                                           action:eventAction
-                                                                            label:nil
-                                                                            value:nil];
-    for (NSString *dimensionIndex in dimensionIndexValues)
-        [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
-
-    GAIEcommerceProductAction *action = [[GAIEcommerceProductAction alloc] init];
-    [action setAction:kGAIPAPurchase];
-    [action setTransactionId:transactionId];
-    [action setAffiliation:transactionAffiliation];
-    [action setRevenue:transactionRevenue];
-    [action setTax:transactionTax];
-    [action setShipping:transactionShipping];
-    [action setCouponCode:transactionCouponCode];
-    [builder setProductAction:action];
-    for (id product in products) {
-        NSString *productId = [RCTConvert NSString:product[@"id"]];
-        NSString *productName = [RCTConvert NSString:product[@"name"]];
-        NSString *productBrand = [RCTConvert NSString:product[@"brand"]];
-        NSNumber *productPrice = [RCTConvert NSNumber:product[@"price"]];
-        NSString *productVariant = [RCTConvert NSString:product[@"variant"]];
-        NSString *productCategory = [RCTConvert NSString:product[@"category"]];
-        NSNumber *productQuantity = [RCTConvert NSNumber:product[@"quantity"]];
-        GAIEcommerceProduct *ecommerceProduct = [[GAIEcommerceProduct alloc] init];
-        [ecommerceProduct setId:productId];
-        [ecommerceProduct setName:productName];
-        [ecommerceProduct setCategory:productCategory];
-        [ecommerceProduct setBrand:productBrand];
-        [ecommerceProduct setVariant:productVariant];
-        [ecommerceProduct setPrice:productPrice];
-        [ecommerceProduct setQuantity:productQuantity];
-        if ([product objectForKey:@"couponCode"]) {
-            NSString *productCouponCode = [RCTConvert NSString:product[@"couponCode"]];
-            [ecommerceProduct setCouponCode:productCouponCode];
-        }
-        [builder addProduct:ecommerceProduct];
+static GAIEcommerceProductAction* getEcommerceProductAction(NSDictionary* productActionDict)
+{
+    if (!productActionDict) return NULL;
+    
+    NSString* action = getProductAction([RCTConvert NSNumber:productActionDict[@"action"]]);
+    
+    GAIEcommerceProductAction* productAction = [[GAIEcommerceProductAction alloc] init];
+    
+    [productAction setAction:action];
+    
+    NSDictionary* transaction = productActionDict[@"transaction"];
+    if (transaction) {
+        [productAction setTransactionId:[RCTConvert NSString:transaction[@"id"]]];
+        [productAction setAffiliation: [RCTConvert NSString:transaction[@"affiliation"]]];
+        [productAction setRevenue:[RCTConvert NSNumber:transaction[@"revenue"]]];
+        [productAction setTax:[RCTConvert NSNumber:transaction[@"tax"]]];
+        [productAction setShipping:[RCTConvert NSNumber:transaction[@"shipping"]]];
+        [productAction setCouponCode:[RCTConvert NSString:transaction[@"couponCode"]]];
     }
-    [tracker send:[builder build]];
+    
+    // Sets the option associated with the checkout. This value is used for kGAICheckout and kGAICheckoutOptions product actions.
+    NSNumber* checkoutStep = [RCTConvert NSNumber:productActionDict[@"checkoutStep"]];
+    if (checkoutStep)
+        [productAction setCheckoutStep:checkoutStep];
+    
+    // Sets the option associated with the checkout. This value is used for kGAICheckout and kGAICheckoutOptions product actions.
+    NSString* checkoutOption = [RCTConvert NSString:productActionDict[@"checkoutOption"]];
+    if (checkoutOption)
+        [productAction setCheckoutOption:checkoutOption];
+    
+    // Sets the list name associated with the products in Google Analytics beacons. This value is used in kGAIPADetail and kGAIPAClick product actions.
+    NSString* productActionList = [RCTConvert NSString:productActionDict[@"productActionList"]];
+    if (productActionList)
+        [productAction setProductActionList:productActionList];
+    
+    // Sets the list source name associated with the products in Google Analytics beacons. This value is used in kGAIPADetail and kGAIPAClick product actions.
+    NSString* productListSource = [RCTConvert NSString:productActionDict[@"productListSource"]];
+    if (productListSource)
+        [productAction setProductListSource:productListSource];
+    
+    return productAction;
+}
+
+static NSString* getProductAction(NSNumber* action)
+{
+    switch ([action intValue]) {
+        case Click:
+            return kGAIPAClick;
+        case Detail:
+            return kGAIPADetail;
+        case Add:
+            return kGAIPAAdd;
+        case Remove:
+            return kGAIPARemove;
+        case Checkout:
+            return kGAIPACheckout;
+        case Refund:
+            return kGAIPARefund;
+        default:
+        case Purchase:
+            return kGAIPAPurchase;
+    }
 }
 
 RCT_EXPORT_METHOD(trackException:(NSString *)trackerId error:(NSString *)error fatal:(BOOL)fatal)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     [tracker send:[[GAIDictionaryBuilder createExceptionWithDescription:error
-                                                            withFatal:[NSNumber numberWithBool:fatal]] build]];
+                                                              withFatal:[NSNumber numberWithBool:fatal]] build]];
 }
 
 RCT_EXPORT_METHOD(setUser:(NSString *)trackerId userId:(NSString *)userId)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     [tracker set:kGAIUserId
-         value:userId];
+           value:userId];
 }
 
 RCT_EXPORT_METHOD(setClient:(NSString *)trackerId clientId:(NSString *)clientId)
@@ -278,8 +246,8 @@ RCT_EXPORT_METHOD(trackSocialInteraction:(NSString *)trackerId network:(NSString
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     [tracker send:[[GAIDictionaryBuilder createSocialWithNetwork:network
-                                                        action:action
-                                                        target:targetUrl] build]];
+                                                          action:action
+                                                          target:targetUrl] build]];
 }
 
 
@@ -331,7 +299,7 @@ RCT_EXPORT_METHOD(setCurrency:(NSString *)trackerId currencyCode:(NSString *)cur
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     [tracker set:kGAICurrencyCode
-         value:currencyCode];
+           value:currencyCode];
 }
 
 RCT_EXPORT_METHOD(trackCampaignFromUrl:(NSString *)trackerId urlString:(NSString *)urlString)
