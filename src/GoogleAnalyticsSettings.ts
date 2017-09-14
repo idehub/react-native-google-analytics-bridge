@@ -1,15 +1,16 @@
-import { GoogleAnalyticsBridge } from './NativeBridges';
+import NativeBridges from "./NativeBridges";
+const GoogleAnalyticsBridge = NativeBridges.GoogleAnalyticsBridge;
 
 /**
  * Google analytics settings shared across all GoogleAnalyticsTracker instances.
  */
-export class GoogleAnalyticsSettings {
+export default class GoogleAnalyticsSettings {
   /**
    * Sets if OptOut is active and disables Google Analytics
    * This has to be set each time the App starts
    * @param {Boolean} enabled
    */
-  static setOptOut(enabled) {
+  static setOptOut(enabled: boolean): void {
     GoogleAnalyticsBridge.setOptOut(enabled);
   }
 
@@ -19,7 +20,7 @@ export class GoogleAnalyticsSettings {
    * are sent to your tracker.
    * @param {Number} intervalInSeconds
    */
-  static setDispatchInterval(intervalInSeconds) {
+  static setDispatchInterval(intervalInSeconds: number): void {
     GoogleAnalyticsBridge.setDispatchInterval(intervalInSeconds);
   }
 
@@ -28,7 +29,7 @@ export class GoogleAnalyticsSettings {
    * If dry run is enabled, no analytics data will be sent to your tracker.
    * @param {Boolean} enabled
    */
-  static setDryRun(enabled) {
+  static setDryRun(enabled: boolean): void {
     GoogleAnalyticsBridge.setDryRun(enabled);
   }
 }
