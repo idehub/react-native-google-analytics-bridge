@@ -1,3 +1,9 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
 import React, { Component } from "react";
 import { AppRegistry, StyleSheet, Text, View } from "react-native";
 
@@ -6,21 +12,21 @@ import {
   GoogleAnalyticsSettings,
   GoogleTagManager
 } from "react-native-google-analytics-bridge";
-export default class App extends Component {
+export default class example extends Component {
   render() {
     // Recommend you set this much higher in real app! 30 seconds+
     // GoogleAnalyticsSettings has static methods and is applied
     // for all trackers
     GoogleAnalyticsSettings.setDispatchInterval(2);
-    //GoogleAnalyticsSettings.setDryRun(true);
+    GoogleAnalyticsSettings.setDryRun(true);
     //GoogleAnalyticsSettings.setOptOut(true);
 
     // The tracker is constructed
-    let tracker = new GoogleAnalyticsTracker("UA-12345-3");
+    let tracker = new GoogleAnalyticsTracker("UA-12345-2");
     // You can have multiple trackers
-    //let tracker2 = new GoogleAnalyticsTracker("UA-12345-3", { demo: 1 });
+    let tracker2 = new GoogleAnalyticsTracker("UA-12345-3", { demo: 1 });
 
-    //tracker2.trackScreenViewWithCustomDimensionValues("Home", { demo: "Yes" });
+    tracker2.trackScreenViewWithCustomDimensionValues("Home", { demo: "Yes" });
 
     tracker.trackEvent("testcategory", "Hello iOS");
 
@@ -30,6 +36,8 @@ export default class App extends Component {
       label: "notdry",
       value: 1
     });
+
+    tracker.newTrackEvent("testcategory", "Hello iOS");
 
     tracker.trackTiming("testcategory", 13000, {
       label: "notdry",
@@ -99,8 +107,6 @@ export default class App extends Component {
 
     tracker.setAnonymizeIp(true);
 
-    tracker.trackScreenView("Hello");
-
     GoogleTagManager.openContainerWithId("GT-NZT48")
       .then(() => {
         return GoogleTagManager.stringForKey("pack");
@@ -122,8 +128,13 @@ export default class App extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native Google Analytics Bridge!
+        <Text style={styles.welcome}>Welcome to React Native!</Text>
+        <Text style={styles.instructions}>
+          To get started, edit index.ios.js
+        </Text>
+        <Text style={styles.instructions}>
+          Press Cmd+R to reload,{"\n"}
+          Cmd+D or shake for dev menu
         </Text>
       </View>
     );
@@ -141,5 +152,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     margin: 10
+  },
+  instructions: {
+    textAlign: "center",
+    color: "#333333",
+    marginBottom: 5
   }
 });
+
+AppRegistry.registerComponent("example", () => example);

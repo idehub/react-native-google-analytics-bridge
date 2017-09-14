@@ -6,6 +6,8 @@ if [ "$LANE" = "node" ]; then
 else
     npm install -g react-native-cli
     react-native -v
+    yarn install
+    yarn run tsc
 
     cd example
     yarn install
