@@ -1,6 +1,5 @@
 import { NativeModules } from "react-native";
-const GoogleTagManagerBridge = (NativeModules as any).GoogleTagManagerBridge;
-const GoogleAnalyticsBridge = (NativeModules as any).GoogleAnalyticsBridge;
+const { GoogleTagManagerBridge, GoogleAnalyticsBridge } = NativeModules;
 
 if (!GoogleTagManagerBridge || !GoogleAnalyticsBridge) {
   console.error(
@@ -8,7 +7,5 @@ if (!GoogleTagManagerBridge || !GoogleAnalyticsBridge) {
   );
 }
 
-export default {
-  GoogleTagManagerBridge,
-  GoogleAnalyticsBridge
-};
+export { GoogleTagManagerBridge };
+export { GoogleAnalyticsBridge };

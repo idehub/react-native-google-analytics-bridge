@@ -1,5 +1,4 @@
-import NativeBridges from "./NativeBridges";
-const GoogleAnalyticsBridge = NativeBridges.GoogleAnalyticsBridge;
+import { GoogleAnalyticsBridge } from "./NativeBridges";
 
 import {
   CustomDimensionsByField,

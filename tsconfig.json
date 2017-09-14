@@ -6,7 +6,8 @@
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist",
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "noImplicitAny": false
   },
   "include": ["src/**/*"]
 }

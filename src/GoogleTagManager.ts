@@ -1,7 +1,5 @@
-import NativeBridges from "./NativeBridges";
 import DataLayerEvent from "./DataLayerEvent";
-
-const GoogleTagManagerBridge = NativeBridges.GoogleTagManagerBridge;
+import { GoogleTagManagerBridge } from "./NativeBridges";
 
 export default class GoogleTagManager {
   /**
