@@ -14,3 +14,4 @@ export {
   CustomDimensionsFieldIndexMap,
   CustomMetrics
 } from "./Custom";
+export { HitPayload } from "./HitPayload";

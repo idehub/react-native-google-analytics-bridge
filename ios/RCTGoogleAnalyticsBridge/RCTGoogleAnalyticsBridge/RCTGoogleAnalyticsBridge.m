@@ -49,15 +49,20 @@ RCT_EXPORT_METHOD(trackEvent:(nonnull NSString *)trackerId
                   category:(nonnull NSString *)category
                   action:(nonnull NSString *)action
                   label:(NSString *)label
-                  value:(NSNumber *)value
+                  value:(NSString *)value
                   payload:(NSDictionary *)payload)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     
+    NSNumber* valueNumber = nil;
+    if (value) {
+        valueNumber = @([value intValue]);
+    }
+    
     GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createEventWithCategory:category
                                                                            action:action
                                                                             label:label
-                                                                            value:value];
+                                                                            value:valueNumber];
     
     if (payload) {
         [GoogleAnalyticsPayload addBuilderPayload:builder payload:payload];

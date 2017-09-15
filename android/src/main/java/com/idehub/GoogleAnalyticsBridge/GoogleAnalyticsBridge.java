@@ -71,7 +71,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void trackEvent(String trackerId, String category, String action, @Nullable String label, @Nullable Integer value, @Nullable ReadableMap payload){
+    public void trackEvent(String trackerId, String category, String action, @Nullable String label, @Nullable String value, @Nullable ReadableMap payload){
         Tracker tracker = getTracker(trackerId);
 
         if (tracker != null)
@@ -86,7 +86,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
             }
             if (value != null)
             {
-                builder.setValue(value);
+                builder.setValue(Integer.parseInt(value));
             }
 
             if (payload != null) {
