@@ -1,5 +1,4 @@
-import { CustomDimensionsByIndex, CustomMetrics } from "./Custom";
-import { Product, ProductAction } from "./Product";
+import { HitPayload } from "./HitPayload";
 import { NativeModules } from "react-native";
 const {
   GoogleTagManagerBridge,
@@ -15,16 +14,6 @@ if (
   console.error(
     "Something went wrong initializing the native react-native-google-analytics-bridge module.\nPlease check your configuration.\nDid you forget to run 'react-native link' or install your node_modules?"
   );
-}
-
-export interface HitPayload {
-  products?: Product[];
-  impressionProducts?: Product[];
-  productAction?: ProductAction;
-  customDimensions?: CustomDimensionsByIndex;
-  customMetrics?: CustomMetrics;
-  utmCampaignUrl?: string;
-  startSession?: number;
 }
 
 export interface IGoogleAnalyticsBridge {

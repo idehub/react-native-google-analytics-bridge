@@ -1,4 +1,5 @@
-import { AnalyticsBridge, HitPayload } from "./NativeBridges";
+import { AnalyticsBridge } from "./NativeBridges";
+import { HitPayload } from "./HitPayload";
 
 import {
   CustomDimensionsByField,
