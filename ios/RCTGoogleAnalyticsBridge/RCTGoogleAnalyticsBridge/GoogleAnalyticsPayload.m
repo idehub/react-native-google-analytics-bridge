@@ -62,9 +62,14 @@ typedef enum {
         }
     }
     
-    NSString* nonInteraction = payload[@"nonInteraction"];
-    if (nonInteraction) {
-        [builder set:nonInteraction ? @"1" : @"0" forKey:kGAINonInteraction];
+    NSString* utmCampaignUrl = payload[@"utmCampaignUrl"];
+    if (utmCampaignUrl) {
+        [builder setAll:getUtmCampaignUrlHitParams(utmCampaignUrl)];
+    }
+    
+    NSNumber* startSession = payload[@"startSession"];
+    if (startSession != nil && startSession.intValue == 1) {
+        [builder set:@"start" forKey:kGAISessionControl];
     }
 }
 
@@ -153,6 +158,24 @@ static NSString* getProductAction(NSNumber* action)
         case Purchase:
             return kGAIPAPurchase;
     }
+}
+
+static NSDictionary* getUtmCampaignUrlHitParams(NSString* urlString)
+{
+    GAIDictionaryBuilder *hitParams = [[GAIDictionaryBuilder alloc] init];
+    
+    // setCampaignParametersFromUrl: parses Google Analytics campaign ("UTM")
+    // parameters from a string url into a Map that can be set on a Tracker.
+    [hitParams setCampaignParametersFromUrl:urlString];
+    
+    // kGAICampaignSource is required. Use host if not set by previous call.
+    NSURL *url = [NSURL URLWithString:urlString];
+    if(![hitParams get:kGAICampaignSource] && [url host].length !=0) {
+        [hitParams set:@"referrer" forKey:kGAICampaignMedium];
+        [hitParams set:[url host] forKey:kGAICampaignSource];
+    }
+    
+    return [hitParams build];
 }
 
 @end

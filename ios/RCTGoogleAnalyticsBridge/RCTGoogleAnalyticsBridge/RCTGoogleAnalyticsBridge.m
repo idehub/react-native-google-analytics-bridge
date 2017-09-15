@@ -13,16 +13,12 @@
     
 }
 
-NSString *staticTrackerId;
-
 - (instancetype)init
 {
     if ((self = [super init])) {
         [GAI sharedInstance].trackUncaughtExceptions = YES;
         [GAI sharedInstance].dispatchInterval = 20;
-        
-        staticTrackerId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"GAITrackingId"];
-        
+
         NSString *logLevel = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"GAILogLevel"];
         if (logLevel != nil) {
             [[GAI sharedInstance].logger setLogLevel:[logLevel intValue]];
@@ -67,21 +63,34 @@ RCT_EXPORT_METHOD(trackEvent:(NSString *)trackerId
         [GoogleAnalyticsPayload addBuilderPayload:builder payload:payload];
     }
     
+    // Non-interaction event. Enable sending events without affecting bounce
+    NSString* nonInteraction = payload[@"nonInteraction"];
+    if (nonInteraction) {
+        [builder set:nonInteraction ? @"1" : @"0" forKey:kGAINonInteraction];
+    }
+    
     [tracker send:[builder build]];
 }
 
 RCT_EXPORT_METHOD(trackTiming:(NSString *)trackerId
                   category:(nonnull NSString *)category
-                  value:(nonnull NSNumber *)value
-                  optionalValues:(nonnull NSDictionary *)optionalValues)
+                  interval:(nonnull NSNumber *)interval
+                  name:(nonnull NSString *)name
+                  label:(NSString *)label
+                  payload:(NSDictionary *)payload)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
-    NSString *name = [RCTConvert NSString:optionalValues[@"name"]];
-    NSString *label = [RCTConvert NSString:optionalValues[@"label"]];
-    [tracker send:[[GAIDictionaryBuilder createTimingWithCategory:category
-                                                         interval:value
-                                                             name:name
-                                                            label:label] build]];
+    
+    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createTimingWithCategory:category
+                                                                          interval:interval
+                                                                              name:name
+                                                                             label:label];
+    
+    if (payload) {
+        [GoogleAnalyticsPayload addBuilderPayload:builder payload:payload];
+    }
+    
+    [tracker send:[builder build]];
 }
 
 RCT_EXPORT_METHOD(trackException:(NSString *)trackerId error:(NSString *)error fatal:(BOOL)fatal)
@@ -126,30 +135,10 @@ RCT_EXPORT_METHOD(setSamplingRate:(NSString *)trackerId sampleRate:(nonnull NSNu
     [tracker set:kGAISampleRate value:[sampleRate stringValue]];
 }
 
-RCT_EXPORT_METHOD(setDryRun:(BOOL)enabled)
-{
-    [GAI sharedInstance].dryRun = enabled;
-}
-
-RCT_EXPORT_METHOD(setDispatchInterval:(NSInteger)intervalInSeconds)
-{
-    [GAI sharedInstance].dispatchInterval = intervalInSeconds;
-}
-
-RCT_EXPORT_METHOD(setTrackUncaughtExceptions:(NSString *)trackerId enabled:(BOOL)enabled)
-{
-    [GAI sharedInstance].trackUncaughtExceptions = enabled;
-}
-
 RCT_EXPORT_METHOD(setAnonymizeIp:(NSString *)trackerId enabled:(BOOL)enabled)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     [tracker set:kGAIAnonymizeIp value:enabled ? @"1" : @"0"];
-}
-
-RCT_EXPORT_METHOD(setOptOut:(BOOL)enabled)
-{
-    [GAI sharedInstance].optOut = enabled;
 }
 
 RCT_EXPORT_METHOD(setAppName:(NSString *)trackerId appName:(NSString *)appName)
@@ -169,49 +158,6 @@ RCT_EXPORT_METHOD(setCurrency:(NSString *)trackerId currencyCode:(NSString *)cur
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     [tracker set:kGAICurrencyCode
            value:currencyCode];
-}
-
-RCT_EXPORT_METHOD(trackCampaignFromUrl:(NSString *)trackerId urlString:(NSString *)urlString)
-{
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
-    
-    // setCampaignParametersFromUrl: parses Google Analytics campaign ("UTM")
-    // parameters from a string url into a Map that can be set on a Tracker.
-    GAIDictionaryBuilder *hitParams = [[GAIDictionaryBuilder alloc] init];
-    
-    // Set campaign data on the map, not the tracker directly because it only
-    // needs to be sent once.
-    [hitParams setCampaignParametersFromUrl:urlString];
-    
-    // Campaign source is the only required campaign field. If previous call
-    // did not set a campaign source, use the hostname as a referrer instead.
-    NSURL *url = [NSURL URLWithString:urlString];
-    if(![hitParams get:kGAICampaignSource] && [url host].length !=0) {
-        // Set campaign data on the map, not the tracker.
-        [hitParams set:@"referrer" forKey:kGAICampaignMedium];
-        [hitParams set:[url host] forKey:kGAICampaignSource];
-    }
-    
-    NSDictionary *hitParamsDict = [hitParams build];
-    
-    // A screen name is required for a screen view.
-    [tracker set:kGAIScreenName value:@"Init With Campaign"];
-    
-    // Previous V3 SDK versions.
-    // [tracker send:[[[GAIDictionaryBuilder createAppView] setAll:hitParamsDict] build]];
-    
-    // SDK Version 3.08 and up.
-    [tracker send:[[[GAIDictionaryBuilder createScreenView] setAll:hitParamsDict] build]];
-}
-
-RCT_EXPORT_METHOD(createNewSession:(NSString *)trackerId screenName:(NSString *)screenName)
-{
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
-    
-    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createScreenView];
-    [builder set:@"start" forKey:kGAISessionControl];
-    [tracker set:kGAIScreenName value:screenName];
-    [tracker send:[builder build]];
 }
 
 @end
