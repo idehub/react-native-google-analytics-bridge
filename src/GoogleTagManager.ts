@@ -1,5 +1,5 @@
 import DataLayerEvent from "./DataLayerEvent";
-import { GoogleTagManagerBridge } from "./NativeBridges";
+import { TagManagerBridge } from "./NativeBridges";
 
 export default class GoogleTagManager {
   /**
@@ -8,7 +8,7 @@ export default class GoogleTagManager {
    * @returns {Promise<boolean>}
    */
   static openContainerWithId(containerId: string): Promise<boolean> {
-    return GoogleTagManagerBridge.openContainerWithId(containerId);
+    return TagManagerBridge.openContainerWithId(containerId);
   }
 
   /**
@@ -17,7 +17,7 @@ export default class GoogleTagManager {
    * @returns {Promise<boolean>}
    */
   static boolForKey(key: string): Promise<boolean> {
-    return GoogleTagManagerBridge.booleanForKey(key);
+    return TagManagerBridge.booleanForKey(key);
   }
 
   /**
@@ -26,7 +26,7 @@ export default class GoogleTagManager {
    * @returns {String}
    */
   static stringForKey(key: string): Promise<string> {
-    return GoogleTagManagerBridge.stringForKey(key);
+    return TagManagerBridge.stringForKey(key);
   }
 
   /**
@@ -35,7 +35,7 @@ export default class GoogleTagManager {
    * @returns {Promise<number>}
    */
   static doubleForKey(key): Promise<number> {
-    return GoogleTagManagerBridge.doubleForKey(key);
+    return TagManagerBridge.doubleForKey(key);
   }
 
   /**
@@ -45,6 +45,6 @@ export default class GoogleTagManager {
    * @returns {Promise<boolean>}
    */
   static pushDataLayerEvent(event: DataLayerEvent): Promise<boolean> {
-    return GoogleTagManagerBridge.pushDataLayerEvent(event);
+    return TagManagerBridge.pushDataLayerEvent(event);
   }
 }
