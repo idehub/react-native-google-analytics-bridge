@@ -1,4 +1,4 @@
-import { GoogleAnalyticsBridge } from "./NativeBridges";
+import { GoogleAnalyticsSettings as GoogleAnalyticsSettingsBridge } from "./NativeBridges";
 
 /**
  * Google analytics settings shared across all GoogleAnalyticsTracker instances.
@@ -10,7 +10,7 @@ export default class GoogleAnalyticsSettings {
    * @param {Boolean} enabled
    */
   static setOptOut(enabled: boolean): void {
-    GoogleAnalyticsBridge.setOptOut(enabled);
+    GoogleAnalyticsSettingsBridge.setOptOut(enabled);
   }
 
   /**
@@ -20,7 +20,7 @@ export default class GoogleAnalyticsSettings {
    * @param {Number} intervalInSeconds
    */
   static setDispatchInterval(intervalInSeconds: number): void {
-    GoogleAnalyticsBridge.setDispatchInterval(intervalInSeconds);
+    GoogleAnalyticsSettingsBridge.setDispatchInterval(intervalInSeconds);
   }
 
   /**
@@ -29,6 +29,6 @@ export default class GoogleAnalyticsSettings {
    * @param {Boolean} enabled
    */
   static setDryRun(enabled: boolean): void {
-    GoogleAnalyticsBridge.setDryRun(enabled);
+    GoogleAnalyticsSettingsBridge.setDryRun(enabled);
   }
 }

@@ -160,4 +160,11 @@ RCT_EXPORT_METHOD(setCurrency:(NSString *)trackerId currencyCode:(NSString *)cur
            value:currencyCode];
 }
 
+// A special case. For iOS this is set on all trackers. On Android it is on each tracker.
+RCT_EXPORT_METHOD(setTrackUncaughtExceptions:(NSString *)trackerId enabled:(BOOL)enabled)
+{
+    [GAI sharedInstance].trackUncaughtExceptions = enabled;
+}
+
+
 @end

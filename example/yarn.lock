@@ -3052,8 +3052,8 @@ react-devtools-core@2.3.1:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-"react-native-google-analytics-bridge@file:../":
-  version "5.1.0"
+"react-native-google-analytics-bridge@file:..":
+  version "6.0.0-rc1"
 
 react-native@0.46.1:
   version "0.46.1"
