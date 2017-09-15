@@ -307,14 +307,6 @@ export default class GoogleAnalyticsTracker {
   }
 
   /**
-   * Sets if uncaught exceptions should be tracked
-   * @param {Boolean} enabled
-   */
-  setTrackUncaughtExceptions(enabled: boolean): void {
-    GoogleAnalyticsBridge.setTrackUncaughtExceptions(this.id, enabled);
-  }
-
-  /**
    * Sets the trackers appName
    * The Bundle name is used by default
    * @param {String} appName
@@ -363,5 +355,15 @@ export default class GoogleAnalyticsTracker {
    */
   createNewSession(screenName: string): void {
     GoogleAnalyticsBridge.createNewSession(this.id, screenName);
+  }
+
+  /**
+   * Sets if uncaught exceptions should be tracked
+   * Important to note: On iOS this option is set on all trackers. On Android it is set per tracker.
+   * If you are using multiple trackers on iOS, this will enable & disable on all trackers.
+   * @param {Boolean} enabled
+   */
+  setTrackUncaughtExceptions(enabled: boolean): void {
+    GoogleAnalyticsBridge.setTrackUncaughtExceptions(this.id, enabled);
   }
 }
