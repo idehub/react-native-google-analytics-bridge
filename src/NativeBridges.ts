@@ -21,8 +21,8 @@ export interface HitPayload {
   products?: Product[];
   impressionProducts?: Product[];
   productAction?: ProductAction;
-  customDimensions?: CustomDimensionsByIndex[];
-  customMetrics?: CustomMetrics[];
+  customDimensions?: CustomDimensionsByIndex;
+  customMetrics?: CustomMetrics;
   utmCampaignUrl?: string;
   startSession?: number;
 }
