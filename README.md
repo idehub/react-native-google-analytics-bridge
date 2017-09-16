@@ -75,436 +75,344 @@ GoogleTagManager.openContainerWithId("GT-NZT48")
 ```
 
 ## JavaScript API
-  * [GoogleAnalyticsTracker](#googleanalyticstracker-api)
-  * [GoogleAnalyticsSettings](#googleanalyticssettings-api)
-  * [GoogleTagManager](#googletagmanager-api)
+## Classes
 
-## GoogleAnalyticsTracker API
+<dl>
+<dt><a href="#GoogleAnalyticsSettings">GoogleAnalyticsSettings</a></dt>
+<dd></dd>
+<dt><a href="#GoogleAnalyticsTracker">GoogleAnalyticsTracker</a></dt>
+<dd></dd>
+<dt><a href="#GoogleTagManager">GoogleTagManager</a></dt>
+<dd></dd>
+</dl>
 
-### new GoogleAnalyticsTracker(trackerId, customDimensionsFieldsIndexMap = {})
-* **trackerId (required):** String, your tracker id, something like: UA-12345-1
-* **customDimensionsFieldsIndexMap (optional):** {{fieldName: fieldIndex}} Custom dimensions field/index pairs
+<a name="GoogleAnalyticsSettings"></a>
 
-```javascript
+## GoogleAnalyticsSettings
+**Kind**: global class  
+
+* [GoogleAnalyticsSettings](#GoogleAnalyticsSettings)
+    * [.setOptOut(enabled)](#GoogleAnalyticsSettings.setOptOut)
+    * [.setDispatchInterval(intervalInSeconds)](#GoogleAnalyticsSettings.setDispatchInterval)
+    * [.setDryRun(enabled)](#GoogleAnalyticsSettings.setDryRun)
+
+<a name="GoogleAnalyticsSettings.setOptOut"></a>
+
+### GoogleAnalyticsSettings.setOptOut(enabled)
+Sets if OptOut is active and disables Google Analytics
+This has to be set each time the App starts
+
+**Kind**: static method of [<code>GoogleAnalyticsSettings</code>](#GoogleAnalyticsSettings)  
+
+| Param | Type |
+| --- | --- |
+| enabled | <code>boolean</code> | 
+
+<a name="GoogleAnalyticsSettings.setDispatchInterval"></a>
+
+### GoogleAnalyticsSettings.setDispatchInterval(intervalInSeconds)
+Sets the trackers dispatch interval
+This will influence how often batches of events, screen views, etc
+are sent to your tracker.
+
+**Kind**: static method of [<code>GoogleAnalyticsSettings</code>](#GoogleAnalyticsSettings)  
+
+| Param | Type |
+| --- | --- |
+| intervalInSeconds | <code>number</code> | 
+
+<a name="GoogleAnalyticsSettings.setDryRun"></a>
+
+### GoogleAnalyticsSettings.setDryRun(enabled)
+Sets if the tracker should have dry run enabled.
+If dry run is enabled, no analytics data will be sent to your tracker.
+
+**Kind**: static method of [<code>GoogleAnalyticsSettings</code>](#GoogleAnalyticsSettings)  
+
+| Param | Type |
+| --- | --- |
+| enabled | <code>boolean</code> | 
+
+<a name="GoogleAnalyticsTracker"></a>
+
+## GoogleAnalyticsTracker
+**Kind**: global class  
+
+* [GoogleAnalyticsTracker](#GoogleAnalyticsTracker)
+    * [new GoogleAnalyticsTracker(trackerId, customDimensionsFieldsIndexMap)](#new_GoogleAnalyticsTracker_new)
+    * [.trackScreenView(screenName, payload)](#GoogleAnalyticsTracker+trackScreenView)
+    * [.trackEvent(category, action, payload, label, value)](#GoogleAnalyticsTracker+trackEvent)
+    * [.trackTiming(category, interval, payload, name, label)](#GoogleAnalyticsTracker+trackTiming)
+    * [.trackException(error, fatal, payload)](#GoogleAnalyticsTracker+trackException)
+    * [.trackSocialInteraction(network, action, targetUrl, payload)](#GoogleAnalyticsTracker+trackSocialInteraction)
+    * [.setUser(userId)](#GoogleAnalyticsTracker+setUser)
+    * [.setClient(clientId)](#GoogleAnalyticsTracker+setClient)
+    * [.allowIDFA(enabled)](#GoogleAnalyticsTracker+allowIDFA)
+    * [.setAppName(appName)](#GoogleAnalyticsTracker+setAppName)
+    * [.setAppVersion(appVersion)](#GoogleAnalyticsTracker+setAppVersion)
+    * [.setAnonymizeIp(enabled)](#GoogleAnalyticsTracker+setAnonymizeIp)
+    * [.setSamplingRate(sampleRatio)](#GoogleAnalyticsTracker+setSamplingRate)
+    * [.setCurrency(currencyCode)](#GoogleAnalyticsTracker+setCurrency)
+    * [.setTrackUncaughtExceptions(enabled)](#GoogleAnalyticsTracker+setTrackUncaughtExceptions)
+
+<a name="new_GoogleAnalyticsTracker_new"></a>
+
+### new GoogleAnalyticsTracker(trackerId, customDimensionsFieldsIndexMap)
+Save all tracker related data that is needed to call native methods with proper data.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| trackerId | <code>string</code> | Your tracker id, something like: UA-12345-1 |
+| customDimensionsFieldsIndexMap | <code>Object</code> | Custom dimensions field/index pairs |
+
+**Example**  
+```js
 import { GoogleAnalyticsTracker } from 'react-native-google-analytics-bridge';
 let tracker = new GoogleAnalyticsTracker('UA-12345-1');
 ```
+<a name="GoogleAnalyticsTracker+trackScreenView"></a>
 
-Google Analytics expects dimensions to be tracked by indices, and not field names.
-To simplify this, you can construct a tracker with a customDimensionsFieldsIndexMap. With this, you can map field names to indices, e.g:
+### tracker.trackScreenView(screenName, payload)
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-```javascript
-let tracker2 = new GoogleAnalyticsTracker('UA-12345-3', { test: 1 });
-tracker2.trackScreenViewWithCustomDimensionValues('Home', { test: 'Beta' });
-```
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| screenName | <code>string</code> |  | (Required) The name of the current screen |
+| payload | <code>Object</code> | <code></code> | (Optional) An object containing the hit payload |
 
-Here the underlying logic will transform the custom dimension, so what ends up being sent to GA is `{ 1: 'Beta' }`.
-This should make it easier to use custom dimensions. If you do not provide a customDimensionsFieldsIndexMap, the custom dimensions are passed through untouched.
-
-### trackScreenView(screenName)
-
-* **screenName (required):** String, name of current screen
-
-**Important**: Calling this will also set the "current view" for other calls. So events tracked will be tagged as having occured on the current view, `Home` in this example. This means it is important to track navigation, especially if events can fire on different views.
-
-See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/screens) for more info
-
-```javascript
+**Example**  
+```js
 tracker.trackScreenView('Home')
 ```
+Track the current screen/view. Calling this will also set the "current view" for other calls.
+ So events tracked will be tagged as having occured on the current view, `Home` in this example.
+This means it is important to track navigation, especially if events can fire on different views.
+<a name="GoogleAnalyticsTracker+trackEvent"></a>
 
-### trackEvent(category, action, optionalValues)
-
-* **category (required):** String, category of event
-* **action (required):** String, name of action
-* **optionalValues:** Object
-  * **label:** String
-  * **value:** Number
-
-See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/events) for more info.
-
-```javascript
-tracker.trackEvent('testcategory', 'testaction');
-// or
-tracker.trackEvent('testcategory', 'testaction', {label: 'v1.0.3', value: 22});
-```
-
-### trackTiming(category, value, optionalValues)
-
-* **category (required):** String, category of the timed event
-* **value (required):** Number, the timing measurement in milliseconds
-* **optionalValues:** Object
-  * **name (required):** String, the name of the timed event
-  * **label:** String, the label of the timed event
-
-See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/usertimings) for more info.
-
-```javascript
-tracker.trackTiming('testcategory', 13000, {name: 'LoadList'}); // name option is required
-// or
-tracker.trackTiming('testcategory', 13000, {name: 'loadList', label: 'v1.0.3'});
-```
-
-### trackPurchaseEvent(product, transaction, eventCategory, eventAction)
-
-* **product (required):** Object
-  * **id (required):** String
-  * **name (required):** String
-  * **category (optional):** String
-  * **brand (optional):** String
-  * **variant (optional):** String
-  * **price (optional):** Number
-  * **quantity (optional):** Number
-  * **couponCode (optional):** String
-* **transaction (required):** Object
-  * **id (required):** String
-  * **affiliation (optional):** String, an entity with which the transaction should be affiliated (e.g. a particular store)
-  * **revenue (optional):** Number
-  * **tax (optional):** Number
-  * **shipping (optional):** Number
-  * **couponCode (optional):** String
-* **eventCategory (required):** String, defaults to "Ecommerce"
-* **eventAction (required):** String, defaults to "Purchase"
-
-See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/enhanced-ecommerce#measuring-transactions) for more info.
-
-```javascript
-tracker.trackPurchaseEvent({
-  id: 'P12345',
-  name: 'Android Warhol T-Shirt',
-  category: 'Apparel/T-Shirts',
-  brand: 'Google',
-  variant: 'Black',
-  price: 29.20,
-  quantity: 1,
-  couponCode: 'APPARELSALE'
-}, {
-  id: 'T12345',
-  affiliation: 'Google Store - Online',
-  revenue: 37.39,
-  tax: 2.85,
-  shipping: 5.34,
-  couponCode: 'SUMMER2013'
-}, 'Ecommerce', 'Purchase');
-```
-
-### trackMultiProductsPurchaseEvent(products, transaction, eventCategory, eventAction)
-
-same as trackPurchaseEvent but instead of one product you can provide an Array of products
-
-### trackMultiProductsPurchaseEventWithCustomDimensionValues(products, transaction, eventCategory, eventAction, dimensionIndexValueDict)
-
-* **products (required):** Array, array of products
-* **transaction (required):** Object, transaction object
-* **eventCategory (required):** String, defaults to "Ecommerce"
-* **eventAction (required):** String, defaults to "Purchase"
-* **dimensionIndexValueDict (required):** Dict of dimension index / values.
-
-```javascript
-tracker.trackMultiProductsPurchaseEventWithCustomDimensionValues([
-{
-  id: 'P12345',
-  name: 'Android Warhol T-Shirt',
-  category: 'Apparel/T-Shirts',
-  brand: 'Google',
-  variant: 'Black',
-  price: 29.20,
-  quantity: 1,
-  couponCode: 'APPARELSALE'
-},
-{
-  id: 'P54321',
-  name: 'IOS T-Shirt',
-  category: 'Apparel/T-Shirts',
-  brand: 'Apple',
-  variant: 'Black',
-  price: 10.10,
-  quantity: 1,
-  couponCode: 'APPARELSALE'
-}],
-{
-  id: 'T12345',
-  affiliation: 'Store - Online',
-  revenue: 52.5,
-  tax: 7.86,
-  shipping: 5.34,
-  couponCode: 'SUMMER2013'
-},
-'Ecommerce',
-'Purchase',
-{'1':'premium', '5':'foo'}
-);
-```
-### trackException(error, fatal)
+### tracker.trackEvent(category, action, payload, label, value)
+Track an event that has occured
 
-* **error:** String, a description of the exception (up to 100 characters), accepts nil
-* **fatal (required):** Boolean, indicates whether the exception was fatal, defaults to false
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-See the [Google Analytics docs](https://developers.google.com/analytics/devguides/collection/ios/v3/exceptions) for more info.
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| category | <code>string</code> |  | (Required) The event category |
+| action | <code>string</code> |  | (Required) The event action |
+| payload | <code>Object</code> | <code></code> | (Optional) An object containing the hit payload |
+| label | <code>string</code> | <code>null</code> | (Optional) An optional event label |
+| value | <code>number</code> | <code></code> | (Optional) An optional event value |
 
-```javascript
-try {
-  ...
-} catch(error) {
-  tracker.trackException(error.message, false);
-}
-```
+<a name="GoogleAnalyticsTracker+trackTiming"></a>
 
-### trackSocialInteraction(network, action, targetUrl)
+### tracker.trackTiming(category, interval, payload, name, label)
+Track an event that has occured
 
-* **network (required):** String, name of social network (e.g. 'Facebook', 'Twitter', 'Google+')
-* **action (required):** String, social action (e.g. 'Like', 'Share', '+1')
-* **targetUrl:** String, url of content being shared
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/social) docs for more info.
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| category | <code>string</code> |  | (Required) The event category |
+| interval | <code>number</code> |  | (Required) The timing measurement in milliseconds |
+| payload | <code>Object</code> | <code></code> | (Optional) An object containing the hit payload |
+| name | <code>string</code> | <code>null</code> | (Required) The timing name |
+| label | <code>string</code> | <code>null</code> | (Optional) An optional timing label |
 
-```javascript
-tracker.trackSocialInteraction('Twitter', 'Post');
-```
+<a name="GoogleAnalyticsTracker+trackException"></a>
 
-### trackScreenViewWithCustomDimensionValues(screenName, dimensionIndexValueDict)
+### tracker.trackException(error, fatal, payload)
+Track an exception
 
-* **screenName (required):** String, name of current screen
-* **dimensionIndexValueDict (required):** Dict of dimension index / values.
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-Tracks a screen view with one or more customDimensionValues. See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/customdimsmets) docs for more info.
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| error | <code>string</code> |  | (Required) The description of the error |
+| fatal | <code>boolean</code> | <code>false</code> | (Optional) A value indiciating if the error was fatal, defaults to false |
+| payload | <code>Object</code> | <code></code> | (Optional) An object containing the hit payload |
 
-```javascript
-tracker.trackScreenViewWithCustomDimensionValues('Home', {'1':'premium', '5':'foo'});
-```
+<a name="GoogleAnalyticsTracker+trackSocialInteraction"></a>
 
-### trackEventWithCustomDimensionValues(category, action, optionalValues, dimensionIndexValueDict)
+### tracker.trackSocialInteraction(network, action, targetUrl, payload)
+Track a social interaction, Facebook, Twitter, etc.
 
-* **category (required):** String, category of event
-* **action (required):** String, name of action
-* **optionalValues:** Object
-  * **label:** String
-  * **value:** Number
-* **dimensionIndexValueDict (required):** Dict of dimension index / values.
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-Tracks an event with one or more customDimensionValues. See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/customdimsmets) docs for more info.
+| Param | Type | Description |
+| --- | --- | --- |
+| network | <code>string</code> |  |
+| action | <code>string</code> |  |
+| targetUrl | <code>string</code> |  |
+| payload | <code>Object</code> | (Optional) An object containing the hit payload |
 
-```javascript
-tracker.trackEventWithCustomDimensionValues('testcategory', 'testaction', {label: 'v1.0.3', value: 22}, {'1':'premium', '5':'foo'});
-```
-### trackEventWithCustomDimensionAndMetricValues(category, action, optionalValues, dimensionIndexValueDict)
+<a name="GoogleAnalyticsTracker+setUser"></a>
 
-* **category (required):** String, category of event
-* **action (required):** String, name of action
-* **optionalValues:** Object
-  * **label:** String
-  * **value:** Number
-* **dimensionIndexValueDict (required):** Dict of dimension index / values.
-* **metricIndexValueDict (required):** Dict of metric index / values.
+### tracker.setUser(userId)
+Sets the current userId for tracking.
 
-Tracks an event with one or more customDimensionValues and one or more customMetricValues. See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/customdimsmets) docs for more info.
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-```javascript
-tracker.trackEventWithCustomDimensionAndMetricValues('testcategory', 'testaction', {label: 'v1.0.3', value: 22}, {'1':'premium', '5':'foo'}, , {'1': 3, '5': 4});
-```
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>string</code> | The current userId |
 
-### setUser(userId)
+<a name="GoogleAnalyticsTracker+setClient"></a>
 
-* **userId (required):** String, an **anonymous** identifier that complies with Google Analytic's user ID policy
+### tracker.setClient(clientId)
+Sets the current clientId for tracking.
 
-See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/user-id) for more info.
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-```javascript
-tracker.setUser('12345678');
-```
+| Param | Type | Description |
+| --- | --- | --- |
+| clientId | <code>string</code> | The current userId |
 
-### setClient(clientId)
+<a name="GoogleAnalyticsTracker+allowIDFA"></a>
 
-* **clientId (required):** String, an **anonymous** identifier that complies with Google Analytic's client ID policy
+### tracker.allowIDFA(enabled)
+Sets if IDFA (identifier for advertisers) collection should be enabled
 
-See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#clientId) for more info.
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-```javascript
-tracker.setClient('35009a79-1a05-49d7-b876-2b884d0f825b');
-```
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| enabled | <code>boolean</code> | <code>true</code> | (Optional) Defaults to true |
 
-### createNewSession(screenName)
+<a name="GoogleAnalyticsTracker+setAppName"></a>
 
-* **screenName (required):** String, the current screen which the session started on
+### tracker.setAppName(appName)
+Sets the trackers appName
+The Bundle name is used by default
 
-See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/sessions#manual) for more info.
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-```javascript
-tracker.createNewSession('HomeScreen');
-```
+| Param | Type | Description |
+| --- | --- | --- |
+| appName | <code>string</code> | (Required) |
 
-### allowIDFA(enabled)
+<a name="GoogleAnalyticsTracker+setAppVersion"></a>
 
-* **enabled (required):** Boolean, true to allow IDFA collection, defaults to `true`.
+### tracker.setAppVersion(appVersion)
+Sets the trackers appVersion
 
-Also called advertising identifier collection, and is used for advertising features.
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-**Important**: For iOS you can only use this method if you have done the optional step 6 from the installation guide. Only enable this (and link the appropriate libraries) if you plan to use advertising features in your app, or else your app may get rejected from the AppStore.
+| Param | Type | Description |
+| --- | --- | --- |
+| appVersion | <code>string</code> | (Required) |
 
-See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/campaigns#ios-install) for more info.
+<a name="GoogleAnalyticsTracker+setAnonymizeIp"></a>
 
-```javascript
-tracker.allowIDFA(true);
-```
+### tracker.setAnonymizeIp(enabled)
+Sets if AnonymizeIp is enabled
+If enabled the last octet of the IP address will be removed
 
-### setTrackUncaughtExceptions(enabled)
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-* **enabled (required):** Boolean
+| Param | Type | Description |
+| --- | --- | --- |
+| enabled | <code>boolean</code> | (Required) |
 
-Sets if uncaught exceptions should be tracked. This is enabled by default.
+<a name="GoogleAnalyticsTracker+setSamplingRate"></a>
 
-```javascript
-tracker.setTrackUncaughtExceptions(true);
-```
-
-### setAnonymizeIp(enabled)
-
-* **enabled (required):** Boolean
-
-Sets if AnonymizeIp is enabled. This is disabled by default.
-If enabled the last octet of the IP address will be removed.
-
-```javascript
-tracker.setAnonymizeIp(true);
-```
-
-### setAppName(appName)
-
-* **appName (required):** String
-
-Overrides the app name logged in Google Analytics. The Bundle name is used by default.
-Note: This has to be set each time the App starts.
-
-```javascript
-tracker.setAppName('someAppName');
-```
-
-### setSamplingRate(ratio)
-
-* **ratio (required):** Number Percentage 0 - 100
-
+### tracker.setSamplingRate(sampleRatio)
 Sets tracker sampling rate.
 
-```javascript
-tracker.setSamplingRate(50);
-```
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-### setCurrency(currencyCode)
+| Param | Type | Description |
+| --- | --- | --- |
+| sampleRatio | <code>number</code> | (Required) Percentage 0 - 100 |
 
-* **currencyCode (required):** String, ISO 4217 currency code
+<a name="GoogleAnalyticsTracker+setCurrency"></a>
 
-Sets tracker currency property, see [Currency Codes](https://developers.google.com/analytics/devguides/platform/features/currencies).
+### tracker.setCurrency(currencyCode)
+Sets the currency for tracking.
 
-```javascript
-tracker.setCurrency('EUR');
-```
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-## GoogleAnalyticsSettings API
+| Param | Type | Description |
+| --- | --- | --- |
+| currencyCode | <code>string</code> | (Required) The currency ISO 4217 code |
 
-Settings are applied across all trackers.
+<a name="GoogleAnalyticsTracker+setTrackUncaughtExceptions"></a>
 
-### setDryRun(enabled)
+### tracker.setTrackUncaughtExceptions(enabled)
+Sets if uncaught exceptions should be tracked
+Important to note: On iOS this option is set on all trackers. On Android it is set per tracker.
+If you are using multiple trackers on iOS, this will enable & disable on all trackers.
 
-* **enabled (required):** Boolean, indicating if the `dryRun` flag should be enabled or not.
+**Kind**: instance method of [<code>GoogleAnalyticsTracker</code>](#GoogleAnalyticsTracker)  
 
-When enabled the native library prevents any data from being sent to Google Analytics. This allows you to test or debug the implementation, without your test data appearing in your Google Analytics reports.
+| Param | Type |
+| --- | --- |
+| enabled | <code>boolean</code> | 
 
-```javascript
-GoogleAnalyticsSettings.setDryRun(true);
-```
+<a name="GoogleTagManager"></a>
 
-### setDispatchInterval(intervalInSeconds)
+## GoogleTagManager
+**Kind**: global class  
 
-* **intervalInSeconds (required):** Number, indicating how often dispatches should be sent
+* [GoogleTagManager](#GoogleTagManager)
+    * [.openContainerWithId(containerId)](#GoogleTagManager.openContainerWithId) ⇒ <code>Promise.&lt;boolean&gt;</code>
+    * [.boolForKey(key)](#GoogleTagManager.boolForKey) ⇒ <code>Promise.&lt;boolean&gt;</code>
+    * [.stringForKey(key)](#GoogleTagManager.stringForKey) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.doubleForKey(key)](#GoogleTagManager.doubleForKey) ⇒ <code>Promise.&lt;number&gt;</code>
+    * [.pushDataLayerEvent(event)](#GoogleTagManager.pushDataLayerEvent) ⇒ <code>Promise.&lt;boolean&gt;</code>
 
-Events, screen views, etc, are sent in batches to your tracker. This function allows you to configure how often (in seconds) the batches are sent to your tracker. Recommended to keep this around 20-120 seconds to preserve battery and network traffic.
-This is set to 20 seconds by default.
+<a name="GoogleTagManager.openContainerWithId"></a>
 
-```javascript
-GoogleAnalyticsSettings.setDispatchInterval(30);
-```
+### GoogleTagManager.openContainerWithId(containerId) ⇒ <code>Promise.&lt;boolean&gt;</code>
+Call once to open the container for all subsequent static calls.
 
-### setOptOut(enabled)
+**Kind**: static method of [<code>GoogleTagManager</code>](#GoogleTagManager)  
 
-* **enabled (required):** Boolean
+| Param | Type |
+| --- | --- |
+| containerId | <code>string</code> | 
 
-Sets if OptOut is active and disables Google Analytics. This is disabled by default.
-Note: This has to be set each time the App starts.
+<a name="GoogleTagManager.boolForKey"></a>
 
-```javascript
-GoogleAnalyticsSettings.setOptOut(true);
-```
-
-## GoogleTagManager API
-
-```javascript
-import { GoogleTagManager } from 'react-native-google-analytics-bridge';
-GoogleTagManager.openContainerWithId('GT-NZT48')
-.then(() => GoogleTagManager.stringForKey('pack'))
-.then((str) => console.log('Pack: ', str));
-```
-
-Can only be used with one container. All methods returns a `Promise`.
-
-### openContainerWithId(containerId)
-* **containerId (required):** String, your container id.
-
-**Important**: Call **once** to open the container for all subsequent static calls.
-
-```javascript
-GoogleTagManager.openContainerWithId('GT-NZT48')
-.then((..) => ..)
-```
-
-### stringForKey(key)
-##### Parameter(s)
-* **key (required):** String
-
-##### Returns:
-* **value:** String
-
-Retrieves a string with the given key from the opened container.
-
-```javascript
-GoogleTagManager.stringForKey('key').then((val) => console.log(val));
-```
-
-### boolForKey(key)
-##### Parameter(s)
-* **key (required):** String
-
-##### Returns:
-* **value:** Boolean
-
+### GoogleTagManager.boolForKey(key) ⇒ <code>Promise.&lt;boolean&gt;</code>
 Retrieves a boolean value with the given key from the opened container.
 
-```javascript
-GoogleTagManager.boolForKey('key').then((val) => console.log(val));
-```
+**Kind**: static method of [<code>GoogleTagManager</code>](#GoogleTagManager)  
 
-### doubleForKey(key)
-##### Parameter(s)
-* **key (required):** String
+| Param | Type |
+| --- | --- |
+| key | <code>string</code> | 
 
-##### Returns:
-* **value:** Number
+<a name="GoogleTagManager.stringForKey"></a>
 
+### GoogleTagManager.stringForKey(key) ⇒ <code>Promise.&lt;string&gt;</code>
+Retrieves a string with the given key from the opened container.
+
+**Kind**: static method of [<code>GoogleTagManager</code>](#GoogleTagManager)  
+
+| Param | Type |
+| --- | --- |
+| key | <code>string</code> | 
+
+<a name="GoogleTagManager.doubleForKey"></a>
+
+### GoogleTagManager.doubleForKey(key) ⇒ <code>Promise.&lt;number&gt;</code>
 Retrieves a number with the given key from the opened container.
 
-```javascript
-GoogleTagManager.doubleForKey('key').then((val) => console.log(val));
-```
+**Kind**: static method of [<code>GoogleTagManager</code>](#GoogleTagManager)  
 
-### pushDataLayerEvent(dictionary = {})
-##### Parameter(s)
-* **dictionary (required):** dictionary An Map<String, Object> containing key and value pairs.
+| Param | Type |
+| --- | --- |
+| key | <code>string</code> | 
 
-##### Returns:
-* **value:** Boolean
+<a name="GoogleTagManager.pushDataLayerEvent"></a>
 
-Push a DataLayer event for Google Analytics through Google Tag Manager.
+### GoogleTagManager.pushDataLayerEvent(event) ⇒ <code>Promise.&lt;boolean&gt;</code>
+Push a datalayer event for Google Analytics through Google Tag Manager. The event must have at least one key "event" with event name.
+You can add optional values on top of that, example: {event: "eventName", pageId: "/home"}
 
-```javascript
-GoogleTagManager.pushDataLayerEvent({event: "eventName", pageId: "/home"})
-.then((success) => console.log(success));
-```
+**Kind**: static method of [<code>GoogleTagManager</code>](#GoogleTagManager)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| event | <code>Object</code> | An Map<String, Object> containing key and value pairs. It must have at least one key "event" with event name |
+

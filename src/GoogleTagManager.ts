@@ -2,9 +2,9 @@ import DataLayerEvent from "./DataLayerEvent";
 import { TagManagerBridge } from "./NativeBridges";
 
 /**
- * @module GoogleTagManager
+ * @typicalname GoogleTagManager
  */
-export default class GoogleTagManager {
+class GoogleTagManager {
   /**
    * Call once to open the container for all subsequent static calls.
    * @param {string} containerId
@@ -51,3 +51,5 @@ export default class GoogleTagManager {
     return TagManagerBridge.pushDataLayerEvent(event);
   }
 }
+
+export default GoogleTagManager;

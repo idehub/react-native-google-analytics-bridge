@@ -9,6 +9,7 @@ import {
 
 /**
  * Custom dimensions accept only strings and numbers.
+ * @ignore
  * @param customDimensionVal
  * @returns {boolean}
  */
@@ -20,18 +21,21 @@ function isValidCustomDimension(customDimensionVal) {
 }
 
 /**
- * @module GoogleAnalyticsTracker
- * Used to bridge tracker data to native Google analytics.
- * Saves necessary tracker (specific) data to format data as native part of Google analytics expect.
+ * @typicalname tracker
  */
-export default class GoogleAnalyticsTracker {
+class GoogleAnalyticsTracker {
   id: string;
   customDimensionsFieldsIndexMap: CustomDimensionsFieldIndexMap;
 
   /**
    * Save all tracker related data that is needed to call native methods with proper data.
-   * @param {string} trackerId 
+   * @param {string} trackerId Your tracker id, something like: UA-12345-1
    * @param {{fieldName: fieldIndex}} customDimensionsFieldsIndexMap Custom dimensions field/index pairs
+   * @example
+   * ```js
+   * import { GoogleAnalyticsTracker } from 'react-native-google-analytics-bridge';
+   * let tracker = new GoogleAnalyticsTracker('UA-12345-1');
+   * ```
    */
   constructor(
     trackerId: string,
@@ -48,10 +52,11 @@ export default class GoogleAnalyticsTracker {
    * Underlay native methods will transform provided customDimensions map to expected format.
    * Google analytics expect dimensions to be tracker with 'dimension{index}' keys,
    * not dimension field names.
+   * @ignore
    * @param {{fieldName: value}} customDimensions 
    * @returns {{fieldIndex: value}}
    */
-  transformCustomDimensionsFieldsToIndexes(
+  private transformCustomDimensionsFieldsToIndexes(
     customDimensions: CustomDimensionsByField | CustomDimensionsByIndex
   ): CustomDimensionsByField | CustomDimensionsByIndex {
     if (this.customDimensionsFieldsIndexMap) {
@@ -67,7 +72,13 @@ export default class GoogleAnalyticsTracker {
   }
 
   /**
-   * Track the current screen/view
+   * @example
+   * ```js
+   * tracker.trackScreenView('Home')
+   * ```
+   * Track the current screen/view. Calling this will also set the "current view" for other calls.
+   *  So events tracked will be tagged as having occured on the current view, `Home` in this example. 
+   * This means it is important to track navigation, especially if events can fire on different views.
    * @param  {string} screenName (Required) The name of the current screen
    * @param  {Object} payload (Optional) An object containing the hit payload
    */
@@ -90,6 +101,11 @@ export default class GoogleAnalyticsTracker {
     label: string = null,
     value: number = null
   ): void {
+    let customDimensions = payload.customDimensions;
+    let transformed = this.transformCustomDimensionsFieldsToIndexes(
+      customDimensions
+    );
+    payload.customDimensions = transformed;
     AnalyticsBridge.trackEvent(
       this.id,
       category,
@@ -237,3 +253,5 @@ export default class GoogleAnalyticsTracker {
     AnalyticsBridge.setTrackUncaughtExceptions(this.id, enabled);
   }
 }
+
+export default GoogleAnalyticsTracker;

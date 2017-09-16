@@ -1,10 +1,9 @@
 import { AnalyticsSettings } from "./NativeBridges";
 
 /**
- * @module GoogleAnalyticsSettings
- * Google analytics settings shared across all GoogleAnalyticsTracker instances.
+ * @typicalname GoogleAnalyticsSettings
  */
-export default class GoogleAnalyticsSettings {
+class GoogleAnalyticsSettings {
   /**
    * Sets if OptOut is active and disables Google Analytics
    * This has to be set each time the App starts
@@ -33,3 +32,5 @@ export default class GoogleAnalyticsSettings {
     AnalyticsSettings.setDryRun(enabled);
   }
 }
+
+export default GoogleAnalyticsSettings;

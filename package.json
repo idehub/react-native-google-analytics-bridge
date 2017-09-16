@@ -6,7 +6,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test yet!\" && exit 0"
+    "test": "echo \"Error: no test yet!\" && exit 0",
+    "docs": "jsdoc2md --template docs/README.hbs --files dist/*.js > README.md"
   },
   "repository": {
     "type": "git",
@@ -49,6 +50,7 @@
   "devDependencies": {
     "@types/react": "^16.0.5",
     "@types/react-native": "^0.48.4",
+    "jsdoc-to-markdown": "^3.0.0",
     "prettier": "^1.6.1",
     "react": "16.0.0-alpha.12",
     "react-native": "^0.48.3",

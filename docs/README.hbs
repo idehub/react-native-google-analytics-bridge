@@ -1,0 +1,78 @@
+GoogleAnalyticsBridge [![npm version](https://img.shields.io/npm/v/react-native-google-analytics-bridge.svg)](https://www.npmjs.com/package/react-native-google-analytics-bridge) [![Build Status](https://travis-ci.org/idehub/react-native-google-analytics-bridge.svg?branch=master)](https://travis-ci.org/idehub/react-native-google-analytics-bridge)
+=============
+**Google Analytics Bridge** is built to provide an easy interface to the native Google Analytics libraries on both **iOS** and **Android**.
+
+## Why a native bridge? Why not use just JavaScript?
+The key difference with the native bridge is that you get a lot of the metadata handled automatically by the Google Analytics native library. This will include the device UUID, device model, viewport size, OS version etc.
+
+You will only have to send in a few parameteres when tracking, e.g:
+```javascript
+import { GoogleAnalyticsTracker } from 'react-native-google-analytics-bridge';
+let tracker = new GoogleAnalyticsTracker('UA-12345-1');
+
+tracker.trackScreenView('Home');
+tracker.trackEvent('testcategory', 'testaction');
+```
+
+## Content
+  * [Installation](#installation-and-linking-libraries)
+  * [Manual installation](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Manual-installation)
+  * [Usage](#usage)
+  * [JavaScript API](#javascript-api)
+  * [Troubleshooting](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Troubleshooting)
+  * [A/B testing](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Simple-A-B-testing)
+  * [Roadmap](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Roadmap)
+
+## Installation and linking libraries
+
+* For React Native >= `0.40` use version `5.0.0` (and up) of this module.
+* For React Native < `0.40` use version `4.0.3`.
+
+Install with npm: `npm install --save react-native-google-analytics-bridge`
+
+Or, install with yarn: `yarn add react-native-google-analytics-bridge`
+
+Either way, then link with: `react-native link react-native-google-analytics-bridge`
+
+If it doesn't work immediately after this, consult the [manual installation guide](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Manual-installation). Both Android and iOS has a couple of prerequisite SDKs linked and installed.
+
+**Important**: Does this library work with Expo? We have to sort of invert the question a bit, because it should be: does Expo work with other libraries? And the [answer is no](https://docs.expo.io/versions/latest/introduction/faq.html#what-is-the-difference-between-expo-and-react-native):
+>The most limiting thing about Expo is that you can’t add in your own native modules without `detach`ing and using ExpoKit. 
+
+This includes using [`create-react-native-app`](https://github.com/react-community/create-react-native-app#what-are-the-limitations-of-create-react-native-app) which also makes use of Expo.
+## Usage
+```javascript
+// You have access to three classes in this module:
+import {
+  GoogleAnalyticsTracker,
+  GoogleTagManager,
+  GoogleAnalyticsSettings
+} from 'react-native-google-analytics-bridge';
+
+// The tracker must be constructed, and you can have multiple:
+let tracker1 = new GoogleAnalyticsTracker('UA-12345-1');
+let tracker2 = new GoogleAnalyticsTracker('UA-12345-2');
+
+tracker1.trackScreenView('Home');
+tracker1.trackEvent('Customer', 'New');
+
+// The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
+GoogleAnalyticsSettings.setDispatchInterval(30);
+// Setting `dryRun` to `true` lets you test tracking without sending data to GA 
+GoogleAnalyticsSettings.setDryRun(true);
+
+// GoogleTagManager is also static, and works only with one container. All functions here are Promises:
+GoogleTagManager.openContainerWithId("GT-NZT48")
+  .then(() => {
+    return GoogleTagManager.stringForKey("pack");
+  })
+  .then((pack) => {
+    console.log("Pack: ", pack);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+```
+
+## JavaScript API
+{{>main}}
