@@ -20,6 +20,7 @@ function isValidCustomDimension(customDimensionVal) {
 }
 
 /**
+ * @module GoogleAnalyticsTracker
  * Used to bridge tracker data to native Google analytics.
  * Saves necessary tracker (specific) data to format data as native part of Google analytics expect.
  */
@@ -29,7 +30,7 @@ export default class GoogleAnalyticsTracker {
 
   /**
    * Save all tracker related data that is needed to call native methods with proper data.
-   * @param {String} trackerId 
+   * @param {string} trackerId 
    * @param {{fieldName: fieldIndex}} customDimensionsFieldsIndexMap Custom dimensions field/index pairs
    */
   constructor(
@@ -47,12 +48,12 @@ export default class GoogleAnalyticsTracker {
    * Underlay native methods will transform provided customDimensions map to expected format.
    * Google analytics expect dimensions to be tracker with 'dimension{index}' keys,
    * not dimension field names.
-   * @param {CustomDimensionsByIndex} customDimensions 
-   * @returns {CustomDimensionsByField}
+   * @param {{fieldName: value}} customDimensions 
+   * @returns {{fieldIndex: value}}
    */
   transformCustomDimensionsFieldsToIndexes(
-    customDimensions: CustomDimensionsByIndex
-  ): CustomDimensionsByField {
+    customDimensions: CustomDimensionsByField | CustomDimensionsByIndex
+  ): CustomDimensionsByField | CustomDimensionsByIndex {
     if (this.customDimensionsFieldsIndexMap) {
       return Object.keys(this.customDimensionsFieldsIndexMap)
         .filter(key => isValidCustomDimension(customDimensions[key]))
@@ -67,7 +68,8 @@ export default class GoogleAnalyticsTracker {
 
   /**
    * Track the current screen/view
-   * @param  {String} screenName The name of the current screen
+   * @param  {string} screenName (Required) The name of the current screen
+   * @param  {Object} payload (Optional) An object containing the hit payload
    */
   trackScreenView(screenName: string, payload: HitPayload = null): void {
     AnalyticsBridge.trackScreenView(this.id, screenName, payload);
@@ -75,9 +77,11 @@ export default class GoogleAnalyticsTracker {
 
   /**
    * Track an event that has occured
-   * @param  {String} category       The event category
-   * @param  {String} action         The event action
-   * @param  {OptionalValue} optionalValues An object containing optional label and value
+   * @param  {string} category (Required) The event category
+   * @param  {string} action (Required) The event action
+   * @param  {Object} payload (Optional) An object containing the hit payload
+   * @param  {string} label (Optional) An optional event label
+   * @param  {number} value (Optional) An optional event value
    */
   trackEvent(
     category: string,
@@ -98,24 +102,34 @@ export default class GoogleAnalyticsTracker {
 
   /**
    * Track an event that has occured
-   * @param  {String} category       The event category
-   * @param  {Number} value         	The timing measurement in milliseconds
-   * @param  {OptionalTimingValue} optionalValues An object containing optional name and label
+   * @param  {string} category (Required) The event category
+   * @param  {number} interval (Required) The timing measurement in milliseconds
+   * @param  {Object} payload (Optional) An object containing the hit payload
+   * @param  {string} name (Required) The timing name
+   * @param  {string} label (Optional) An optional timing label
    */
   trackTiming(
     category: string,
-    value: number,
+    interval: number,
     payload: HitPayload = null,
     name: string = null,
     label: string = null
   ): void {
-    AnalyticsBridge.trackTiming(this.id, category, value, name, label, payload);
+    AnalyticsBridge.trackTiming(
+      this.id,
+      category,
+      interval,
+      name,
+      label,
+      payload
+    );
   }
 
   /**
    * Track an exception
-   * @param  {String} error The description of the error
-   * @param  {Boolean} fatal A value indiciating if the error was fatal, defaults to false
+   * @param  {string} error (Required) The description of the error
+   * @param  {boolean} fatal (Optional) A value indiciating if the error was fatal, defaults to false
+   * @param  {Object} payload (Optional) An object containing the hit payload
    */
   trackException(
     error: string,
@@ -127,9 +141,10 @@ export default class GoogleAnalyticsTracker {
 
   /**
    * Track a social interaction, Facebook, Twitter, etc.
-   * @param  {String} network
-   * @param  {String} action
-   * @param  {String} targetUrl
+   * @param  {string} network
+   * @param  {string} action
+   * @param  {string} targetUrl
+   * @param  {Object} payload (Optional) An object containing the hit payload
    */
   trackSocialInteraction(
     network: string,
@@ -148,7 +163,7 @@ export default class GoogleAnalyticsTracker {
 
   /**
    * Sets the current userId for tracking.
-   * @param {String} userId The current userId
+   * @param {string} userId The current userId
    */
   setUser(userId: string): void {
     AnalyticsBridge.setUser(this.id, userId);
@@ -156,7 +171,7 @@ export default class GoogleAnalyticsTracker {
 
   /**
    * Sets the current clientId for tracking.
-   * @param {String} clientId The current userId
+   * @param {string} clientId The current userId
    */
   setClient(clientId: string): void {
     AnalyticsBridge.setClient(this.id, clientId);
@@ -164,16 +179,16 @@ export default class GoogleAnalyticsTracker {
 
   /**
    * Sets if IDFA (identifier for advertisers) collection should be enabled
-   * @param  {Boolean} enabled Defaults to true
+   * @param  {boolean} enabled (Optional) Defaults to true
    */
-  allowIDFA(enabled: boolean): void {
+  allowIDFA(enabled: boolean = true): void {
     AnalyticsBridge.allowIDFA(this.id, enabled);
   }
 
   /**
    * Sets the trackers appName
    * The Bundle name is used by default
-   * @param {String} appName
+   * @param {string} appName (Required)
    */
   setAppName(appName: string): void {
     AnalyticsBridge.setAppName(this.id, appName);
@@ -181,7 +196,7 @@ export default class GoogleAnalyticsTracker {
 
   /**
    * Sets the trackers appVersion
-   * @param {String} appVersion
+   * @param {string} appVersion (Required)
    */
   setAppVersion(appVersion: string): void {
     AnalyticsBridge.setAppVersion(this.id, appVersion);
@@ -190,7 +205,7 @@ export default class GoogleAnalyticsTracker {
   /**
    * Sets if AnonymizeIp is enabled
    * If enabled the last octet of the IP address will be removed
-   * @param {Boolean} enabled
+   * @param {boolean} enabled (Required)
    */
   setAnonymizeIp(enabled: boolean): void {
     AnalyticsBridge.setAnonymizeIp(this.id, enabled);
@@ -198,7 +213,7 @@ export default class GoogleAnalyticsTracker {
 
   /**
    * Sets tracker sampling rate.
-   * @param {Float} sampleRatio Percentage 0 - 100
+   * @param {number} sampleRatio (Required) Percentage 0 - 100
    */
   setSamplingRate(sampleRatio: number): void {
     AnalyticsBridge.setSamplingRate(this.id, sampleRatio);
@@ -206,7 +221,7 @@ export default class GoogleAnalyticsTracker {
 
   /**
    * Sets the currency for tracking.
-   * @param {String} currencyCode The currency ISO 4217 code
+   * @param {string} currencyCode (Required) The currency ISO 4217 code
    */
   setCurrency(currencyCode: string): void {
     AnalyticsBridge.setCurrency(this.id, currencyCode);
@@ -216,7 +231,7 @@ export default class GoogleAnalyticsTracker {
    * Sets if uncaught exceptions should be tracked
    * Important to note: On iOS this option is set on all trackers. On Android it is set per tracker.
    * If you are using multiple trackers on iOS, this will enable & disable on all trackers.
-   * @param {Boolean} enabled
+   * @param {boolean} enabled
    */
   setTrackUncaughtExceptions(enabled: boolean): void {
     AnalyticsBridge.setTrackUncaughtExceptions(this.id, enabled);

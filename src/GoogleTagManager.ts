@@ -1,10 +1,13 @@
 import DataLayerEvent from "./DataLayerEvent";
 import { TagManagerBridge } from "./NativeBridges";
 
+/**
+ * @module GoogleTagManager
+ */
 export default class GoogleTagManager {
   /**
    * Call once to open the container for all subsequent static calls.
-   * @param {String} containerId
+   * @param {string} containerId
    * @returns {Promise<boolean>}
    */
   static openContainerWithId(containerId: string): Promise<boolean> {
@@ -13,7 +16,7 @@ export default class GoogleTagManager {
 
   /**
    * Retrieves a boolean value with the given key from the opened container.
-   * @param {String} key
+   * @param {string} key
    * @returns {Promise<boolean>}
    */
   static boolForKey(key: string): Promise<boolean> {
@@ -22,8 +25,8 @@ export default class GoogleTagManager {
 
   /**
    * Retrieves a string with the given key from the opened container.
-   * @param {String} key
-   * @returns {String}
+   * @param {string} key
+   * @returns {Promise<string>}
    */
   static stringForKey(key: string): Promise<string> {
     return TagManagerBridge.stringForKey(key);
@@ -31,7 +34,7 @@ export default class GoogleTagManager {
 
   /**
    * Retrieves a number with the given key from the opened container.
-   * @param {String} key
+   * @param {string} key
    * @returns {Promise<number>}
    */
   static doubleForKey(key): Promise<number> {
