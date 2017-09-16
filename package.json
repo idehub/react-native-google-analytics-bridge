@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test yet!\" && exit 0",
     "docs": "jsdoc2md --template docs/README.hbs --files dist/*.js > README.md",
-    "precommit": "yarn run tsc && yarn run docs"
+    "precommit": "yarn run tsc && yarn run docs && git add README.md"
   },
   "repository": {
     "type": "git",

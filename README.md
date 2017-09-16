@@ -75,6 +75,8 @@ GoogleTagManager.openContainerWithId("GT-NZT48")
 ```
 
 ## JavaScript API
+There are three classes which can be imported from the `react-native-google-analytics-bridge` module.
+
 ## Classes
 
 <dl>
