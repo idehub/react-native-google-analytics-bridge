@@ -1,5 +1,5 @@
-example
-src
+example/
+src/
 .travis.yml
 yarn.lock
 npm-debug.log
@@ -33,3 +33,4 @@ build/
 .gradle
 local.properties
 *.iml
+!android/src/
