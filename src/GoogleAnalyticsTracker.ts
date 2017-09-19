@@ -101,11 +101,13 @@ class GoogleAnalyticsTracker {
     label: string = null,
     value: number = null
   ): void {
-    let customDimensions = payload.customDimensions;
-    let transformed = this.transformCustomDimensionsFieldsToIndexes(
-      customDimensions
-    );
-    payload.customDimensions = transformed;
+    if (payload) {
+      let customDimensions = payload.customDimensions;
+      let transformed = this.transformCustomDimensionsFieldsToIndexes(
+        customDimensions
+      );
+      payload.customDimensions = transformed;
+    }
     AnalyticsBridge.trackEvent(
       this.id,
       category,
