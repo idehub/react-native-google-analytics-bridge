@@ -132,6 +132,14 @@ export class GoogleAnalyticsTracker {
     const formattedCustomDimensions = this.transformCustomDimensionsFieldsToIndexes(customDimensions);
     GoogleAnalyticsBridge.trackMultiProductsPurchaseEventWithCustomDimensionValues(this.id, products, transaction, eventCategory, eventAction, formattedCustomDimensions);
   }
+  /**
+   * Track product action
+   * @param {Object} product        An object with product values
+   * @param {String} eventAction    The event action, defaults to Purchase
+   */
+  trackProductActionEvent(product = {}, actionType = "click", eventCategory = "Ecommerce", eventAction = "Click") {
+    GoogleAnalyticsBridge.trackProductActionEvent(this.id, product, actionType, eventCategory, eventAction);
+  }
 
   /**
    * Track an exception

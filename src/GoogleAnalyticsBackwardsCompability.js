@@ -61,6 +61,10 @@ export class GoogleAnalyticsBackwardsCompability {
     this.tracker.trackTiming(category, value, optionalValues);
   }
 
+  trackProductActionEvent(product = {}, actionType = "click", eventCategory = "Ecommerce", eventAction = "Click"  ) {
+    this.tracker.trackProductActionEvent(product, actionType, eventCategory, eventAction);
+  }
+
   trackPurchaseEvent(product = {}, transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase") {
     this.tracker.trackPurchaseEvent(product, transaction, eventCategory, eventAction);
   }
