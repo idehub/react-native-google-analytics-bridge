@@ -3,11 +3,11 @@ export interface CustomDimensionsFieldIndexMap {
 }
 
 export interface CustomDimensionsByIndex {
-  [key: number]: any;
+  [key: number]: number | string | boolean;
 }
 
 export interface CustomDimensionsByField {
-  [key: string]: any;
+  [key: string]: number | string | boolean;
 }
 
 export interface CustomMetrics {

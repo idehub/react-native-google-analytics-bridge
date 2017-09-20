@@ -3,6 +3,7 @@ package com.idehub.GoogleAnalyticsBridge;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
+import com.facebook.react.bridge.ReadableType;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.ecommerce.Product;
 import com.google.android.gms.analytics.ecommerce.ProductAction;
@@ -24,6 +25,7 @@ public class GoogleAnalyticsPayload {
             buildCustomDimensions(payload);
             buildCustomMetrics(payload);
             buildUtmCampaignUrl(payload);
+            buildStartSession(payload);
         }
 
         private void buildProducts(ReadableMap payload) {
@@ -62,7 +64,22 @@ public class GoogleAnalyticsPayload {
                 ReadableMapKeySetIterator iterator = customDimensions.keySetIterator();
                 while (iterator.hasNextKey()) {
                     String dimensionIndex = iterator.nextKey();
-                    this.setCustomDimension(Integer.parseInt(dimensionIndex), customDimensions.getString(dimensionIndex));
+                    ReadableType type = customDimensions.getType(dimensionIndex);
+                    String value = null;
+                    switch (type) {
+                        case String:
+                            value = customDimensions.getString(dimensionIndex);
+                            break;
+                        case Number:
+                            value = Double.toString(customDimensions.getDouble(dimensionIndex));
+                            break;
+                        case Boolean:
+                            value = Boolean.toString(customDimensions.getBoolean(dimensionIndex));
+                            break;
+                    }
+                    if (value != null) {
+                        this.setCustomDimension(Integer.parseInt(dimensionIndex), customDimensions.getString(dimensionIndex));
+                    }
                 }
 
             }
