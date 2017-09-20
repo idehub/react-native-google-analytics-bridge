@@ -78,7 +78,7 @@ public class GoogleAnalyticsPayload {
                             break;
                     }
                     if (value != null) {
-                        this.setCustomDimension(Integer.parseInt(dimensionIndex), customDimensions.getString(dimensionIndex));
+                        this.setCustomDimension(Integer.parseInt(dimensionIndex), value);
                     }
                 }
 
