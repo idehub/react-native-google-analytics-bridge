@@ -70,6 +70,25 @@ RCT_EXPORT_METHOD(trackScreenViewWithCustomDimensionValues:(NSString *)trackerId
     [tracker send:[builder build]];
 }
 
+RCT_EXPORT_METHOD(trackNonInteractionEventWithCustomDimensionValues:(NSString *)trackerId category:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *)optionalValues dimensionIndexValues:(NSDictionary *)dimensionIndexValues)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    NSString *label = [RCTConvert NSString:optionalValues[@"label"]];
+    NSNumber *value = [RCTConvert NSNumber:optionalValues[@"value"]];
+
+    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createEventWithCategory:category
+                                                                           action:action
+                                                                            label:label
+                                                                            value:value];
+
+    [builder set:@"1" forKey:kGAINonInteraction];
+
+    for (NSString *dimensionIndex in dimensionIndexValues)
+        [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
+
+    [tracker send:[builder build]];
+}
+
 RCT_EXPORT_METHOD(trackEventWithCustomDimensionValues:(NSString *)trackerId category:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *)optionalValues dimensionIndexValues:(NSDictionary *)dimensionIndexValues)
 {
     [self trackEventWithCustomDimensionAndMetricValues:trackerId category:category action:action optionalValues:optionalValues dimensionIndexValues:dimensionIndexValues metricIndexValues:nil];
