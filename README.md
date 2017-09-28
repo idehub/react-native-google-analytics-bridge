@@ -273,6 +273,21 @@ Tracks a screen view with one or more customDimensionValues. See the [Google Ana
 tracker.trackScreenViewWithCustomDimensionValues('Home', {'1':'premium', '5':'foo'});
 ```
 
+### trackNonInteractionEventWithCustomDimensionValues(category, action, optionalValues, dimensionIndexValueDict)
+
+* **category (required):** String, category of event
+* **action (required):** String, name of action
+* **optionalValues:** Object
+  * **label:** String
+  * **value:** Number
+* **dimensionIndexValueDict (required):** Dict of dimension index / values.
+
+Tracks a non-interaction event with one or more customDimensionValues. See the [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/v3/customdimsmets) docs for more info.
+
+```javascript
+tracker.trackEventWithCustomDimensionValues('testcategory', 'testaction', {label: 'v1.0.3', value: 22}, {'1':'premium', '5':'foo'});
+```
+
 ### trackEventWithCustomDimensionValues(category, action, optionalValues, dimensionIndexValueDict)
 
 * **category (required):** String, category of event

@@ -323,6 +323,41 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void trackNonInteractionEventWithCustomDimensionValues(String trackerId, String category, String action, ReadableMap optionalValues, ReadableMap dimensionIndexValues)
+    {
+        Tracker tracker = getTracker(trackerId);
+
+        if (tracker != null)
+        {
+            HitBuilders.EventBuilder hit = new HitBuilders.EventBuilder()
+                        .setCategory(category)
+                        .setNonInteraction(true)
+                        .setAction(action);
+
+            if (optionalValues != null)
+            {
+                if (optionalValues.hasKey("label"))
+                {
+                    hit.setLabel(optionalValues.getString("label"));
+                }
+                if (optionalValues.hasKey("value"))
+                {
+                    hit.setValue(optionalValues.getInt("value"));
+                }
+            }
+
+            ReadableMapKeySetIterator iterator = dimensionIndexValues.keySetIterator();
+            while (iterator.hasNextKey()) {
+                String dimensionIndex = iterator.nextKey();
+                String dimensionValue = dimensionIndexValues.getString(dimensionIndex);
+                hit.setCustomDimension(Integer.parseInt(dimensionIndex), dimensionValue);
+            }
+
+            tracker.send(hit.build());
+        }
+    }
+
+    @ReactMethod
     public void trackEventWithCustomDimensionValues(String trackerId, String category, String action, ReadableMap optionalValues, ReadableMap dimensionIndexValues)
     {
         this.trackEventWithCustomDimensionAndMetricValues(trackerId, category, action, optionalValues, dimensionIndexValues, null);
