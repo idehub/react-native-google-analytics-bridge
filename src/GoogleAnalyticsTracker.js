@@ -85,6 +85,17 @@ export class GoogleAnalyticsTracker {
   }
 
   /**
+   * Track a non-interaction event that has occured with custom dimension values
+   * @param  {String} category       The event category
+   * @param  {String} action         The event action
+   * @param  {Object} optionalValues An object containing optional label and value
+   * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
+   */
+  trackNonInteractionEventWithCustomDimensionValues(category, action, optionalValues = {}, customDimensionValues) {
+    const formattedCustomDimensions = this.transformCustomDimensionsFieldsToIndexes(customDimensionValues);
+    GoogleAnalyticsBridge.trackNonInteractionEventWithCustomDimensionValues(this.id, category, action, optionalValues, formattedCustomDimensions);
+  }
+  /**
    * Track an event that has occured with custom dimension values
    * @param  {String} category       The event category
    * @param  {String} action         The event action
