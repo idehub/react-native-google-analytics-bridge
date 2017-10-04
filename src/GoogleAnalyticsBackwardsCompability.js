@@ -85,6 +85,10 @@ export class GoogleAnalyticsBackwardsCompability {
     this.tracker.allowIDFA(enabled);
   }
 
+  setCustomDimension(dimension, value) {
+    this.tracker.setCustomDimension(dimension, value)
+  }
+
   trackSocialInteraction(network, action, targetUrl) {
     this.tracker.trackSocialInteraction(network, action, targetUrl);
   }
