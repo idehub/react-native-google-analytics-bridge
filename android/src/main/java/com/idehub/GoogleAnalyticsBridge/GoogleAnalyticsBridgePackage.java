@@ -12,14 +12,20 @@ import java.util.List;
 
 public class GoogleAnalyticsBridgePackage implements ReactPackage {
 
-    public GoogleAnalyticsBridgePackage(String trackingId) {
+    public GoogleAnalyticsBridgePackage(IGTMProvider provider, String trackingId) {
+        _provider = provider;
         _trackingId = trackingId;
     }
 
-    public GoogleAnalyticsBridgePackage() {
-        this(null);
+    public GoogleAnalyticsBridgePackage(String trackingId) {
+        this(null, trackingId);
     }
 
+    public GoogleAnalyticsBridgePackage() {
+        this(null, null);
+    }
+
+    private IGTMProvider _provider = null;
     private String _trackingId;
 
     @Override
@@ -28,8 +34,8 @@ public class GoogleAnalyticsBridgePackage implements ReactPackage {
         List<NativeModule> modules = new ArrayList<>();
 
         modules.add(new GoogleAnalyticsBridge(reactContext, _trackingId));
-        modules.add(new GoogleTagManagerBridge(reactContext));
-        
+        modules.add(new GoogleTagManagerBridge(reactContext, _provider));
+
         return modules;
     }
 
