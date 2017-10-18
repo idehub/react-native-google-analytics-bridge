@@ -74,6 +74,15 @@ GoogleTagManager.openContainerWithId("GT-NZT48")
   });
 ```
 
+## Providing an existing GTM container
+
+In some scenarios it might be helpful to provide an opened GTM container to the bridge. Some possible scenarios where this could be helpful:
+- You want to preload some config before loading the jsbundle. For instance checking an experiment variable to determine which jsbundle to load.
+- You have a brownfield app that mixes native UI and react native UI that should share the same container.
+- You want to try and make sure that the container is loaded before starting the app.
+
+This will require that you are familiar with the native api for GTM on whatever platforms you want to support. Generally the process is to load your container at startup, and hold the creation of the react native bridge until the container is loaded. On iOS you can then initialize an RCTGoogleTagManagerBridge and set the container property. On Android the process is similar, but you will need to supply the ContainerHolder to the GoogleAnalyticsBridgePackage instead.
+
 ## JavaScript API
   * [GoogleAnalyticsTracker](#googleanalyticstracker-api)
   * [GoogleAnalyticsSettings](#googleanalyticssettings-api)
