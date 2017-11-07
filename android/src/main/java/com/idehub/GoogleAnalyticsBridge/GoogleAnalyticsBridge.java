@@ -84,7 +84,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
                 }
                 if (optionalValues.hasKey("value"))
                 {
-                    hit.setValue(optionalValues.getInt("value"));
+                    hit.setValue((long) optionalValues.getDouble("value"));
                 }
             }
 
@@ -348,7 +348,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
                 }
                 if (optionalValues.hasKey("value"))
                 {
-                    hit.setValue(optionalValues.getInt("value"));
+                    hit.setValue((long) optionalValues.getDouble("value"));
                 }
             }
 
