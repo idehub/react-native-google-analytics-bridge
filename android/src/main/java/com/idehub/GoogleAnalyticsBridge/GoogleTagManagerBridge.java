@@ -18,8 +18,9 @@ import java.util.concurrent.TimeUnit;
 
 public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
 
-    public GoogleTagManagerBridge(ReactApplicationContext reactContext) {
+    public GoogleTagManagerBridge(ReactApplicationContext reactContext, ContainerHolder containerHolder) {
         super(reactContext);
+        mContainerHolder = containerHolder;
     }
 
 
