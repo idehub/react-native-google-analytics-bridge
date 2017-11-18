@@ -321,7 +321,7 @@ declare module "react-native-google-analytics-bridge" {
          * @param {String} key
          * @returns {Promise<number>}
          */
-        static doubleForKey(key): Promise<number>
+        static doubleForKey(key: string): Promise<number>
 
         /**
          * Push a datalayer event for Google Analytics through Google Tag Manager. The event must have at least one key "event" with event name.
