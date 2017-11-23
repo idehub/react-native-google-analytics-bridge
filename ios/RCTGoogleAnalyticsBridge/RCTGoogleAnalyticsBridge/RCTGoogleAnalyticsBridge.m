@@ -377,4 +377,9 @@ RCT_EXPORT_METHOD(createNewSession:(NSString *)trackerId screenName:(NSString *)
     [tracker send:[builder build]];
 }
 
+(BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
+
 @end
