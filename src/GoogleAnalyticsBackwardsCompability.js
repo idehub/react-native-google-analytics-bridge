@@ -53,6 +53,10 @@ export class GoogleAnalyticsBackwardsCompability {
     this.tracker.trackScreenViewWithCustomDimensionValues(screenName, customDimensionValues);
   }
 
+  trackNonInteractionEventWithCustomDimensionValues(category, action, optionalValues = {}, customDimensionValues) {
+    this.tracker.trackNonInteractionEventWithCustomDimensionValues(category, action, optionalValues, customDimensionValues);
+  }
+
   trackEventWithCustomDimensionValues(category, action, optionalValues = {}, customDimensionValues) {
     this.tracker.trackEventWithCustomDimensionValues(category, action, optionalValues, customDimensionValues);
   }

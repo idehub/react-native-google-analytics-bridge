@@ -20,8 +20,8 @@ declare module "react-native-google-analytics-bridge" {
     }
 
     export interface OptionalValue {
-        label: string
-        value: number
+        label?: string
+        value?: number
     }
 
     export interface OptionalTimingValue {
@@ -99,6 +99,19 @@ declare module "react-native-google-analytics-bridge" {
             customDimensionValues: CustomDimensionsByIndex | CustomDimensionsByField
         ): void
 
+        /**
+         * Track a non-interaction event that has occured with custom dimension values
+         * @param  {String} category       The event category
+         * @param  {String} action         The event action
+         * @param  {OptionalValue} optionalValues An object containing optional label and value
+         * @param  {CustomDimensionsByIndex | CustomDimensionsByField} customDimensionValues An object containing custom dimension key/value pairs
+         */
+        trackNonInteractionEventWithCustomDimensionValues(
+            category: string,
+            action: string,
+            optionalValues?: OptionalValue,
+            customDimensionValues?: CustomDimensionsByIndex | CustomDimensionsByField
+        ): void
         /**
          * Track an event that has occured with custom dimension values
          * @param  {String} category       The event category
