@@ -72,6 +72,11 @@ RCT_EXPORT_METHOD(trackScreenViewWithCustomDimensionValues:(NSString *)trackerId
 
 RCT_EXPORT_METHOD(trackEventWithCustomDimensionValues:(NSString *)trackerId category:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *)optionalValues dimensionIndexValues:(NSDictionary *)dimensionIndexValues)
 {
+    [self trackEventWithCustomDimensionAndMetricValues:trackerId category:category action:action optionalValues:optionalValues dimensionIndexValues:dimensionIndexValues metricIndexValues:nil];
+}
+
+RCT_EXPORT_METHOD(trackEventWithCustomDimensionAndMetricValues:(NSString *)trackerId category:(NSString *)category action:(NSString *)action optionalValues:(NSDictionary *)optionalValues dimensionIndexValues:(NSDictionary *)dimensionIndexValues metricIndexValues:(NSDictionary *)metricIndexValues)
+{
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     NSString *label = [RCTConvert NSString:optionalValues[@"label"]];
     NSNumber *value = [RCTConvert NSNumber:optionalValues[@"value"]];
@@ -82,7 +87,12 @@ RCT_EXPORT_METHOD(trackEventWithCustomDimensionValues:(NSString *)trackerId cate
                                                                             value:value];
     for (NSString *dimensionIndex in dimensionIndexValues)
         [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
-
+    
+    if (metricIndexValues !=  nil){
+        for (NSString *metricIndex in metricIndexValues)
+            [builder set:[metricIndexValues objectForKey:metricIndex] forKey:[GAIFields customMetricForIndex:[metricIndex intValue]]];
+    }
+    
     [tracker send:[builder build]];
 }
 
@@ -293,6 +303,13 @@ RCT_EXPORT_METHOD(setUser:(NSString *)trackerId userId:(NSString *)userId)
          value:userId];
 }
 
+RCT_EXPORT_METHOD(setClient:(NSString *)trackerId clientId:(NSString *)clientId)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    [tracker set:kGAIClientId
+           value:clientId];
+}
+
 RCT_EXPORT_METHOD(allowIDFA:(NSString *)trackerId enabled:(BOOL)enabled)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
@@ -350,6 +367,61 @@ RCT_EXPORT_METHOD(setAppVersion:(NSString *)trackerId appVersion:(NSString *)app
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     [tracker set:kGAIAppVersion value:appVersion];
+}
+
+RCT_EXPORT_METHOD(setCurrency:(NSString *)trackerId currencyCode:(NSString *)currencyCode)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    [tracker set:kGAICurrencyCode
+         value:currencyCode];
+}
+
+RCT_EXPORT_METHOD(trackCampaignFromUrl:(NSString *)trackerId urlString:(NSString *)urlString)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    
+    // setCampaignParametersFromUrl: parses Google Analytics campaign ("UTM")
+    // parameters from a string url into a Map that can be set on a Tracker.
+    GAIDictionaryBuilder *hitParams = [[GAIDictionaryBuilder alloc] init];
+    
+    // Set campaign data on the map, not the tracker directly because it only
+    // needs to be sent once.
+    [hitParams setCampaignParametersFromUrl:urlString];
+    
+    // Campaign source is the only required campaign field. If previous call
+    // did not set a campaign source, use the hostname as a referrer instead.
+    NSURL *url = [NSURL URLWithString:urlString];
+    if(![hitParams get:kGAICampaignSource] && [url host].length !=0) {
+        // Set campaign data on the map, not the tracker.
+        [hitParams set:@"referrer" forKey:kGAICampaignMedium];
+        [hitParams set:[url host] forKey:kGAICampaignSource];
+    }
+    
+    NSDictionary *hitParamsDict = [hitParams build];
+    
+    // A screen name is required for a screen view.
+    [tracker set:kGAIScreenName value:@"Init With Campaign"];
+    
+    // Previous V3 SDK versions.
+    // [tracker send:[[[GAIDictionaryBuilder createAppView] setAll:hitParamsDict] build]];
+    
+    // SDK Version 3.08 and up.
+    [tracker send:[[[GAIDictionaryBuilder createScreenView] setAll:hitParamsDict] build]];
+}
+
+RCT_EXPORT_METHOD(createNewSession:(NSString *)trackerId screenName:(NSString *)screenName)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    
+    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createScreenView];
+    [builder set:@"start" forKey:kGAISessionControl];
+    [tracker set:kGAIScreenName value:screenName];
+    [tracker send:[builder build]];
+}
+
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
 }
 
 @end

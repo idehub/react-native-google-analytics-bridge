@@ -1,8 +1,9 @@
 {
   "name": "react-native-google-analytics-bridge",
-  "version": "5.0.1",
+  "version": "5.4.1",
   "description": "React Native bridge for using native Google Analytics libraries on iOS and Android",
   "main": "./index.js",
+  "types": "./index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test yet!\" && exit 0"
   },
@@ -30,5 +31,15 @@
     "react-native",
     "ios",
     "android"
-  ]
+  ],
+  "rnpm": {
+    "ios": {
+      "sharedLibraries": [
+        "CoreData.framework",
+        "SystemConfiguration.framework",
+        "libz.tbd",
+        "libsqlite3.0.tbd"
+      ]
+    }
+  }
 }
