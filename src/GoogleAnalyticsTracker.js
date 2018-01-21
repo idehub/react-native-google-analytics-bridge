@@ -248,4 +248,27 @@ export class GoogleAnalyticsTracker {
   createNewSession(screenName) {
     GoogleAnalyticsBridge.createNewSession(this.id, screenName);
   }
+
+  dispatch() {
+    return GoogleAnalyticsBridge.dispatch()
+  }
+
+  dispatchWithTimeout(timeout = -1) {
+    if (timeout < 0) {
+      return this.dispatch()
+    }
+
+    const withTimeout = timeout => (
+      new Promise(resolve => {
+        setTimeout(() => {
+          resolve()
+        }, (timeout > 15000) ? 15000 : timeout)
+      })
+    )
+
+    return Promise.race([
+      GoogleAnalyticsBridge.dispatch(),
+      withTimeout(timeout)
+    ])
+  }
 }
