@@ -377,6 +377,13 @@ RCT_EXPORT_METHOD(createNewSession:(NSString *)trackerId screenName:(NSString *)
     [tracker send:[builder build]];
 }
 
+RCT_EXPORT_METHOD(dispatch:(RCTPromiseResolveBlock)resolve
+                  reject:(__unused RCTPromiseRejectBlock)reject) {
+    [[GAI sharedInstance] dispatchWithCompletionHandler:^void(GAIDispatchResult result){
+        resolve(result != kGAIDispatchError ? @YES : @NO);
+    }];
+}
+
 + (BOOL)requiresMainQueueSetup
 {
     return YES;

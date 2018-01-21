@@ -6,6 +6,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
+import com.facebook.react.bridge.Promise;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -480,5 +481,12 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
         Tracker tracker = getTracker(trackerId);
         tracker.setScreenName(screenName);
         tracker.send(new HitBuilders.ScreenViewBuilder().setNewSession().build());
+    }
+
+    @ReactMethod
+    public void dispatch(Promise promise) {
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(getReactApplicationContext());
+        analytics.dispatchLocalHits();
+        promise.resolve(true);
     }
 }
