@@ -131,6 +131,19 @@ export class GoogleAnalyticsTracker {
   }
 
   /**
+   * Track a purchase event with custom dimensions. This uses the Enhanced Ecommerce GA feature.
+   * @param  {Object} product       An object with product values
+   * @param  {Object} transaction   An object with transaction values
+   * @param  {String} eventCategory The event category, defaults to Ecommerce
+   * @param  {String} eventAction   The event action, defaults to Purchase
+   * @param  {Object} customDimensionValues An object containing custom dimension key/value pairs
+   */
+  trackPurchaseEventWithCustomDimensionValues(product = {}, transaction = {}, eventCategory = "Ecommerce", eventAction = "Purchase", customDimensions) {
+    const formattedCustomDimensions = this.transformCustomDimensionsFieldsToIndexes(customDimensions);
+    GoogleAnalyticsBridge.trackPurchaseEventWithCustomDimensionValues(this.id, product, transaction, eventCategory, eventAction, formattedCustomDimensions);
+  }
+
+  /**
    * Track a purchase event. This uses the Enhanced Ecommerce GA feature.
    * @param  {Array} products       An array with products
    * @param  {Object} transaction   An object with transaction values
@@ -246,7 +259,7 @@ export class GoogleAnalyticsTracker {
   setCurrency(currencyCode) {
     GoogleAnalyticsBridge.setCurrency(this.id, currencyCode);
   }
-  
+
   createNewSession(screenName) {
     GoogleAnalyticsBridge.createNewSession(this.id, screenName);
   }

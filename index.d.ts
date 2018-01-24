@@ -36,7 +36,7 @@ declare module "react-native-google-analytics-bridge" {
     export interface CustomDimensionsByIndex {
         [key: number]: any
     }
-    
+
     export interface CustomDimensionsByField {
         [key: string]: any
     }
@@ -52,7 +52,7 @@ declare module "react-native-google-analytics-bridge" {
     export class GoogleAnalyticsTracker {
         /**
          * Save all tracker related data that is needed to call native methods with proper data.
-         * @param {String} trackerId 
+         * @param {String} trackerId
          * @param {{fieldName: fieldIndex}} customDimensionsFieldsIndexMap Custom dimensions field/index pairs
          */
         constructor(trackerId: string, customDimensionsFieldsIndexMap?: CustomDimensionsFieldIndexMap)
@@ -64,7 +64,7 @@ declare module "react-native-google-analytics-bridge" {
          * Underlay native methods will transform provided customDimensions map to expected format.
          * Google analytics expect dimensions to be tracker with 'dimension{index}' keys,
          * not dimension field names.
-         * @param {CustomDimensionsByIndex} customDimensions 
+         * @param {CustomDimensionsByIndex} customDimensions
          * @returns {CustomDimensionsByField}
          */
         transformCustomDimensionsFieldsToIndexes(customDimensions: CustomDimensionsByIndex): CustomDimensionsByField
@@ -148,6 +148,22 @@ declare module "react-native-google-analytics-bridge" {
             transaction: Transaction,
             eventCategory?: string,
             eventAction?: string
+        ): void
+
+        /**
+         * Track a purchase event with custom dimensions. This uses the Enhanced Ecommerce GA feature.
+         * @param  {Product} product       An object with product values
+         * @param  {Transaction} transaction   An object with transaction values
+         * @param  {String} eventCategory The event category, defaults to Ecommerce
+         * @param  {String} eventAction   The event action, defaults to Purchase
+         * @param  {CustomDimensionsByIndex | CustomDimensionsByField} customDimensionValues An object containing custom dimension key/value pairs
+         */
+        trackPurchaseEventWithCustomDimensionValues(
+            product: Product,
+            transaction: Transaction,
+            eventCategory?: string,
+            eventAction?: string,
+            customDimensions?: CustomDimensionsByIndex | CustomDimensionsByField
         ): void
 
         /**
@@ -255,7 +271,7 @@ declare module "react-native-google-analytics-bridge" {
         setCurrency(currencyCode: string): void
 
         /**
-         * This function lets you create a session manually. By default, Google Analytics will group hits that are received 
+         * This function lets you create a session manually. By default, Google Analytics will group hits that are received
          * within 30 minutes of one another into the same session. So it is strictly not necessary to create a session manually.
          * @param {String} screenName The current screen which the session started on
          */
@@ -342,7 +358,7 @@ declare module "react-native-google-analytics-bridge" {
         /**
          * Push a datalayer event for Google Analytics through Google Tag Manager. The event must have at least one key "event" with event name.
          * You can add optional values on top of that, example: {event: "eventName", pageId: "/home"}
-         * @param {Object} event An Map<String, Object> containing key and value pairs. It must have at least one key "event" with event name 
+         * @param {Object} event An Map<String, Object> containing key and value pairs. It must have at least one key "event" with event name
          * @returns {Promise<boolean>}
          */
         static pushDataLayerEvent(event: DataLayerEvent): Promise<boolean>

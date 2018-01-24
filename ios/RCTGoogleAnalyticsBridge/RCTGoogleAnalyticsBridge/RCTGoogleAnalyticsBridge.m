@@ -87,12 +87,12 @@ RCT_EXPORT_METHOD(trackEventWithCustomDimensionAndMetricValues:(NSString *)track
                                                                             value:value];
     for (NSString *dimensionIndex in dimensionIndexValues)
         [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
-    
+
     if (metricIndexValues !=  nil){
         for (NSString *metricIndex in metricIndexValues)
             [builder set:[metricIndexValues objectForKey:metricIndex] forKey:[GAIFields customMetricForIndex:[metricIndex intValue]]];
     }
-    
+
     [tracker send:[builder build]];
 }
 
@@ -137,6 +137,52 @@ RCT_EXPORT_METHOD(trackPurchaseEvent:(NSString *)trackerId product:(NSDictionary
                                                                            action:eventAction
                                                                             label:nil
                                                                             value:nil];
+    GAIEcommerceProductAction *action = [[GAIEcommerceProductAction alloc] init];
+    [action setAction:kGAIPAPurchase];
+    [action setTransactionId:transactionId];
+    [action setAffiliation:transactionAffiliation];
+    [action setRevenue:transactionRevenue];
+    [action setTax:transactionTax];
+    [action setShipping:transactionShipping];
+    [action setCouponCode:transactionCouponCode];
+    [builder setProductAction:action];
+    [builder addProduct:ecommerceProduct];
+    [tracker send:[builder build]];
+}
+
+RCT_EXPORT_METHOD(trackPurchaseEventWithCustomDimensionValues:(NSString *)trackerId product:(NSDictionary *)product transaction:(NSDictionary *)transaction eventCategory:(NSString *)eventCategory eventAction:(NSString *)eventAction dimensionIndexValues:(NSDictionary *)dimensionIndexValues)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
+    NSString *productId = [RCTConvert NSString:product[@"id"]];
+    NSString *productName = [RCTConvert NSString:product[@"name"]];
+    NSString *productCategory = [RCTConvert NSString:product[@"category"]];
+    NSString *productBrand = [RCTConvert NSString:product[@"brand"]];
+    NSString *productVariant = [RCTConvert NSString:product[@"variant"]];
+    NSNumber *productPrice = [RCTConvert NSNumber:product[@"price"]];
+    NSString *productCouponCode = [RCTConvert NSString:product[@"couponCode"]];
+    NSNumber *productQuantity = [RCTConvert NSNumber:product[@"quantity"]];
+    NSString *transactionId = [RCTConvert NSString:transaction[@"id"]];
+    NSString *transactionAffiliation = [RCTConvert NSString:transaction[@"affiliation"]];
+    NSNumber *transactionRevenue = [RCTConvert NSNumber:transaction[@"revenue"]];
+    NSNumber *transactionTax = [RCTConvert NSNumber:transaction[@"tax"]];
+    NSNumber *transactionShipping = [RCTConvert NSNumber:transaction[@"shipping"]];
+    NSString *transactionCouponCode = [RCTConvert NSString:transaction[@"couponCode"]];
+    GAIEcommerceProduct *ecommerceProduct = [[GAIEcommerceProduct alloc] init];
+    [ecommerceProduct setId:productId];
+    [ecommerceProduct setName:productName];
+    [ecommerceProduct setCategory:productCategory];
+    [ecommerceProduct setBrand:productBrand];
+    [ecommerceProduct setVariant:productVariant];
+    [ecommerceProduct setPrice:productPrice];
+    [ecommerceProduct setCouponCode:productCouponCode];
+    [ecommerceProduct setQuantity:productQuantity];
+    GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createEventWithCategory:eventCategory
+                                                                           action:eventAction
+                                                                            label:nil
+                                                                            value:nil];
+    for (NSString *dimensionIndex in dimensionIndexValues)
+        [builder set:[dimensionIndexValues objectForKey:dimensionIndex] forKey:[GAIFields customDimensionForIndex:[dimensionIndex intValue]]];
+        
     GAIEcommerceProductAction *action = [[GAIEcommerceProductAction alloc] init];
     [action setAction:kGAIPAPurchase];
     [action setTransactionId:transactionId];
@@ -337,15 +383,15 @@ RCT_EXPORT_METHOD(setCurrency:(NSString *)trackerId currencyCode:(NSString *)cur
 RCT_EXPORT_METHOD(trackCampaignFromUrl:(NSString *)trackerId urlString:(NSString *)urlString)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
-    
+
     // setCampaignParametersFromUrl: parses Google Analytics campaign ("UTM")
     // parameters from a string url into a Map that can be set on a Tracker.
     GAIDictionaryBuilder *hitParams = [[GAIDictionaryBuilder alloc] init];
-    
+
     // Set campaign data on the map, not the tracker directly because it only
     // needs to be sent once.
     [hitParams setCampaignParametersFromUrl:urlString];
-    
+
     // Campaign source is the only required campaign field. If previous call
     // did not set a campaign source, use the hostname as a referrer instead.
     NSURL *url = [NSURL URLWithString:urlString];
@@ -354,15 +400,15 @@ RCT_EXPORT_METHOD(trackCampaignFromUrl:(NSString *)trackerId urlString:(NSString
         [hitParams set:@"referrer" forKey:kGAICampaignMedium];
         [hitParams set:[url host] forKey:kGAICampaignSource];
     }
-    
+
     NSDictionary *hitParamsDict = [hitParams build];
-    
+
     // A screen name is required for a screen view.
     [tracker set:kGAIScreenName value:@"Init With Campaign"];
-    
+
     // Previous V3 SDK versions.
     // [tracker send:[[[GAIDictionaryBuilder createAppView] setAll:hitParamsDict] build]];
-    
+
     // SDK Version 3.08 and up.
     [tracker send:[[[GAIDictionaryBuilder createScreenView] setAll:hitParamsDict] build]];
 }
@@ -370,7 +416,7 @@ RCT_EXPORT_METHOD(trackCampaignFromUrl:(NSString *)trackerId urlString:(NSString
 RCT_EXPORT_METHOD(createNewSession:(NSString *)trackerId screenName:(NSString *)screenName)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
-    
+
     GAIDictionaryBuilder *builder = [GAIDictionaryBuilder createScreenView];
     [builder set:@"start" forKey:kGAISessionControl];
     [tracker set:kGAIScreenName value:screenName];
