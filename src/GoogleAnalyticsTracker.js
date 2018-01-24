@@ -260,9 +260,12 @@ export class GoogleAnalyticsTracker {
       return GoogleAnalyticsBridge.dispatch();
     }
 
+    let timer = null;
+
     const withTimeout = timeout => (
       new Promise(resolve => {
-        setTimeout(() => {
+        timer = setTimeout(() => {
+          timer = null;
           resolve();
         }, Math.min(timeout, DEFAULT_DISPATCH_TIMEOUT));
       })
@@ -271,6 +274,11 @@ export class GoogleAnalyticsTracker {
     return Promise.race([
       GoogleAnalyticsBridge.dispatch(),
       withTimeout(timeout)
-    ]);
+    ]).then(result => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      return result;
+    });
   }
 }
