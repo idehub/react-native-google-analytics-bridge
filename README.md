@@ -408,6 +408,28 @@ Sets tracker currency property, see [Currency Codes](https://developers.google.c
 tracker.setCurrency('EUR');
 ```
 
+### dispatch()
+
+This function lets you manually dispatch all hits which are queued.
+Use this function sparingly, as it will normally happen automatically as a batch.
+        
+* returns Promise
+
+```javascript
+tracker.dispatch().then((done) => console.log("Dispatch is done: ", done));
+```
+
+### dispatchWithTimeout()
+
+* **timeout (optional):** Number, in ms
+
+The same as `dispatch()`, but also gives you the ability to time out the Promise in case dispatch takes too long.
+        
+* returns Promise
+
+```javascript
+tracker.dispatchWithTimeout(10000).then((done) => console.log("Dispatch is done: ", done));
+```
 ## GoogleAnalyticsSettings API
 
 Settings are applied across all trackers.

@@ -251,10 +251,22 @@ export class GoogleAnalyticsTracker {
     GoogleAnalyticsBridge.createNewSession(this.id, screenName);
   }
 
+  /**
+   * This function lets you manually dispatch all hits which are queued.
+   * Use this function sparingly, as it will normally happen automatically
+   * as a batch.
+   * @returns {Promise<boolean>} Returns when done
+   */
   dispatch() {
     return GoogleAnalyticsBridge.dispatch();
   }
 
+  /**
+   * The same as dispatch(), but also gives you the ability to time out
+   * the Promise in case dispatch takes too long.
+   * @param {Number} timeout The timeout. Default value is 15 sec.
+   * @returns {Promise<boolean>} Returns when done or timed out
+   */
   dispatchWithTimeout(timeout = -1) {
     if (timeout < 0) {
       return GoogleAnalyticsBridge.dispatch();

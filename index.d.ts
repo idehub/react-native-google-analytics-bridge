@@ -260,6 +260,22 @@ declare module "react-native-google-analytics-bridge" {
          * @param {String} screenName The current screen which the session started on
          */
         createNewSession(screenName: string): void
+
+        /**
+         * This function lets you manually dispatch all hits which are queued.
+         * Use this function sparingly, as it will normally happen automatically
+         * as a batch.
+         * @returns {Promise<boolean>} Returns when done
+         */
+        dispatch(): Promise<boolean>
+
+        /**
+         * The same as dispatch(), but also gives you the ability to time out
+         * the Promise in case dispatch takes too long.
+         * @param {Number} timeout The timeout. Default value is 15 sec.
+         * @returns {Promise<boolean>} Returns when done or timed out
+         */
+        dispatchWithTimeout(timeout: number = -1): Promise<boolean>
     }
 
     /**
