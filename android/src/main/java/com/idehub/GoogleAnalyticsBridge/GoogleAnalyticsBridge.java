@@ -485,8 +485,12 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void dispatch(Promise promise) {
-        GoogleAnalytics analytics = GoogleAnalytics.getInstance(getReactApplicationContext());
-        analytics.dispatchLocalHits();
-        promise.resolve(true);
+        GoogleAnalytics analytics = getAnalyticsInstance();
+        try {
+            analytics.dispatchLocalHits();
+            promise.resolve(true);
+        } catch (Exception ex) {
+            promise.reject(ex);
+        }
     }
 }
