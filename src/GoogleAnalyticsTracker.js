@@ -1,5 +1,7 @@
 import { GoogleAnalyticsBridge } from './NativeBridges';
 
+const DEFAULT_DISPATCH_TIMEOUT = 15000;
+
 /**
  * Custom dimensions accept only strings and numbers.
  * @param customDimensionVal
@@ -250,25 +252,25 @@ export class GoogleAnalyticsTracker {
   }
 
   dispatch() {
-    return GoogleAnalyticsBridge.dispatch()
+    return GoogleAnalyticsBridge.dispatch();
   }
 
   dispatchWithTimeout(timeout = -1) {
     if (timeout < 0) {
-      return this.dispatch()
+      return GoogleAnalyticsBridge.dispatch();
     }
 
     const withTimeout = timeout => (
       new Promise(resolve => {
         setTimeout(() => {
-          resolve()
-        }, (timeout > 15000) ? 15000 : timeout)
+          resolve();
+        }, Math.min(timeout, DEFAULT_DISPATCH_TIMEOUT));
       })
-    )
+    );
 
     return Promise.race([
       GoogleAnalyticsBridge.dispatch(),
       withTimeout(timeout)
-    ])
+    ]);
   }
 }
