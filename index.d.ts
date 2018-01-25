@@ -275,8 +275,7 @@ declare module "react-native-google-analytics-bridge" {
          * @param {Number} timeout The timeout. Default value is 15 sec.
          * @returns {Promise<boolean>} Returns when done or timed out
          */
-        dispatchWithTimeout(timeout: number): Promise<boolean>
-    }
+        dispatchWithTimeout(timeout?: number): Promise<boolean>
 
     /**
      * Google analytics settings shared across all GoogleAnalyticsTracker instances.
