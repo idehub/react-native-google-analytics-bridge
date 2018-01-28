@@ -18,7 +18,7 @@ tracker.trackEvent("testcategory", "testaction");
 
 ## Problems with tracking? Visitors not showing up?
 
-This is **NOT** (_normally_) and error with this library. Please read [this guide on how to set up your Google Analytics account/property](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Creating-a-Google-Analytics-property-for-mobile-analytics) for mobile analytics.
+This is **NOT** (_normally_) an error with this library. Please read [this guide on how to set up your Google Analytics account/property](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Creating-a-Google-Analytics-property-for-mobile-analytics) for mobile analytics.
 
 ## Content
 
