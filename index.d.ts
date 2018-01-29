@@ -276,6 +276,7 @@ declare module "react-native-google-analytics-bridge" {
          * @returns {Promise<boolean>} Returns when done or timed out
          */
         dispatchWithTimeout(timeout?: number): Promise<boolean>
+    }
 
     /**
      * Google analytics settings shared across all GoogleAnalyticsTracker instances.
