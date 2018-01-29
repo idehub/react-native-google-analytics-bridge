@@ -5,7 +5,7 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test yet!\" && exit 0",
+    "test": "npm run dtslint",
     "dtslint": "dtslint ."
   },
   "repository": {
