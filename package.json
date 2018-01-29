@@ -5,7 +5,8 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test yet!\" && exit 0"
+    "test": "npm run dtslint",
+    "dtslint": "dtslint ."
   },
   "repository": {
     "type": "git",
@@ -41,5 +42,8 @@
         "libsqlite3.0.tbd"
       ]
     }
+  },
+  "devDependencies": {
+    "dtslint": "^0.2.0"
   }
 }

@@ -1,4 +1,5 @@
 language: nodejs
+node_js: node
 install:
 - npm config set spin=false
 - npm config set progress=false
