@@ -3,10 +3,10 @@
   "version": "5.5.2",
   "description": "React Native bridge for using native Google Analytics libraries on iOS and Android",
   "main": "./index.js",
-  "types": "./index.d.ts",
+  "types": "types/index.d.ts",
   "scripts": {
     "test": "npm run dtslint",
-    "dtslint": "dtslint ."
+    "dtslint": "dtslint types"
   },
   "repository": {
     "type": "git",
