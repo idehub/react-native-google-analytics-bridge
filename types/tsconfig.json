@@ -8,6 +8,6 @@
         "strictFunctionTypes": false,
         "noEmit": true,
         "baseUrl": ".",
-        "paths": { "mylib": ["."] }
+        "paths": { "react-native-google-analytics-bridge": ["."] }
     }
 }
