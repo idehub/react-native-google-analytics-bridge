@@ -110,6 +110,13 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
           }
       }
     }
+    
+    @ReactMethod
+    public void setVerboseLoggingEnabled(final Boolean enabled, final Promise promise){
+        TagManager mTagManager = TagManager.getInstance(getReactApplicationContext());
+        mTagManager.setVerboseLoggingEnabled(enabled);
+        promise.resolve(true);
+    }
 
     private boolean isValidMapToPushEvent(ReadableMap dictionary) {
         return (dictionary != null && dictionary.getString("event") != null
