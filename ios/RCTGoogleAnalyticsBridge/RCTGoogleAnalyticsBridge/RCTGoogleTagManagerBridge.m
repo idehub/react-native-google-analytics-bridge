@@ -94,6 +94,17 @@ RCT_EXPORT_METHOD(pushDataLayerEvent:(NSDictionary*)dictionary
     }
 }
 
+RCT_EXPORT_METHOD(setVerboseLoggingEnabled:(BOOL)enabled
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject){
+    if (enabled) {
+        [[TAGManager instance].logger setLogLevel:kTAGLoggerLogLevelVerbose];
+    } else {
+        [[TAGManager instance].logger setLogLevel:kTAGLoggerLogLevelWarning];
+    }
+    resolve(@YES);
+}
+
 - (void)containerAvailable:(TAGContainer *)container {
     dispatch_async(_methodQueue, ^{
         self.container = container;

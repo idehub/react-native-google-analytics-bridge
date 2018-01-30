@@ -345,4 +345,11 @@ export class GoogleTagManager {
      * @returns {Promise<boolean>}
      */
     static pushDataLayerEvent(event: DataLayerEvent): Promise<boolean>
+
+    /**
+     * Sets logger to verbose
+     * @param {Boolean} enabled
+     * @returns {Promise<boolean>}
+     */
+    static setVerboseLoggingEnabled(enabled: boolean): Promise<boolean>
 }

@@ -593,3 +593,19 @@ GoogleTagManager.pushDataLayerEvent({
   pageId: "/home"
 }).then(success => console.log(success));
 ```
+
+### setVerboseLoggingEnabled(enabled)
+
+##### Parameter(s)
+
+* **enabled (required):** Boolean
+
+##### Returns:
+
+* **value:** Boolean
+
+Sets logger to verbose, default is warning
+
+```javascript
+GoogleTagManager.setVerboseLoggingEnabled(true);
+```
