@@ -1,6 +1,7 @@
 #import "RCTGoogleAnalyticsBridge.h"
 #import <React/RCTLog.h>
 #import <React/RCTConvert.h>
+#import <React/RCTUtils.h>
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
