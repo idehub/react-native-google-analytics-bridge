@@ -1,6 +1,7 @@
 #import "RCTGoogleAnalyticsBridge.h"
 #import <React/RCTLog.h>
 #import <React/RCTConvert.h>
+#import <React/RCTUtils.h>
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
@@ -417,6 +418,17 @@ RCT_EXPORT_METHOD(createNewSession:(NSString *)trackerId screenName:(NSString *)
     [builder set:@"start" forKey:kGAISessionControl];
     [tracker set:kGAIScreenName value:screenName];
     [tracker send:[builder build]];
+}
+
+RCT_EXPORT_METHOD(dispatch:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject) {
+    [[GAI sharedInstance] dispatchWithCompletionHandler:^void(GAIDispatchResult result){
+        if (result != kGAIDispatchError) {
+            resolve(@YES);
+        } else {
+            reject(@"DISPATCH_FAILED", nil, RCTErrorWithMessage(@"Dispatch failed"));
+        }
+    }];
 }
 
 + (BOOL)requiresMainQueueSetup

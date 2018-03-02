@@ -1,5 +1,7 @@
 import { GoogleAnalyticsBridge } from './NativeBridges';
 
+const DEFAULT_DISPATCH_TIMEOUT = 15000;
+
 /**
  * Custom dimensions accept only strings and numbers.
  * @param customDimensionVal
@@ -255,5 +257,48 @@ export class GoogleAnalyticsTracker {
   
   createNewSession(screenName) {
     GoogleAnalyticsBridge.createNewSession(this.id, screenName);
+  }
+
+  /**
+   * This function lets you manually dispatch all hits which are queued.
+   * Use this function sparingly, as it will normally happen automatically
+   * as a batch.
+   * @returns {Promise<boolean>} Returns when done
+   */
+  dispatch() {
+    return GoogleAnalyticsBridge.dispatch();
+  }
+
+  /**
+   * The same as dispatch(), but also gives you the ability to time out
+   * the Promise in case dispatch takes too long.
+   * @param {Number} timeout The timeout. Default value is 15 sec.
+   * @returns {Promise<boolean>} Returns when done or timed out
+   */
+  dispatchWithTimeout(timeout = -1) {
+    if (timeout < 0) {
+      return GoogleAnalyticsBridge.dispatch();
+    }
+
+    let timer = null;
+
+    const withTimeout = timeout => (
+      new Promise(resolve => {
+        timer = setTimeout(() => {
+          timer = null;
+          resolve();
+        }, Math.min(timeout, DEFAULT_DISPATCH_TIMEOUT));
+      })
+    );
+
+    return Promise.race([
+      GoogleAnalyticsBridge.dispatch(),
+      withTimeout(timeout)
+    ]).then(result => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      return result;
+    });
   }
 }

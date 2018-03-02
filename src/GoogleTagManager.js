@@ -43,4 +43,12 @@ export class GoogleTagManager {
   static pushDataLayerEvent(dictionary = {}){
     return GoogleTagManagerBridge.pushDataLayerEvent(dictionary);
   }
+
+  /**
+   * Sets logger to verbose
+   * @param {Boolean} enabled
+   */
+  static setVerboseLoggingEnabled(enabled){
+    return GoogleTagManagerBridge.setVerboseLoggingEnabled(enabled);
+  }
 }

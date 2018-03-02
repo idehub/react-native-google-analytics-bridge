@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "lib": ["es6"],
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": false,
+        "noEmit": true,
+        "baseUrl": ".",
+        "paths": { "react-native-google-analytics-bridge": ["."] }
+    }
+}
