@@ -183,7 +183,7 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void trackProductAction(String trackerId, ReadableMap product, String actionType ) {
+    public void trackProductActionEvent(String trackerId, ReadableMap product, String actionType ) {
         Tracker tracker = getTracker(trackerId);
 
         if (tracker != null) {
