@@ -16,6 +16,15 @@ tracker.trackScreenView("Home");
 tracker.trackEvent("testcategory", "testaction");
 ```
 
+## Use environment's Google Service Version (due to crash on Google Service version 12
+
+You can specify googlePlayServicesVersion in "android/gradle.properties". Otherwise, it will take default version
+
+e.g.
+`googlePlayServicesVersion=11.8.0`
+
+
+
 ## Problems with tracking? Visitors not showing up?
 
 This is **NOT** (_normally_) an error with this library. Please read [this guide on how to set up your Google Analytics account/property](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Creating-a-Google-Analytics-property-for-mobile-analytics) for mobile analytics.
