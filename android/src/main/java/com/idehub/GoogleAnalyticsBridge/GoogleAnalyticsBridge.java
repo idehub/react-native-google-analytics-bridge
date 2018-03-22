@@ -1,5 +1,6 @@
 package com.idehub.GoogleAnalyticsBridge;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -278,6 +279,18 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
         if (tracker != null) {
             tracker.set("&cid", clientId);
         }
+    }
+
+    @ReactMethod
+    public void getClientId(String trackerId, Callback successCallBack)
+    {
+        Tracker tracker = getTracker(trackerId);
+        String clientId = "";
+        if (tracker != null) {
+            clientId = tracker.get("&cid");
+        }
+
+        successCallBack.invoke(clientId);
     }
 
     @ReactMethod

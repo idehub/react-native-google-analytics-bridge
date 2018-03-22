@@ -180,6 +180,13 @@ export class GoogleAnalyticsTracker {
   }
 
   /**
+   * Get the current clientId.
+   */
+  getCID(callback) {
+    GoogleAnalyticsBridge.getClientId(this.id, callback);
+  }
+
+  /**
    * Sets if IDFA (identifier for advertisers) collection should be enabled
    * @param  {Boolean} enabled Defaults to true
    */
