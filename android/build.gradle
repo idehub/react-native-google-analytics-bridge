@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 
-def DEFAULT_GOOGLE_PLAY_SERVICES_VERSION    = "+"
+def DEFAULT_GOOGLE_PLAY_SERVICES_VERSION    = "11.+"
 
 android {
     compileSdkVersion 23
