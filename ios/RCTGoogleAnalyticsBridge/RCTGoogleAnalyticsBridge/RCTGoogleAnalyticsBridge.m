@@ -269,10 +269,14 @@ RCT_EXPORT_METHOD(setClient:(NSString *)trackerId clientId:(NSString *)clientId)
            value:clientId];
 }
 
-RCT_EXPORT_METHOD(getClientId:(NSString *)trackerId callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(getClientId:(NSString *)trackerId resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
-    callback(@[[tracker get:kGAIClientId]]);
+    NSString *clientId = [tracker get:kGAIClientId];
+    if (clientId != NULL)
+        resolve(clientId);
+    else
+        reject(@"CLIENTID_FAILED", nil, RCTErrorWithMessage(@"Unable to fetch client id"));
 }
 
 RCT_EXPORT_METHOD(allowIDFA:(NSString *)trackerId enabled:(BOOL)enabled)
