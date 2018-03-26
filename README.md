@@ -377,6 +377,16 @@ See the [Google Analytics](https://developers.google.com/analytics/devguides/col
 tracker.setClient("35009a79-1a05-49d7-b876-2b884d0f825b");
 ```
 
+### getClientId()
+
+This function lets you get the client id to be used for different purpose for logging etc.
+
+* returns Promise
+
+```javascript
+tracker.clientId().then(clientId => console.log("Client id is: ", clientId));
+```
+
 ### createNewSession(screenName)
 
 * **screenName (required):** String, the current screen which the session started on

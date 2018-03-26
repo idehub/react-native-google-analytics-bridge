@@ -183,7 +183,7 @@ export class GoogleAnalyticsTracker {
    * Get the current clientId.
    * @returns {Promise<string>} Returns when done
    */
-  getCID(callback) {
+  getClientId() {
     return GoogleAnalyticsBridge.getClientId(this.id);
   }
 
