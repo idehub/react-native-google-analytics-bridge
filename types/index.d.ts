@@ -19,8 +19,8 @@ export interface Transaction {
 }
 
 export interface OptionalValue {
-    label: string
-    value: number
+    label?: string
+    value?: number
 }
 
 export interface OptionalTimingValue {
