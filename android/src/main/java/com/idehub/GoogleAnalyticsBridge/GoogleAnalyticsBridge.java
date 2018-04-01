@@ -281,6 +281,21 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void getClientId(String trackerId, Promise promise)
+    {
+        try {
+            Tracker tracker = getTracker(trackerId);
+            String clientId = "";
+            if (tracker != null) {
+                clientId = tracker.get("&cid");
+            }
+            promise.resolve(clientId);
+        } catch (Exception ex) {
+            promise.reject(ex);
+        }
+    }
+
+    @ReactMethod
     public void allowIDFA(String trackerId, Boolean enabled)
     {
         Tracker tracker = getTracker(trackerId);
