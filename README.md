@@ -29,9 +29,9 @@ e.g.
 
 This is **NOT** (_normally_) an error with this library. Please read [this guide on how to set up your Google Analytics account/property](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Creating-a-Google-Analytics-property-for-mobile-analytics) for mobile analytics.
 
-## Problmes with android build failures?
+## Problems with android build failures?
 
-Here I have mentioned the required steps to resolve the issues regarding the build failures issues when you got updating your android studio, [check this out](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Solution-for-Android-build-failure-issues
+Here I have mentioned the required steps to resolve the issues regarding the build failures, when you got updated your android studio [please check the following doc to clear the issues](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Solution-for-Android-build-failure-issues
 )
 
 ## Content
