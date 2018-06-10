@@ -9,9 +9,10 @@ else
 
     cd example
     yarn install
+    rm -rf node_modules/react-native-google-analytics-bridge/example
 
     if [ "$LANE" = "ios" ]; then
-        npm run test
+        xcodebuild -project ios/example.xcodeproj/ -configuration Debug -sdk iphonesimulator -scheme example CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
     else
         cd android && ./gradlew assembleRelease
     fi
