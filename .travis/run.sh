@@ -7,9 +7,12 @@ else
     npm install -g react-native-cli
     react-native -v
 
+    cd example
+    yarn install
+
     if [ "$LANE" = "ios" ]; then
         npm run test
     else
-        npm run test
+        cd android && ./gradlew assembleRelease
     fi
 fi
