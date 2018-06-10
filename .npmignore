@@ -1,1 +1,9 @@
+# example project
 example
+
+# build
+.travis
+.travis.yml
+
+# Github stuff
+ISSUE_TEMPLATE.md
