@@ -1,7 +1,7 @@
 matrix:
   include:
     - language: android
-      os: linux
+      os: osx
       jdk: oraclejdk7
       android:
           components:
@@ -11,10 +11,10 @@ matrix:
             - extra-google-google_play_services
             - extra-google-m2repository
             - addon-google_apis-google-16
+      node_js: node
     - language: objective-c
       os: osx
       osx_image: xcode7.3
-    - language: nodejs
       node_js: node
 install:
 - npm config set spin=false
