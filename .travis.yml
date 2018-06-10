@@ -11,11 +11,15 @@ matrix:
             - extra-google-google_play_services
             - extra-google-m2repository
             - addon-google_apis-google-16
-      node_js: node
+      before_install:
+        - nvm install 6
+        - node --version
     - language: objective-c
       os: osx
       osx_image: xcode7.3
-      node_js: node
+      before_install:
+        - nvm install 6
+        - node --version
 install:
 - npm config set spin=false
 - npm config set progress=false
