@@ -351,7 +351,7 @@ class GoogleAnalyticsTracker {
   }
 
   /**
-   * The same as dispatch(), but also gives you the ability to time out
+   * The same as `dispatch`, but also gives you the ability to time out
    * the Promise in case dispatch takes too long.
    * @example
    * tracker

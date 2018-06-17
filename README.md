@@ -116,120 +116,148 @@ This will require that you are familiar with the native api for GTM on whatever 
 -   [GoogleAnalyticsSettings](#googleanalyticssettings)
     -   [setOptOut](#setoptout)
         -   [Parameters](#parameters)
+        -   [Examples](#examples)
     -   [setDispatchInterval](#setdispatchinterval)
         -   [Parameters](#parameters-1)
+        -   [Examples](#examples-1)
     -   [setDryRun](#setdryrun)
         -   [Parameters](#parameters-2)
+        -   [Examples](#examples-2)
 -   [GoogleAnalyticsTracker](#googleanalyticstracker)
-    -   [Examples](#examples)
+    -   [Examples](#examples-3)
     -   [trackScreenView](#trackscreenview)
         -   [Parameters](#parameters-3)
-        -   [Examples](#examples-1)
+        -   [Examples](#examples-4)
     -   [trackEvent](#trackevent)
         -   [Parameters](#parameters-4)
-        -   [Examples](#examples-2)
+        -   [Examples](#examples-5)
     -   [trackTiming](#tracktiming)
         -   [Parameters](#parameters-5)
-        -   [Examples](#examples-3)
+        -   [Examples](#examples-6)
     -   [trackException](#trackexception)
         -   [Parameters](#parameters-6)
-        -   [Examples](#examples-4)
+        -   [Examples](#examples-7)
     -   [trackSocialInteraction](#tracksocialinteraction)
         -   [Parameters](#parameters-7)
-        -   [Examples](#examples-5)
+        -   [Examples](#examples-8)
     -   [setUser](#setuser)
         -   [Parameters](#parameters-8)
-        -   [Examples](#examples-6)
+        -   [Examples](#examples-9)
     -   [setClient](#setclient)
         -   [Parameters](#parameters-9)
-        -   [Examples](#examples-7)
+        -   [Examples](#examples-10)
     -   [getClientId](#getclientid)
-        -   [Examples](#examples-8)
+        -   [Examples](#examples-11)
     -   [allowIDFA](#allowidfa)
         -   [Parameters](#parameters-10)
-        -   [Examples](#examples-9)
+        -   [Examples](#examples-12)
     -   [setAppName](#setappname)
         -   [Parameters](#parameters-11)
-        -   [Examples](#examples-10)
+        -   [Examples](#examples-13)
     -   [setAppVersion](#setappversion)
         -   [Parameters](#parameters-12)
-        -   [Examples](#examples-11)
+        -   [Examples](#examples-14)
     -   [setAnonymizeIp](#setanonymizeip)
         -   [Parameters](#parameters-13)
-        -   [Examples](#examples-12)
+        -   [Examples](#examples-15)
     -   [setSamplingRate](#setsamplingrate)
         -   [Parameters](#parameters-14)
-        -   [Examples](#examples-13)
+        -   [Examples](#examples-16)
     -   [setCurrency](#setcurrency)
         -   [Parameters](#parameters-15)
-        -   [Examples](#examples-14)
+        -   [Examples](#examples-17)
     -   [setTrackUncaughtExceptions](#settrackuncaughtexceptions)
         -   [Parameters](#parameters-16)
     -   [dispatch](#dispatch)
-        -   [Examples](#examples-15)
+        -   [Examples](#examples-18)
     -   [dispatchWithTimeout](#dispatchwithtimeout)
         -   [Parameters](#parameters-17)
-        -   [Examples](#examples-16)
+        -   [Examples](#examples-19)
 -   [GoogleTagManager](#googletagmanager)
+    -   [Examples](#examples-20)
     -   [openContainerWithId](#opencontainerwithid)
         -   [Parameters](#parameters-18)
+        -   [Examples](#examples-21)
     -   [boolForKey](#boolforkey)
         -   [Parameters](#parameters-19)
+        -   [Examples](#examples-22)
     -   [stringForKey](#stringforkey)
         -   [Parameters](#parameters-20)
+        -   [Examples](#examples-23)
     -   [doubleForKey](#doubleforkey)
         -   [Parameters](#parameters-21)
+        -   [Examples](#examples-24)
     -   [pushDataLayerEvent](#pushdatalayerevent)
         -   [Parameters](#parameters-22)
+        -   [Examples](#examples-25)
+    -   [setVerboseLoggingEnabled](#setverboseloggingenabled)
+        -   [Parameters](#parameters-23)
 -   [CustomMetrics](#custommetrics)
-    -   [Examples](#examples-17)
+    -   [Examples](#examples-26)
 -   [CustomDimensionsByField](#customdimensionsbyfield)
-    -   [Examples](#examples-18)
+    -   [Examples](#examples-27)
 -   [CustomDimensionsByIndex](#customdimensionsbyindex)
-    -   [Examples](#examples-19)
+    -   [Examples](#examples-28)
 -   [CustomDimensionsFieldIndexMap](#customdimensionsfieldindexmap)
-    -   [Examples](#examples-20)
+    -   [Examples](#examples-29)
 -   [DataLayerEvent](#datalayerevent)
-    -   [Parameters](#parameters-23)
--   [HitPayload](#hitpayload)
     -   [Parameters](#parameters-24)
+-   [HitPayload](#hitpayload)
+    -   [Parameters](#parameters-25)
 -   [ProductActionEnum](#productactionenum)
 -   [Product](#product)
-    -   [Parameters](#parameters-25)
--   [ProductAction](#productaction)
     -   [Parameters](#parameters-26)
--   [Transaction](#transaction)
+-   [ProductAction](#productaction)
     -   [Parameters](#parameters-27)
+-   [Transaction](#transaction)
+    -   [Parameters](#parameters-28)
 
 ### GoogleAnalyticsSettings
 
+Settings which are applied across all trackers.
+
 #### setOptOut
 
-Sets if OptOut is active and disables Google Analytics
-This has to be set each time the App starts
+Sets if OptOut is active and disables Google Analytics. This is disabled by default. Note: This has to be set each time the App starts.
 
 ##### Parameters
 
 -   `enabled` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
+##### Examples
+
+```javascript
+GoogleAnalyticsSettings.setOptOut(true);
+```
+
 #### setDispatchInterval
 
-Sets the trackers dispatch interval
-This will influence how often batches of events, screen views, etc
-are sent to your tracker.
+Sets the trackers dispatch interval.
+Events, screen views, etc, are sent in batches to your tracker. This function allows you to configure how often (in seconds) the batches are sent to your tracker. Recommended to keep this around 20-120 seconds to preserve battery and network traffic. This is set to 20 seconds by default.
 
 ##### Parameters
 
 -   `intervalInSeconds` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
+##### Examples
+
+```javascript
+GoogleAnalyticsSettings.setDispatchInterval(30);
+```
+
 #### setDryRun
 
-Sets if the tracker should have dry run enabled.
-If dry run is enabled, no analytics data will be sent to your tracker.
+When enabled the native library prevents any data from being sent to Google Analytics. This allows you to test or debug the implementation, without your test data appearing in your Google Analytics reports.
 
 ##### Parameters
 
 -   `enabled` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
+
+##### Examples
+
+```javascript
+GoogleAnalyticsSettings.setDryRun(true);
+```
 
 ### GoogleAnalyticsTracker
 
@@ -529,7 +557,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### dispatchWithTimeout
 
-The same as dispatch(), but also gives you the ability to time out
+The same as `dispatch`, but also gives you the ability to time out
 the Promise in case dispatch takes too long.
 
 ##### Parameters
@@ -548,6 +576,17 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ### GoogleTagManager
 
+Can only be used with one container. All functions returns a Promise.
+
+#### Examples
+
+```javascript
+import { GoogleTagManager } from "react-native-google-analytics-bridge";
+GoogleTagManager.openContainerWithId("GT-NZT48")
+  .then(() => GoogleTagManager.stringForKey("pack"))
+  .then(str => console.log("Pack: ", str));
+```
+
 #### openContainerWithId
 
 Call once to open the container for all subsequent static calls.
@@ -555,6 +594,12 @@ Call once to open the container for all subsequent static calls.
 ##### Parameters
 
 -   `containerId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+##### Examples
+
+```javascript
+GoogleTagManager.openContainerWithId('GT-NZT48').then((..) => ..)
+```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)>** 
 
@@ -566,6 +611,12 @@ Retrieves a boolean value with the given key from the opened container.
 
 -   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
+##### Examples
+
+```javascript
+GoogleTagManager.boolForKey("key").then(val => console.log(val));
+```
+
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)>** 
 
 #### stringForKey
@@ -575,6 +626,12 @@ Retrieves a string with the given key from the opened container.
 ##### Parameters
 
 -   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+##### Examples
+
+```javascript
+GoogleTagManager.stringForKey("key").then(val => console.log(val));
+```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** 
 
@@ -586,18 +643,40 @@ Retrieves a number with the given key from the opened container.
 
 -   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
+##### Examples
+
+```javascript
+GoogleTagManager.doubleForKey("key").then(val => console.log(val));
+```
+
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)>** 
 
 #### pushDataLayerEvent
 
 Push a datalayer event for Google Analytics through Google Tag Manager. The event must have at least one key "event" with event name.
-You can add optional values on top of that, example: {event: "eventName", pageId: "/home"}
 
 ##### Parameters
 
 -   `event` **[DataLayerEvent](#datalayerevent)** An Map&lt;String, Object> containing key and value pairs. It must have at least one key "event" with event name
 
+##### Examples
+
+```javascript
+GoogleTagManager.pushDataLayerEvent({
+  event: "eventName",
+  pageId: "/home"
+}).then(success => console.log(success));
+```
+
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)>** 
+
+#### setVerboseLoggingEnabled
+
+Sets logger to verbose, default is warning
+
+##### Parameters
+
+-   `enabled` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
 ### CustomMetrics
 

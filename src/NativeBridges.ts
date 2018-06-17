@@ -70,6 +70,7 @@ export interface IGoogleTagManagerBridge {
   stringForKey(key: string): Promise<string>;
   doubleForKey(key: any): Promise<number>;
   pushDataLayerEvent(event: any): Promise<boolean>;
+  setVerboseLoggingEnabled(enabled: boolean): Promise<boolean>;
 }
 
 export interface IGoogleAnalyticsSettings {

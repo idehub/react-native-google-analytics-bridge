@@ -1,12 +1,13 @@
 import { AnalyticsSettings } from "./NativeBridges";
 
 /**
+ * Settings which are applied across all trackers.
  * @name GoogleAnalyticsSettings
  */
 class GoogleAnalyticsSettings {
   /**
-   * Sets if OptOut is active and disables Google Analytics
-   * This has to be set each time the App starts
+   * Sets if OptOut is active and disables Google Analytics. This is disabled by default. Note: This has to be set each time the App starts.
+   * @example GoogleAnalyticsSettings.setOptOut(true);
    * @param {boolean} enabled
    */
   static setOptOut(enabled: boolean): void {
@@ -14,9 +15,9 @@ class GoogleAnalyticsSettings {
   }
 
   /**
-   * Sets the trackers dispatch interval
-   * This will influence how often batches of events, screen views, etc
-   * are sent to your tracker.
+   * Sets the trackers dispatch interval.
+   * Events, screen views, etc, are sent in batches to your tracker. This function allows you to configure how often (in seconds) the batches are sent to your tracker. Recommended to keep this around 20-120 seconds to preserve battery and network traffic. This is set to 20 seconds by default.
+   * @example GoogleAnalyticsSettings.setDispatchInterval(30);
    * @param {number} intervalInSeconds
    */
   static setDispatchInterval(intervalInSeconds: number): void {
@@ -24,8 +25,8 @@ class GoogleAnalyticsSettings {
   }
 
   /**
-   * Sets if the tracker should have dry run enabled.
-   * If dry run is enabled, no analytics data will be sent to your tracker.
+   * When enabled the native library prevents any data from being sent to Google Analytics. This allows you to test or debug the implementation, without your test data appearing in your Google Analytics reports.
+   * @example GoogleAnalyticsSettings.setDryRun(true);
    * @param {boolean} enabled
    */
   static setDryRun(enabled: boolean): void {
