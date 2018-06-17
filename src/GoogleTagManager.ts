@@ -1,8 +1,8 @@
-import DataLayerEvent from "./DataLayerEvent";
+import DataLayerEvent from "./models/DataLayerEvent";
 import { TagManagerBridge } from "./NativeBridges";
 
 /**
- * @typicalname GoogleTagManager
+ * @name GoogleTagManager
  */
 class GoogleTagManager {
   /**

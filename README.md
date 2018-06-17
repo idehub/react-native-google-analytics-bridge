@@ -113,146 +113,73 @@ This will require that you are familiar with the native api for GTM on whatever 
 
 #### Table of Contents
 
--   [CustomDimensionsFieldIndexMap](#customdimensionsfieldindexmap)
-    -   [Examples](#examples)
--   [CustomMetrics](#custommetrics)
-    -   [Examples](#examples-1)
--   [CustomDimensionsByIndex](#customdimensionsbyindex)
-    -   [Examples](#examples-2)
--   [CustomDimensionsByField](#customdimensionsbyfield)
-    -   [Examples](#examples-3)
--   [DataLayerEvent](#datalayerevent)
-    -   [Parameters](#parameters)
 -   [GoogleAnalyticsSettings](#googleanalyticssettings)
     -   [setOptOut](#setoptout)
-        -   [Parameters](#parameters-1)
+        -   [Parameters](#parameters)
     -   [setDispatchInterval](#setdispatchinterval)
-        -   [Parameters](#parameters-2)
+        -   [Parameters](#parameters-1)
     -   [setDryRun](#setdryrun)
-        -   [Parameters](#parameters-3)
+        -   [Parameters](#parameters-2)
 -   [GoogleAnalyticsTracker](#googleanalyticstracker)
-    -   [Parameters](#parameters-4)
     -   [trackScreenView](#trackscreenview)
-        -   [Parameters](#parameters-5)
-        -   [Examples](#examples-4)
+        -   [Parameters](#parameters-3)
+        -   [Examples](#examples)
     -   [trackEvent](#trackevent)
-        -   [Parameters](#parameters-6)
+        -   [Parameters](#parameters-4)
     -   [trackTiming](#tracktiming)
-        -   [Parameters](#parameters-7)
+        -   [Parameters](#parameters-5)
     -   [trackException](#trackexception)
-        -   [Parameters](#parameters-8)
+        -   [Parameters](#parameters-6)
     -   [trackSocialInteraction](#tracksocialinteraction)
-        -   [Parameters](#parameters-9)
+        -   [Parameters](#parameters-7)
     -   [setUser](#setuser)
-        -   [Parameters](#parameters-10)
+        -   [Parameters](#parameters-8)
     -   [setClient](#setclient)
-        -   [Parameters](#parameters-11)
+        -   [Parameters](#parameters-9)
     -   [allowIDFA](#allowidfa)
-        -   [Parameters](#parameters-12)
+        -   [Parameters](#parameters-10)
     -   [setAppName](#setappname)
-        -   [Parameters](#parameters-13)
+        -   [Parameters](#parameters-11)
     -   [setAppVersion](#setappversion)
-        -   [Parameters](#parameters-14)
+        -   [Parameters](#parameters-12)
     -   [setAnonymizeIp](#setanonymizeip)
-        -   [Parameters](#parameters-15)
+        -   [Parameters](#parameters-13)
     -   [setSamplingRate](#setsamplingrate)
-        -   [Parameters](#parameters-16)
+        -   [Parameters](#parameters-14)
     -   [setCurrency](#setcurrency)
-        -   [Parameters](#parameters-17)
+        -   [Parameters](#parameters-15)
     -   [setTrackUncaughtExceptions](#settrackuncaughtexceptions)
-        -   [Parameters](#parameters-18)
+        -   [Parameters](#parameters-16)
 -   [GoogleTagManager](#googletagmanager)
     -   [openContainerWithId](#opencontainerwithid)
-        -   [Parameters](#parameters-19)
+        -   [Parameters](#parameters-17)
     -   [boolForKey](#boolforkey)
-        -   [Parameters](#parameters-20)
+        -   [Parameters](#parameters-18)
     -   [stringForKey](#stringforkey)
-        -   [Parameters](#parameters-21)
+        -   [Parameters](#parameters-19)
     -   [doubleForKey](#doubleforkey)
-        -   [Parameters](#parameters-22)
+        -   [Parameters](#parameters-20)
     -   [pushDataLayerEvent](#pushdatalayerevent)
-        -   [Parameters](#parameters-23)
+        -   [Parameters](#parameters-21)
+-   [CustomMetrics](#custommetrics)
+    -   [Examples](#examples-1)
+-   [CustomDimensionsByField](#customdimensionsbyfield)
+    -   [Examples](#examples-2)
+-   [CustomDimensionsByIndex](#customdimensionsbyindex)
+    -   [Examples](#examples-3)
+-   [CustomDimensionsFieldIndexMap](#customdimensionsfieldindexmap)
+    -   [Examples](#examples-4)
+-   [DataLayerEvent](#datalayerevent)
+    -   [Parameters](#parameters-22)
 -   [HitPayload](#hitpayload)
-    -   [Parameters](#parameters-24)
+    -   [Parameters](#parameters-23)
 -   [ProductActionEnum](#productactionenum)
--   [Transaction](#transaction)
-    -   [Parameters](#parameters-25)
 -   [Product](#product)
-    -   [Parameters](#parameters-26)
+    -   [Parameters](#parameters-24)
 -   [ProductAction](#productaction)
-    -   [Parameters](#parameters-27)
-
-### CustomDimensionsFieldIndexMap
-
--   **See: CustomDimensionsFieldIndexMap**
--   **See: CustomDimensionsByField**
-
-A dictionary describing mapping of field names to indices for custom dimensions.
-This is an optional object used by the tracker.
-
-#### Examples
-
-```javascript
-// Create something like:
-const fieldIndexMap = { customerType: 1 };
-// Construct tracker with it:
-const tracker = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
-// This allows you to send in customDimensions in the`HitPayload by field name instead of index:
-tracker.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
-// If you do not provide a map, you instead have to send in by index:
-tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
-```
-
-### CustomMetrics
-
-A dictionary with custom metric values and their index keys.
-
-#### Examples
-
-```javascript
-const customMetrics = { 1: 2389, 4: 15000 }
-tracker.trackScreenView("Home", { customMetrics });
-```
-
-### CustomDimensionsByIndex
-
--   **See: CustomDimensionsFieldIndexMap**
--   **See: CustomDimensionsByField**
-
-A dictionary with custom dimensions values and their index keys.
-
-#### Examples
-
-```javascript
-const customDimensions = { 1: "Premium", 3: "Beta", 5: 1200 }
-tracker.trackScreenView("Home", { customDimensions });
-```
-
-### CustomDimensionsByField
-
--   **See: CustomDimensionsFieldIndexMap**
--   **See: CustomDimensionsByIndex**
-
-A dictionary with custom dimensions values and their (mapped) field name keys.
-In order to use this and send in custom dimensions by field name, you must have
-provided a `CustomDimensionsFieldIndexMap` when constructing the tracker.
-
-#### Examples
-
-```javascript
-const customDimensions = { customerType: "Premium", appType: "Beta", credit: 1200 }
-tracker.trackScreenView("Home", { customDimensions });
-```
-
-### DataLayerEvent
-
-The Google Tag Manager DataLayerEvent dictionary.
-
-The only required property is event.
-
-#### Parameters
-
--   `event` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+    -   [Parameters](#parameters-25)
+-   [Transaction](#transaction)
+    -   [Parameters](#parameters-26)
 
 ### GoogleAnalyticsSettings
 
@@ -285,11 +212,6 @@ If dry run is enabled, no analytics data will be sent to your tracker.
 -   `enabled` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
 ### GoogleAnalyticsTracker
-
-#### Parameters
-
--   `trackerId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Your tracker id, something like: UA-12345-1
--   `customDimensionsFieldsIndexMap` **{fieldName: fieldIndex}** Custom dimensions field/index pairs
 
 #### trackScreenView
 
@@ -482,6 +404,78 @@ You can add optional values on top of that, example: {event: "eventName", pageId
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)>** 
 
+### CustomMetrics
+
+A dictionary with custom metric values and their index keys.
+
+#### Examples
+
+```javascript
+const customMetrics = { 1: 2389, 4: 15000 }
+tracker.trackScreenView("Home", { customMetrics });
+```
+
+### CustomDimensionsByField
+
+-   **See: CustomDimensionsFieldIndexMap**
+-   **See: CustomDimensionsByIndex**
+
+A dictionary with custom dimensions values and their (mapped) field name keys.
+In order to use this and send in custom dimensions by field name, you must have
+provided a `CustomDimensionsFieldIndexMap` when constructing the tracker.
+
+#### Examples
+
+```javascript
+const customDimensions = { customerType: "Premium", appType: "Beta", credit: 1200 }
+tracker.trackScreenView("Home", { customDimensions });
+```
+
+### CustomDimensionsByIndex
+
+-   **See: CustomDimensionsFieldIndexMap**
+-   **See: CustomDimensionsByField**
+
+A dictionary with custom dimensions values and their index keys.
+
+#### Examples
+
+```javascript
+const customDimensions = { 1: "Premium", 3: "Beta", 5: 1200 }
+tracker.trackScreenView("Home", { customDimensions });
+```
+
+### CustomDimensionsFieldIndexMap
+
+-   **See: CustomDimensionsFieldIndexMap**
+-   **See: CustomDimensionsByField**
+
+A dictionary describing mapping of field names to indices for custom dimensions.
+This is an optional object used by the tracker.
+
+#### Examples
+
+```javascript
+// Create something like:
+const fieldIndexMap = { customerType: 1 };
+// Construct tracker with it:
+const tracker = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
+// This allows you to send in customDimensions in the`HitPayload by field name instead of index:
+tracker.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
+// If you do not provide a map, you instead have to send in by index:
+tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
+```
+
+### DataLayerEvent
+
+The Google Tag Manager DataLayerEvent dictionary.
+
+The only required property is event.
+
+#### Parameters
+
+-   `event` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
 ### HitPayload
 
 The HitPayload object and possible values
@@ -512,19 +506,6 @@ CheckoutOption = 6,
 Purchase = 7,
 Refund = 8
 
-### Transaction
-
-Ecommerce Transaction
-
-#### Parameters
-
--   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `affiliation` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `revenue` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `tax` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `shipping` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
 ### Product
 
 Ecommerce Product
@@ -553,3 +534,16 @@ Ecommerce Product Action
 -   `checkoutOption` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `productActionList` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `productListSource` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+### Transaction
+
+Ecommerce Transaction
+
+#### Parameters
+
+-   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `affiliation` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `revenue` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+-   `tax` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+-   `shipping` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+-   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 

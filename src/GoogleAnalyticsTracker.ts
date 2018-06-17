@@ -1,11 +1,11 @@
 import { AnalyticsBridge } from "./NativeBridges";
-import { HitPayload } from "./HitPayload";
+import { HitPayload } from "./models/HitPayload";
 
 import {
   CustomDimensionsByField,
   CustomDimensionsByIndex,
   CustomDimensionsFieldIndexMap
-} from "./Custom";
+} from "./models/Custom";
 
 /**
  * Custom dimensions accept only strings and numbers.
@@ -21,7 +21,7 @@ function isValidCustomDimension(customDimensionVal) {
 }
 
 /**
- * @typicalname tracker
+ * @name GoogleAnalyticsTracker
  */
 class GoogleAnalyticsTracker {
   id: string;

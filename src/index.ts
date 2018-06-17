@@ -1,17 +1,17 @@
 export { default as GoogleAnalyticsTracker } from "./GoogleAnalyticsTracker";
 export { default as GoogleAnalyticsSettings } from "./GoogleAnalyticsSettings";
 export { default as GoogleTagManager } from "./GoogleTagManager";
-export { default as DataLayerEvent } from "./DataLayerEvent";
+export { default as DataLayerEvent } from "./models/DataLayerEvent";
 export {
   Product,
   ProductActionEnum,
   ProductAction,
   Transaction
-} from "./Product";
+} from "./models/Product";
 export {
   CustomDimensionsByField,
   CustomDimensionsByIndex,
   CustomDimensionsFieldIndexMap,
   CustomMetrics
-} from "./Custom";
-export { HitPayload } from "./HitPayload";
+} from "./models/Custom";
+export { HitPayload } from "./models/HitPayload";

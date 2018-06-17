@@ -1,4 +1,4 @@
-import { HitPayload } from "./HitPayload";
+import { HitPayload } from "./models/HitPayload";
 import { NativeModules } from "react-native";
 const {
   GoogleTagManagerBridge,

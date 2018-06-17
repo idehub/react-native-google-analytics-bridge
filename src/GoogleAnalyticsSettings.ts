@@ -1,7 +1,7 @@
 import { AnalyticsSettings } from "./NativeBridges";
 
 /**
- * @typicalname GoogleAnalyticsSettings
+ * @name GoogleAnalyticsSettings
  */
 class GoogleAnalyticsSettings {
   /**
