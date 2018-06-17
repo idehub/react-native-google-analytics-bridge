@@ -11,27 +11,12 @@ The key difference with the native bridge is that you get a lot of the metadata 
 You will only have to send in a few parameteres when tracking, e.g:
 
 ```javascript
-import { GoogleAnalyticsTracker } from 'react-native-google-analytics-bridge';
-let tracker = new GoogleAnalyticsTracker('UA-12345-1');
+import { GoogleAnalyticsTracker } from "react-native-google-analytics-bridge";
+let tracker = new GoogleAnalyticsTracker("UA-12345-1");
 
-tracker.trackScreenView('Home');
-tracker.trackEvent('testcategory', 'testaction');
+tracker.trackScreenView("Home");
+tracker.trackEvent("testcategory", "testaction");
 ```
-
-## Conflicting Google Play Services version on Android?
-
-You can specify `googlePlayServicesVersion` in "android/gradle.properties". Otherwise, it will take default version
-
-e.g.
-`googlePlayServicesVersion=11.8.0`
-
-## Problems with tracking? Visitors not showing up?
-
-This is **NOT** (_normally_) an error with this library. Please read [this guide on how to set up your Google Analytics account/property](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Creating-a-Google-Analytics-property-for-mobile-analytics) for mobile analytics.
-
-## Problems with android build failures?
-
-Here I have mentioned the required steps to resolve the issues regarding the build failures, when you got updated your android studio [please check the following doc to clear the issues](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Solution-for-Android-build-failure-issues)
 
 ## Content
 
@@ -39,9 +24,8 @@ Here I have mentioned the required steps to resolve the issues regarding the bui
 -   [Manual installation](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Manual-installation)
 -   [Usage](#usage)
 -   [JavaScript API](#javascript-api)
--   [Troubleshooting](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Troubleshooting)
--   [A/B testing](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Simple-A-B-testing)
--   [Roadmap](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Roadmap)
+-   [Problems with the library?](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Troubleshooting)
+-   [See wiki for more helpful topics](https://github.com/idehub/react-native-google-analytics-bridge/wiki)
 
 ## Installation and linking libraries
 
@@ -58,7 +42,7 @@ If it doesn't work immediately after this, consult the [manual installation guid
 
 **Important**: Does this library work with Expo? We have to sort of invert the question a bit, because it should be: does Expo work with other libraries? And the [answer is no](https://docs.expo.io/versions/latest/introduction/faq.html#what-is-the-difference-between-expo-and-react-native):
 
-> The most limiting thing about Expo is that you can’t add in your own native modules without `detach`ing and using ExpoKit. 
+> The most limiting thing about Expo is that you can’t add in your own native modules without `detach`ing and using ExpoKit.
 
 This includes using [`create-react-native-app`](https://github.com/react-community/create-react-native-app#what-are-the-limitations-of-create-react-native-app) which also makes use of Expo.
 
@@ -70,18 +54,18 @@ import {
   GoogleAnalyticsTracker,
   GoogleTagManager,
   GoogleAnalyticsSettings
-} from 'react-native-google-analytics-bridge';
+} from "react-native-google-analytics-bridge";
 
 // The tracker must be constructed, and you can have multiple:
-let tracker1 = new GoogleAnalyticsTracker('UA-12345-1');
-let tracker2 = new GoogleAnalyticsTracker('UA-12345-2');
+let tracker1 = new GoogleAnalyticsTracker("UA-12345-1");
+let tracker2 = new GoogleAnalyticsTracker("UA-12345-2");
 
-tracker1.trackScreenView('Home');
-tracker1.trackEvent('Customer', 'New');
+tracker1.trackScreenView("Home");
+tracker1.trackEvent("Customer", "New");
 
 // The GoogleAnalyticsSettings is static, and settings are applied across all trackers:
 GoogleAnalyticsSettings.setDispatchInterval(30);
-// Setting `dryRun` to `true` lets you test tracking without sending data to GA 
+// Setting `dryRun` to `true` lets you test tracking without sending data to GA
 GoogleAnalyticsSettings.setDryRun(true);
 
 // GoogleTagManager is also static, and works only with one container. All functions here are Promises:
@@ -89,23 +73,13 @@ GoogleTagManager.openContainerWithId("GT-NZT48")
   .then(() => {
     return GoogleTagManager.stringForKey("pack");
   })
-  .then((pack) => {
+  .then(pack => {
     console.log("Pack: ", pack);
   })
-  .catch((err) => {
+  .catch(err => {
     console.log(err);
   });
 ```
-
-## Providing an existing GTM container
-
-In some scenarios it might be helpful to provide an opened GTM container to the bridge. Some possible scenarios where this could be helpful:
-
--   You want to preload some config before loading the jsbundle. For instance checking an experiment variable to determine which jsbundle to load.
--   You have a brownfield app that mixes native UI and react native UI that should share the same container.
--   You want to try and make sure that the container is loaded before starting the app.
-
-This will require that you are familiar with the native api for GTM on whatever platforms you want to support. Generally the process is to load your container at startup, and hold the creation of the react native bridge until the container is loaded. On iOS you can then initialize an RCTGoogleTagManagerBridge and set the container property. On Android the process is similar, but you will need to supply the ContainerHolder to the GoogleAnalyticsBridgePackage instead.
 
 ## JavaScript API
 
@@ -192,13 +166,13 @@ This will require that you are familiar with the native api for GTM on whatever 
         -   [Examples](#examples-25)
     -   [setVerboseLoggingEnabled](#setverboseloggingenabled)
         -   [Parameters](#parameters-23)
--   [CustomDimensionsFieldIndexMap](#customdimensionsfieldindexmap)
-    -   [Examples](#examples-26)
--   [CustomDimensionsByIndex](#customdimensionsbyindex)
-    -   [Examples](#examples-27)
 -   [CustomMetrics](#custommetrics)
-    -   [Examples](#examples-28)
+    -   [Examples](#examples-26)
 -   [CustomDimensionsByField](#customdimensionsbyfield)
+    -   [Examples](#examples-27)
+-   [CustomDimensionsByIndex](#customdimensionsbyindex)
+    -   [Examples](#examples-28)
+-   [CustomDimensionsFieldIndexMap](#customdimensionsfieldindexmap)
     -   [Examples](#examples-29)
 -   [DataLayerEvent](#datalayerevent)
     -   [Parameters](#parameters-24)
@@ -207,13 +181,13 @@ This will require that you are familiar with the native api for GTM on whatever 
     -   [Parameters](#parameters-25)
     -   [Examples](#examples-31)
 -   [ProductActionEnum](#productactionenum)
--   [ProductAction](#productaction)
+-   [Product](#product)
     -   [Parameters](#parameters-26)
     -   [Examples](#examples-32)
--   [Transaction](#transaction)
+-   [ProductAction](#productaction)
     -   [Parameters](#parameters-27)
     -   [Examples](#examples-33)
--   [Product](#product)
+-   [Transaction](#transaction)
     -   [Parameters](#parameters-28)
     -   [Examples](#examples-34)
 
@@ -699,41 +673,6 @@ Sets logger to verbose, default is warning
 
 -   `enabled` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
-### CustomDimensionsFieldIndexMap
-
--   **See: CustomDimensionsFieldIndexMap**
--   **See: CustomDimensionsByField**
-
-A dictionary describing mapping of field names to indices for custom dimensions.
-This is an optional object used by the tracker.
-
-#### Examples
-
-```javascript
-// Create something like:
-const fieldIndexMap = { customerType: 1 };
-// Construct tracker with it:
-const tracker = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
-// This allows you to send in customDimensions in the`HitPayload by field name instead of index:
-tracker.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
-// If you do not provide a map, you instead have to send in by index:
-tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
-```
-
-### CustomDimensionsByIndex
-
--   **See: CustomDimensionsFieldIndexMap**
--   **See: CustomDimensionsByField**
-
-A dictionary with custom dimensions values and their index keys.
-
-#### Examples
-
-```javascript
-const customDimensions = { 1: "Premium", 3: "Beta", 5: 1200 }
-tracker.trackScreenView("Home", { customDimensions });
-```
-
 ### CustomMetrics
 
 A dictionary with custom metric values and their index keys.
@@ -759,6 +698,41 @@ provided a `CustomDimensionsFieldIndexMap` when constructing the tracker.
 ```javascript
 const customDimensions = { customerType: "Premium", appType: "Beta", credit: 1200 }
 tracker.trackScreenView("Home", { customDimensions });
+```
+
+### CustomDimensionsByIndex
+
+-   **See: CustomDimensionsFieldIndexMap**
+-   **See: CustomDimensionsByField**
+
+A dictionary with custom dimensions values and their index keys.
+
+#### Examples
+
+```javascript
+const customDimensions = { 1: "Premium", 3: "Beta", 5: 1200 }
+tracker.trackScreenView("Home", { customDimensions });
+```
+
+### CustomDimensionsFieldIndexMap
+
+-   **See: CustomDimensionsFieldIndexMap**
+-   **See: CustomDimensionsByField**
+
+A dictionary describing mapping of field names to indices for custom dimensions.
+This is an optional object used by the tracker.
+
+#### Examples
+
+```javascript
+// Create something like:
+const fieldIndexMap = { customerType: 1 };
+// Construct tracker with it:
+const tracker = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
+// This allows you to send in customDimensions in the`HitPayload by field name instead of index:
+tracker.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
+// If you do not provide a map, you instead have to send in by index:
+tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
 ```
 
 ### DataLayerEvent
@@ -854,6 +828,38 @@ Used by `ProductAction` when describing the type of product action. The possible
 -   Purchase = 7,
 -   Refund = 8
 
+### Product
+
+Enhanced Ecommerce Product
+
+Used by `HitPayload` when populating product actions or impressions
+
+#### Parameters
+
+-   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `category` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `brand` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `variant` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `price` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+-   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `quantity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+
+#### Examples
+
+```javascript
+const product = {
+  id: "P12345",
+  name: "Android Warhol T-Shirt",
+  category: "Apparel/T-Shirts",
+  brand: "Google",
+  variant: "Black",
+  price: 29.2,
+  quantity: 1,
+  couponCode: "APPARELSALE"
+};
+```
+
 ### ProductAction
 
 Enhanced Ecommerce Product Action
@@ -909,37 +915,5 @@ const transaction = {
   tax: 2.85,
   shipping: 5.34,
   couponCode: "SUMMER2013"
-};
-```
-
-### Product
-
-Enhanced Ecommerce Product
-
-Used by `HitPayload` when populating product actions or impressions
-
-#### Parameters
-
--   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `category` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `brand` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `variant` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `price` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
--   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `quantity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
-
-#### Examples
-
-```javascript
-const product = {
-  id: "P12345",
-  name: "Android Warhol T-Shirt",
-  category: "Apparel/T-Shirts",
-  brand: "Google",
-  variant: "Black",
-  price: 29.2,
-  quantity: 1,
-  couponCode: "APPARELSALE"
 };
 ```
