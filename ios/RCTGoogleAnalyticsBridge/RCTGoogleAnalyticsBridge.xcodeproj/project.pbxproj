@@ -11,6 +11,8 @@
 		A79185CA1C30694E001236A6 /* RCTGoogleAnalyticsBridge.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = A79185C91C30694E001236A6 /* RCTGoogleAnalyticsBridge.h */; };
 		A79185CC1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = A79185CB1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m */; };
 		A79185DE1C3070E8001236A6 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A79185DD1C3070E8001236A6 /* libGoogleAnalyticsServices.a */; };
+		CB58031120D6824100F1EC19 /* RNTagEmitterSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = CB58031020D6824100F1EC19 /* RNTagEmitterSingleton.m */; };
+		CBE4B25320D13B5800454DCD /* RNFunctionCallTagHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE4B25220D13B5800454DCD /* RNFunctionCallTagHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,6 +50,10 @@
 		C9C74AC51CBD4E9F00F3BD12 /* TAGDataLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TAGDataLayer.h; sourceTree = "<group>"; };
 		C9C74AC61CBD4E9F00F3BD12 /* TAGLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TAGLogger.h; sourceTree = "<group>"; };
 		C9C74AC71CBD4E9F00F3BD12 /* TAGManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TAGManager.h; sourceTree = "<group>"; };
+		CB58030F20D6822600F1EC19 /* RNTagEmitterSingleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNTagEmitterSingleton.h; sourceTree = "<group>"; };
+		CB58031020D6824100F1EC19 /* RNTagEmitterSingleton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNTagEmitterSingleton.m; sourceTree = "<group>"; };
+		CBE4B25220D13B5800454DCD /* RNFunctionCallTagHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNFunctionCallTagHandler.m; sourceTree = "<group>"; };
+		CBE4B25420D13B7600454DCD /* RNFunctionCallTagHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNFunctionCallTagHandler.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +88,7 @@
 		A79185C81C30694E001236A6 /* RCTGoogleAnalyticsBridge */ = {
 			isa = PBXGroup;
 			children = (
+				CBE4B25120D13B2400454DCD /* Helpers */,
 				A710AAE11CC640E40085DAC1 /* RCTGoogleTagManagerBridge.h */,
 				A710AAE21CC640E40085DAC1 /* RCTGoogleTagManagerBridge.m */,
 				A79185C91C30694E001236A6 /* RCTGoogleAnalyticsBridge.h */,
@@ -111,6 +118,17 @@
 				A79185DD1C3070E8001236A6 /* libGoogleAnalyticsServices.a */,
 			);
 			path = "google-analytics-lib";
+			sourceTree = "<group>";
+		};
+		CBE4B25120D13B2400454DCD /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				CBE4B25220D13B5800454DCD /* RNFunctionCallTagHandler.m */,
+				CBE4B25420D13B7600454DCD /* RNFunctionCallTagHandler.h */,
+				CB58030F20D6822600F1EC19 /* RNTagEmitterSingleton.h */,
+				CB58031020D6824100F1EC19 /* RNTagEmitterSingleton.m */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,8 +187,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBE4B25320D13B5800454DCD /* RNFunctionCallTagHandler.m in Sources */,
 				A710AAE31CC640E40085DAC1 /* RCTGoogleTagManagerBridge.m in Sources */,
 				A79185CC1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m in Sources */,
+				CB58031120D6824100F1EC19 /* RNTagEmitterSingleton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

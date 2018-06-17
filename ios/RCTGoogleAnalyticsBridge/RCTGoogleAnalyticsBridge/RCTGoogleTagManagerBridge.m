@@ -6,19 +6,18 @@
 @interface RCTGoogleTagManagerBridge ()<TAGContainerOpenerNotifier>
 @end
 
-@implementation RCTGoogleTagManagerBridge {
-
-}
+@implementation RCTGoogleTagManagerBridge
 
 RCT_EXPORT_MODULE();
 
 @synthesize methodQueue = _methodQueue;
+@synthesize handlers;
 
 NSString *const E_CONTAINER_ALREADY_OPEN = @"E_CONTAINER_ALREADY_OPEN";
 NSString *const E_ONGOING_OPEN_OPERATION = @"E_ONGOING_OPEN_OPERATION";
 NSString *const E_CONTAINER_NOT_OPENED = @"E_CONTAINER_NOT_OPENED";
 NSString *const E_PUSH_EVENT_FAILED = @"E_PUSH_EVENT_FAILED";
-
+NSString *const E_FUNCTION_CALL_REGISTRATION_FAILED = @"E_FUNCTION_CALL_REGISTRATION_FAILED";
 
 RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId
                   resolver:(RCTPromiseResolveBlock)resolve
@@ -90,6 +89,23 @@ RCT_EXPORT_METHOD(pushDataLayerEvent:(NSDictionary*)dictionary
             reject(E_CONTAINER_NOT_OPENED, nil, RCTErrorWithMessage(@"The container has not been opened. You must call openContainerWithId(..)"));
         } else {
             reject(E_PUSH_EVENT_FAILED, nil, RCTErrorWithMessage(@"Validation error, data must have a key \"event\" with valid event name"));
+        }
+    }
+}
+
+RCT_EXPORT_METHOD(registerFunctionCallTagHandler:(NSString*)functionName
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject){
+    if (self.container != nil && functionName != nil) {
+        RNFunctionCallTagHandler *handler = [[RNFunctionCallTagHandler alloc] initForFunctionName:functionName];
+        [[self handlers] addObject:handler];
+        [self.container registerFunctionCallTagHandler:handler forTag:functionName];
+        resolve(@YES);
+    } else {
+        if (self.container == nil) {
+            reject(E_CONTAINER_NOT_OPENED, nil, RCTErrorWithMessage(@"The container has not been opened. You must call openContainerWithId(..)"));
+        } else {
+            reject(E_FUNCTION_CALL_REGISTRATION_FAILED, nil, RCTErrorWithMessage(@"Function name of the tag is not provided"));
         }
     }
 }

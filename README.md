@@ -96,6 +96,16 @@ GoogleTagManager.openContainerWithId("GT-NZT48")
   .catch(err => {
     console.log(err);
   });
+
+// You can also register Function Call tag handlers when the container is open.
+GoogleTagManager.registerFunctionCallTagHandler(
+  "some_function", // Must be equal to Function Name field when the tag was configured.
+  (functionName, tagArguments) => {
+    // functionName is passed for convenience. In this example it will be equal to "some_function".
+    // tagArguments is an object and is populated based on Tag configuration in TagManager interface.
+    console.log("Handling Function Call tag:", functionName);
+ }
+)
 ```
 
 ## Providing an existing GTM container
@@ -616,6 +626,23 @@ GoogleTagManager.pushDataLayerEvent({
   event: "eventName",
   pageId: "/home"
 }).then(success => console.log(success));
+```
+
+### registerFunctionCallTagHandler(functionName, handler)
+
+##### Parameter(s)
+
+* **functionName (required):** String
+* **handler (required):** function
+
+Resgisters a Function Call tag handler based on name of the function that has been configured in the Tag Manager interface.
+
+```javascript
+GoogleTagManager.registerFunctionCallTagHandler("name_of_the_function", (functionName, tagArguments) => {
+  // Handle the Function Tag when it is fired
+}).then(() => {
+  console.log("Function call tag handler has been registered");
+});
 ```
 
 ### setVerboseLoggingEnabled(enabled)

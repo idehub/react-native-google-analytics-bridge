@@ -1,19 +1,28 @@
 package com.idehub.GoogleAnalyticsBridge;
 
+import android.content.Context;
+
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.Container.FunctionCallTagCallback;
 import com.google.android.gms.tagmanager.DataLayer;
 import com.google.android.gms.tagmanager.TagManager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
@@ -29,7 +38,9 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     private final String E_CONTAINER_NOT_OPENED = "E_CONTAINER_NOT_OPENED";
     private final String E_OPEN_CONTAINER_FAILED = "E_OPEN_CONTAINER_FAILED";
     private final String E_PUSH_EVENT_FAILED = "E_PUSH_EVENT_FAILED";
+    private final String E_FUNCTION_CALL_REGISTRATION_FAILED = "E_FUNCTION_CALL_REGISTRATION_FAILED";
 
+    private final String FUNCTON_TAG_EVENT_PREFIX = "GTM_FUNCTION_TAG_";
     private ContainerHolder mContainerHolder;
     private Boolean openOperationInProgress = false;
     private DataLayer mDatalayer;
@@ -37,6 +48,13 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     @Override
     public String getName() {
         return "GoogleTagManagerBridge";
+    }
+
+    @Override
+    public Map<String, Object> getConstants() {
+        final Map<String, Object> constants = new HashMap<>();
+        constants.put("TAG_EVENT_PREFIX", FUNCTON_TAG_EVENT_PREFIX);
+        return constants;
     }
 
     @ReactMethod
@@ -52,9 +70,12 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
         }
 
         TagManager mTagManager = TagManager.getInstance(getReactApplicationContext());
-        //using -1 here because it can't access raw in app
+
         openOperationInProgress = true;
-        PendingResult<ContainerHolder> pending = mTagManager.loadContainerPreferFresh(containerId, -1);
+
+        final int containerResourceId = getDefaultContainerResourceId(containerId);
+
+        PendingResult<ContainerHolder> pending = mTagManager.loadContainerPreferFresh(containerId, containerResourceId);
         pending.setResultCallback(new ResultCallback<ContainerHolder>() {
             @Override
             public void onResult(ContainerHolder containerHolder) {
@@ -110,6 +131,33 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
           }
       }
     }
+
+    @ReactMethod
+    public void registerFunctionCallTagHandler(String functionName, final Promise promise){
+
+        if (mContainerHolder != null && functionName != null) {
+            mContainerHolder.getContainer().registerFunctionCallTagCallback(functionName, new FunctionCallTagCallback() {
+                @Override
+                public void execute(String functionName, Map<String, Object> parameters) {
+                    
+                    // eventName is prefixed to prevent event collision with other modules
+                    String eventName = generateFunctionCallTagEventName(functionName);
+
+                    WritableMap params = convertMapToWritableMap(parameters);
+                    getReactApplicationContext()
+                        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                        .emit(eventName, params);
+                }
+            });
+            promise.resolve(true);
+        } else {
+            if (mContainerHolder == null) {
+                promise.reject(E_CONTAINER_NOT_OPENED, new Throwable("The container has not been opened. You must call openContainerWithId(..)"));
+            } else {
+                promise.reject(E_FUNCTION_CALL_REGISTRATION_FAILED, new Throwable("Function name of the tag is not provided"));
+            }
+        }
+    }
     
     @ReactMethod
     public void setVerboseLoggingEnabled(final Boolean enabled, final Promise promise){
@@ -131,6 +179,70 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
         return mDatalayer;
     }
 
+    private String generateFunctionCallTagEventName(String functionName) {
+        return FUNCTON_TAG_EVENT_PREFIX + functionName;
+    }
 
+    private int getDefaultContainerResourceId(String containerId) {
+        Context ctx = getReactApplicationContext().getApplicationContext();
+        final String resName = containerId.replaceAll("-", "_").toLowerCase();
+        final int resId = ctx.getResources().getIdentifier(resName, "raw", ctx.getPackageName());
+        if (resId == 0) return -1;
+        return resId;
+    }
 
+    // Function Call Tag Helpers
+    private static WritableMap convertMapToWritableMap(Map<String, Object> parameters) {
+        WritableMap map = Arguments.createMap();
+        for (Map.Entry<String, Object> entry : parameters.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            /* 
+             * See https://developers.google.com/android/reference/com/google/android/gms/tagmanager/Container.FunctionCallTagCallback
+             * for possible data types passed by function call tag callback.
+             */
+
+            if (value instanceof Integer) {
+                map.putInt(key, (Integer) value);
+            } else if (value instanceof  Long) {
+                map.putDouble(key, (Double) value);
+            } else if (value instanceof  Double) {
+                map.putDouble(key, (Double) value);
+            } else if (value instanceof List)  {
+                map.putArray(key, convertListToWritableArray((List<Object>) value));
+            } else if (value instanceof Map)  {
+                map.putMap(key, convertMapToWritableMap((Map<String, Object>) value));
+            } else if (value instanceof String)  {
+                map.putString(key, (String) value);
+            } else {
+                map.putString(key, value.toString());
+            }
+        }
+        return map;
+    }
+
+    private static WritableArray convertListToWritableArray(List<Object> list) {
+        WritableArray array = Arguments.createArray();
+        Iterator<Object> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            Object value = iterator.next();
+            if (value instanceof Integer) {
+                array.pushInt((Integer) value);
+            } else if (value instanceof  Long) {
+                array.pushDouble((Double) value);
+            } else if (value instanceof  Double) {
+                array.pushDouble((Double) value);
+            } else if (value instanceof List)  {
+                array.pushArray(convertListToWritableArray((List<Object>) value));
+            } else if (value instanceof Map)  {
+                array.pushMap(convertMapToWritableMap((Map<String, Object>) value));
+            } else if (value instanceof String)  {
+                array.pushString((String) value);
+            } else {
+                array.pushString(value.toString());
+            }
+        }
+        return array;
+    }
 }
