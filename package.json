@@ -6,8 +6,10 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test yet!\" && exit 0",
+    "build": "tsc",
+    "build-watch": "tsc --watch",
     "docs": "documentation readme dist/** --section=\"JavaScript API\"",
-    "precommit": "rm -rf dist && yarn run tsc && yarn run docs && git add README.md"
+    "precommit": "rm -rf dist && yarn run build && yarn run docs && git add README.md"
   },
   "repository": {
     "type": "git",

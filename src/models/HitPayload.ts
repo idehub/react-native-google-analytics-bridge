@@ -70,5 +70,5 @@ export enum SessionState {
  * @param {CustomDimensionsByIndex | CustomDimensionsByField} customDimensions (Optional)
  * @param {CustomMetrics} customMetrics (Optional)
  * @param {string} utmCampaignUrl (Optional) Used for campaigns
- * @param {string} session (Optional) Only two possible values, "start" or "end"
+ * @param {string} session (Optional) Only two possible values, "start" or "end". This will either start or end a session.
  */

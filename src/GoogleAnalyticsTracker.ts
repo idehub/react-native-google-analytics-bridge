@@ -30,14 +30,16 @@ function isValidCustomDimension(customDimensionVal) {
  * const tracker = new GoogleAnalyticsTracker("UA-12345-1");
  * tracker.trackScreenView("Home");
  *
- * // You can create multiple trackers if you have several tracking ids
+ * // You can have multiple trackers if you have several tracking ids
+ * const tracker2 = new GoogleAnalyticsTracker("UA-12345-2");
+ * @example
  * // One optional feature as well is constructing a tracker with a CustomDimensionsFieldIndexMap, to map custom dimension field names to index keys:
  * const fieldIndexMap = { customerType: 1 };
- * const tracker2 = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
+ * const tracker3 = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
  *
  * // This is because the Google Analytics API expects custom dimensions to be tracked by index keys, and not field names.
  * // Here the underlying logic will transform the custom dimension, so what ends up being sent to GA is { 1: 'Premium' }:
- * tracker2.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
+ * tracker3.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
  *
  * // If you do not use a CustomDimensionsFieldIndexMap, you will have to use index as keys instead for custom dimensions:
  * tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
@@ -50,9 +52,6 @@ class GoogleAnalyticsTracker {
    * Save all tracker related data that is needed to call native methods with proper data.
    * @param {string} trackerId Your tracker id, something like: UA-12345-1
    * @param {{fieldName: fieldIndex}} customDimensionsFieldsIndexMap Custom dimensions field/index pairs
-   * @example
-   * import { GoogleAnalyticsTracker } from 'react-native-google-analytics-bridge';
-   * let tracker = new GoogleAnalyticsTracker('UA-12345-1');
    */
   constructor(
     trackerId: string,
@@ -104,7 +103,8 @@ class GoogleAnalyticsTracker {
    * This means it is important to track navigation, especially if events can fire on different views.
    * @example
    * tracker.trackScreenView('Home');
-   * // Or with payload:
+   * @example
+   * // With payload:
    * const payload = { impressionList: "Sale", impressionProducts: [ { id: "PW928", name: "Premium bundle" } ] };
    * tracker.trackScreenView("SplashModal", payload);
    * @param  {string} screenName (Required) The name of the current screen
@@ -119,9 +119,11 @@ class GoogleAnalyticsTracker {
    * Track an event that has occured
    * @example
    * tracker.trackEvent("DetailsButton", "Click");
-   * // or with label and value
+   * @example
+   * // Track event with label and value
    * tracker.trackEvent("AppVersionButton", "Click", null, label: "v1.0.3", value: 22 });
-   * // or with a payload (ecommerce in this case):
+   * @example
+   * // Track with a payload (ecommerce in this case):
    * const product = {
    *   id: "P12345",
    *   name: "Android Warhol T-Shirt",
@@ -174,7 +176,8 @@ class GoogleAnalyticsTracker {
    * Track a timing measurement
    * @example
    * tracker.trackTiming("testcategory", 2000, null, "LoadList"); // name option is required
-   * // or with label:
+   * @example
+   * // With label:
    * tracker.trackTiming("testcategory", 2000, null, "LoadList", "v1.0.3");
    * @param  {string} category (Required) The event category
    * @param  {number} interval (Required) The timing measurement in milliseconds

@@ -192,13 +192,13 @@ This will require that you are familiar with the native api for GTM on whatever 
         -   [Examples](#examples-25)
     -   [setVerboseLoggingEnabled](#setverboseloggingenabled)
         -   [Parameters](#parameters-23)
--   [CustomMetrics](#custommetrics)
-    -   [Examples](#examples-26)
--   [CustomDimensionsByField](#customdimensionsbyfield)
-    -   [Examples](#examples-27)
--   [CustomDimensionsByIndex](#customdimensionsbyindex)
-    -   [Examples](#examples-28)
 -   [CustomDimensionsFieldIndexMap](#customdimensionsfieldindexmap)
+    -   [Examples](#examples-26)
+-   [CustomDimensionsByIndex](#customdimensionsbyindex)
+    -   [Examples](#examples-27)
+-   [CustomMetrics](#custommetrics)
+    -   [Examples](#examples-28)
+-   [CustomDimensionsByField](#customdimensionsbyfield)
     -   [Examples](#examples-29)
 -   [DataLayerEvent](#datalayerevent)
     -   [Parameters](#parameters-24)
@@ -207,13 +207,13 @@ This will require that you are familiar with the native api for GTM on whatever 
     -   [Parameters](#parameters-25)
     -   [Examples](#examples-31)
 -   [ProductActionEnum](#productactionenum)
--   [Product](#product)
+-   [ProductAction](#productaction)
     -   [Parameters](#parameters-26)
     -   [Examples](#examples-32)
--   [ProductAction](#productaction)
+-   [Transaction](#transaction)
     -   [Parameters](#parameters-27)
     -   [Examples](#examples-33)
--   [Transaction](#transaction)
+-   [Product](#product)
     -   [Parameters](#parameters-28)
     -   [Examples](#examples-34)
 
@@ -274,14 +274,18 @@ import { GoogleAnalyticsTracker } from "react-native-google-analytics-bridge";
 const tracker = new GoogleAnalyticsTracker("UA-12345-1");
 tracker.trackScreenView("Home");
 
-// You can create multiple trackers if you have several tracking ids
+// You can have multiple trackers if you have several tracking ids
+const tracker2 = new GoogleAnalyticsTracker("UA-12345-2");
+```
+
+```javascript
 // One optional feature as well is constructing a tracker with a CustomDimensionsFieldIndexMap, to map custom dimension field names to index keys:
 const fieldIndexMap = { customerType: 1 };
-const tracker2 = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
+const tracker3 = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
 
 // This is because the Google Analytics API expects custom dimensions to be tracked by index keys, and not field names.
 // Here the underlying logic will transform the custom dimension, so what ends up being sent to GA is { 1: 'Premium' }:
-tracker2.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
+tracker3.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
 
 // If you do not use a CustomDimensionsFieldIndexMap, you will have to use index as keys instead for custom dimensions:
 tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
@@ -302,7 +306,10 @@ This means it is important to track navigation, especially if events can fire on
 
 ```javascript
 tracker.trackScreenView('Home');
-// Or with payload:
+```
+
+```javascript
+// With payload:
 const payload = { impressionList: "Sale", impressionProducts: [ { id: "PW928", name: "Premium bundle" } ] };
 tracker.trackScreenView("SplashModal", payload);
 ```
@@ -323,9 +330,15 @@ Track an event that has occured
 
 ```javascript
 tracker.trackEvent("DetailsButton", "Click");
-// or with label and value
+```
+
+```javascript
+// Track event with label and value
 tracker.trackEvent("AppVersionButton", "Click", null, label: "v1.0.3", value: 22 });
-// or with a payload (ecommerce in this case):
+```
+
+```javascript
+// Track with a payload (ecommerce in this case):
 const product = {
   id: "P12345",
   name: "Android Warhol T-Shirt",
@@ -368,7 +381,10 @@ Track a timing measurement
 
 ```javascript
 tracker.trackTiming("testcategory", 2000, null, "LoadList"); // name option is required
-// or with label:
+```
+
+```javascript
+// With label:
 tracker.trackTiming("testcategory", 2000, null, "LoadList", "v1.0.3");
 ```
 
@@ -683,6 +699,41 @@ Sets logger to verbose, default is warning
 
 -   `enabled` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
+### CustomDimensionsFieldIndexMap
+
+-   **See: CustomDimensionsFieldIndexMap**
+-   **See: CustomDimensionsByField**
+
+A dictionary describing mapping of field names to indices for custom dimensions.
+This is an optional object used by the tracker.
+
+#### Examples
+
+```javascript
+// Create something like:
+const fieldIndexMap = { customerType: 1 };
+// Construct tracker with it:
+const tracker = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
+// This allows you to send in customDimensions in the`HitPayload by field name instead of index:
+tracker.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
+// If you do not provide a map, you instead have to send in by index:
+tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
+```
+
+### CustomDimensionsByIndex
+
+-   **See: CustomDimensionsFieldIndexMap**
+-   **See: CustomDimensionsByField**
+
+A dictionary with custom dimensions values and their index keys.
+
+#### Examples
+
+```javascript
+const customDimensions = { 1: "Premium", 3: "Beta", 5: 1200 }
+tracker.trackScreenView("Home", { customDimensions });
+```
+
 ### CustomMetrics
 
 A dictionary with custom metric values and their index keys.
@@ -708,41 +759,6 @@ provided a `CustomDimensionsFieldIndexMap` when constructing the tracker.
 ```javascript
 const customDimensions = { customerType: "Premium", appType: "Beta", credit: 1200 }
 tracker.trackScreenView("Home", { customDimensions });
-```
-
-### CustomDimensionsByIndex
-
--   **See: CustomDimensionsFieldIndexMap**
--   **See: CustomDimensionsByField**
-
-A dictionary with custom dimensions values and their index keys.
-
-#### Examples
-
-```javascript
-const customDimensions = { 1: "Premium", 3: "Beta", 5: 1200 }
-tracker.trackScreenView("Home", { customDimensions });
-```
-
-### CustomDimensionsFieldIndexMap
-
--   **See: CustomDimensionsFieldIndexMap**
--   **See: CustomDimensionsByField**
-
-A dictionary describing mapping of field names to indices for custom dimensions.
-This is an optional object used by the tracker.
-
-#### Examples
-
-```javascript
-// Create something like:
-const fieldIndexMap = { customerType: 1 };
-// Construct tracker with it:
-const tracker = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
-// This allows you to send in customDimensions in the`HitPayload by field name instead of index:
-tracker.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
-// If you do not provide a map, you instead have to send in by index:
-tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
 ```
 
 ### DataLayerEvent
@@ -781,7 +797,7 @@ Used by the different tracking methods for adding metadata to the hit.
 -   `customDimensions` **([CustomDimensionsByIndex](#customdimensionsbyindex) \| [CustomDimensionsByField](#customdimensionsbyfield))** (Optional)
 -   `customMetrics` **[CustomMetrics](#custommetrics)** (Optional)
 -   `utmCampaignUrl` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional) Used for campaigns
--   `session` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional) Only two possible values, "start" or "end"
+-   `session` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional) Only two possible values, "start" or "end". This will either start or end a session.
 
 #### Examples
 
@@ -838,38 +854,6 @@ Used by `ProductAction` when describing the type of product action. The possible
 -   Purchase = 7,
 -   Refund = 8
 
-### Product
-
-Enhanced Ecommerce Product
-
-Used by `HitPayload` when populating product actions or impressions
-
-#### Parameters
-
--   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `category` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `brand` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `variant` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `price` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
--   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `quantity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
-
-#### Examples
-
-```javascript
-const product = {
-  id: "P12345",
-  name: "Android Warhol T-Shirt",
-  category: "Apparel/T-Shirts",
-  brand: "Google",
-  variant: "Black",
-  price: 29.2,
-  quantity: 1,
-  couponCode: "APPARELSALE"
-};
-```
-
 ### ProductAction
 
 Enhanced Ecommerce Product Action
@@ -925,5 +909,37 @@ const transaction = {
   tax: 2.85,
   shipping: 5.34,
   couponCode: "SUMMER2013"
+};
+```
+
+### Product
+
+Enhanced Ecommerce Product
+
+Used by `HitPayload` when populating product actions or impressions
+
+#### Parameters
+
+-   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `category` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `brand` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `variant` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `price` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+-   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `quantity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+
+#### Examples
+
+```javascript
+const product = {
+  id: "P12345",
+  name: "Android Warhol T-Shirt",
+  category: "Apparel/T-Shirts",
+  brand: "Google",
+  variant: "Black",
+  price: 29.2,
+  quantity: 1,
+  couponCode: "APPARELSALE"
 };
 ```
