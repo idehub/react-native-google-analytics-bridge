@@ -23,7 +23,7 @@ RCT_EXPORT_MODULE();
  * and use dipatcher to resolve bridge instantiation issues.
  *
  * Keep in mind that since RCTEventEmitter does not like supportedEvents to be populated in the runtime, even during
- * object instantiation. We had to introduce this module to handle all Function Tag events over one single known event (namely GTM_FUNCTION_TAG).
+ * object instantiation, we had to introduce this module to handle all Function Tag events over one single known event (namely GTM_FUNCTION_TAG).
  * This subtle difference makes iOS implementation inherently different than that of Android.
  */
 
