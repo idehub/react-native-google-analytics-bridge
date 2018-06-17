@@ -5,11 +5,13 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
+    "prepublishOnly": "yarn run build-all",
     "test": "echo \"Error: no test yet!\" && exit 0",
     "build": "tsc",
     "build-watch": "tsc --watch",
     "docs": "documentation readme dist/** --section=\"JavaScript API\"",
-    "precommit": "rm -rf dist && yarn run build && yarn run docs && git add README.md"
+    "build-all": "rm -rf dist && yarn run build && yarn run docs",
+    "precommit": "yarn run build-all && git add README.md"
   },
   "repository": {
     "type": "git",
