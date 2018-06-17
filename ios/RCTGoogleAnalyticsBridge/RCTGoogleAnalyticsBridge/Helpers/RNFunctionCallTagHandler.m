@@ -1,7 +1,6 @@
 
 #import "RNFunctionCallTagHandler.h"
 #import "RNTagEmitterSingleton.h"
-//NSString *const RN_TAG_EVENT = @"GTM_FUNCTION_TAG";
 
 @implementation RNFunctionCallTagHandler
 
