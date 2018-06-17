@@ -18,6 +18,12 @@ tracker.trackScreenView("Home");
 tracker.trackEvent("testcategory", "testaction");
 ```
 
+## Version 6 breaking changes!
+
+The newest version of this library has a new API surface.
+
+If you are upgrading to version 6 from an older version, read [this wiki post for important details](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Version-6-breaking-changes)
+
 ## Content
 
 -   [Installation](#installation-and-linking-libraries)
