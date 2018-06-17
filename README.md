@@ -121,65 +121,85 @@ This will require that you are familiar with the native api for GTM on whatever 
     -   [setDryRun](#setdryrun)
         -   [Parameters](#parameters-2)
 -   [GoogleAnalyticsTracker](#googleanalyticstracker)
+    -   [Examples](#examples)
     -   [trackScreenView](#trackscreenview)
         -   [Parameters](#parameters-3)
-        -   [Examples](#examples)
+        -   [Examples](#examples-1)
     -   [trackEvent](#trackevent)
         -   [Parameters](#parameters-4)
+        -   [Examples](#examples-2)
     -   [trackTiming](#tracktiming)
         -   [Parameters](#parameters-5)
+        -   [Examples](#examples-3)
     -   [trackException](#trackexception)
         -   [Parameters](#parameters-6)
+        -   [Examples](#examples-4)
     -   [trackSocialInteraction](#tracksocialinteraction)
         -   [Parameters](#parameters-7)
+        -   [Examples](#examples-5)
     -   [setUser](#setuser)
         -   [Parameters](#parameters-8)
+        -   [Examples](#examples-6)
     -   [setClient](#setclient)
         -   [Parameters](#parameters-9)
+        -   [Examples](#examples-7)
+    -   [getClientId](#getclientid)
+        -   [Examples](#examples-8)
     -   [allowIDFA](#allowidfa)
         -   [Parameters](#parameters-10)
+        -   [Examples](#examples-9)
     -   [setAppName](#setappname)
         -   [Parameters](#parameters-11)
+        -   [Examples](#examples-10)
     -   [setAppVersion](#setappversion)
         -   [Parameters](#parameters-12)
+        -   [Examples](#examples-11)
     -   [setAnonymizeIp](#setanonymizeip)
         -   [Parameters](#parameters-13)
+        -   [Examples](#examples-12)
     -   [setSamplingRate](#setsamplingrate)
         -   [Parameters](#parameters-14)
+        -   [Examples](#examples-13)
     -   [setCurrency](#setcurrency)
         -   [Parameters](#parameters-15)
+        -   [Examples](#examples-14)
     -   [setTrackUncaughtExceptions](#settrackuncaughtexceptions)
         -   [Parameters](#parameters-16)
+    -   [dispatch](#dispatch)
+        -   [Examples](#examples-15)
+    -   [dispatchWithTimeout](#dispatchwithtimeout)
+        -   [Parameters](#parameters-17)
+        -   [Examples](#examples-16)
 -   [GoogleTagManager](#googletagmanager)
     -   [openContainerWithId](#opencontainerwithid)
-        -   [Parameters](#parameters-17)
-    -   [boolForKey](#boolforkey)
         -   [Parameters](#parameters-18)
-    -   [stringForKey](#stringforkey)
+    -   [boolForKey](#boolforkey)
         -   [Parameters](#parameters-19)
-    -   [doubleForKey](#doubleforkey)
+    -   [stringForKey](#stringforkey)
         -   [Parameters](#parameters-20)
-    -   [pushDataLayerEvent](#pushdatalayerevent)
+    -   [doubleForKey](#doubleforkey)
         -   [Parameters](#parameters-21)
+    -   [pushDataLayerEvent](#pushdatalayerevent)
+        -   [Parameters](#parameters-22)
 -   [CustomMetrics](#custommetrics)
-    -   [Examples](#examples-1)
+    -   [Examples](#examples-17)
 -   [CustomDimensionsByField](#customdimensionsbyfield)
-    -   [Examples](#examples-2)
+    -   [Examples](#examples-18)
 -   [CustomDimensionsByIndex](#customdimensionsbyindex)
-    -   [Examples](#examples-3)
+    -   [Examples](#examples-19)
 -   [CustomDimensionsFieldIndexMap](#customdimensionsfieldindexmap)
-    -   [Examples](#examples-4)
+    -   [Examples](#examples-20)
 -   [DataLayerEvent](#datalayerevent)
-    -   [Parameters](#parameters-22)
--   [HitPayload](#hitpayload)
     -   [Parameters](#parameters-23)
+-   [HitPayload](#hitpayload)
+    -   [Parameters](#parameters-24)
 -   [ProductActionEnum](#productactionenum)
 -   [Product](#product)
-    -   [Parameters](#parameters-24)
--   [ProductAction](#productaction)
     -   [Parameters](#parameters-25)
--   [Transaction](#transaction)
+-   [ProductAction](#productaction)
     -   [Parameters](#parameters-26)
+-   [Transaction](#transaction)
+    -   [Parameters](#parameters-27)
 
 ### GoogleAnalyticsSettings
 
@@ -213,6 +233,27 @@ If dry run is enabled, no analytics data will be sent to your tracker.
 
 ### GoogleAnalyticsTracker
 
+#### Examples
+
+```javascript
+// Constructing a tracker is simple:
+import { GoogleAnalyticsTracker } from "react-native-google-analytics-bridge";
+const tracker = new GoogleAnalyticsTracker("UA-12345-1");
+tracker.trackScreenView("Home");
+
+// You can create multiple trackers if you have several tracking ids
+// One optional feature as well is constructing a tracker with a CustomDimensionsFieldIndexMap, to map custom dimension field names to index keys:
+const fieldIndexMap = { customerType: 1 };
+const tracker2 = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
+
+// This is because the Google Analytics API expects custom dimensions to be tracked by index keys, and not field names.
+// Here the underlying logic will transform the custom dimension, so what ends up being sent to GA is { 1: 'Premium' }:
+tracker2.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
+
+// If you do not use a CustomDimensionsFieldIndexMap, you will have to use index as keys instead for custom dimensions:
+tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
+```
+
 #### trackScreenView
 
 Track the current screen/view. Calling this will also set the "current view" for other calls.
@@ -227,7 +268,10 @@ This means it is important to track navigation, especially if events can fire on
 ##### Examples
 
 ```javascript
-tracker.trackScreenView('Home')
+tracker.trackScreenView('Home');
+// Or with payload:
+const payload = { impressionList: "Sale", impressionProducts: [ { id: "PW928", name: "Premium bundle" } ] };
+tracker.trackScreenView("SplashModal", payload);
 ```
 
 #### trackEvent
@@ -242,9 +286,42 @@ Track an event that has occured
 -   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional) An optional event label (optional, default `null`)
 -   `value` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional) An optional event value (optional, default `null`)
 
+##### Examples
+
+```javascript
+tracker.trackEvent("DetailsButton", "Click");
+// or with label and value
+tracker.trackEvent("AppVersionButton", "Click", null, label: "v1.0.3", value: 22 });
+// or with a payload (ecommerce in this case):
+const product = {
+  id: "P12345",
+  name: "Android Warhol T-Shirt",
+  category: "Apparel/T-Shirts",
+  brand: "Google",
+  variant: "Black",
+  price: 29.2,
+  quantity: 1,
+  couponCode: "APPARELSALE"
+};
+const transaction = {
+  id: "T12345",
+  affiliation: "Google Store - Online",
+  revenue: 37.39,
+  tax: 2.85,
+  shipping: 5.34,
+  couponCode: "SUMMER2013"
+};
+const productAction = {
+  transaction,
+  action: 7 // Purchase action, see ProductActionEnum
+}
+const payload = { products: [ product ], productAction: productAction }
+tracker.trackEvent("FinalizeOrderButton", "Click", payload);
+```
+
 #### trackTiming
 
-Track an event that has occured
+Track a timing measurement
 
 ##### Parameters
 
@@ -253,6 +330,14 @@ Track an event that has occured
 -   `payload` **[HitPayload](#hitpayload)** (Optional) An object containing the hit payload (optional, default `null`)
 -   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Required) The timing name (optional, default `null`)
 -   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional) An optional timing label (optional, default `null`)
+
+##### Examples
+
+```javascript
+tracker.trackTiming("testcategory", 2000, null, "LoadList"); // name option is required
+// or with label:
+tracker.trackTiming("testcategory", 2000, null, "LoadList", "v1.0.3");
+```
 
 #### trackException
 
@@ -263,6 +348,16 @@ Track an exception
 -   `error` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Required) The description of the error
 -   `fatal` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** (Optional) A value indiciating if the error was fatal, defaults to false (optional, default `false`)
 -   `payload` **[HitPayload](#hitpayload)** (Optional) An object containing the hit payload (optional, default `null`)
+
+##### Examples
+
+```javascript
+try {
+  ...
+} catch(error) {
+  tracker.trackException(error.message, false);
+}
+```
 
 #### trackSocialInteraction
 
@@ -275,13 +370,25 @@ Track a social interaction, Facebook, Twitter, etc.
 -   `targetUrl` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `payload` **[HitPayload](#hitpayload)** (Optional) An object containing the hit payload
 
+##### Examples
+
+```javascript
+tracker.trackSocialInteraction("Twitter", "Post");
+```
+
 #### setUser
 
 Sets the current userId for tracking.
 
 ##### Parameters
 
--   `userId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The current userId
+-   `userId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** An anonymous identifier that complies with Google Analytic's user ID policy
+
+##### Examples
+
+```javascript
+tracker.setUser("12345678");
+```
 
 #### setClient
 
@@ -289,24 +396,55 @@ Sets the current clientId for tracking.
 
 ##### Parameters
 
--   `clientId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The current userId
+-   `clientId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** A anonymous identifier that complies with Google Analytic's client ID policy
+
+##### Examples
+
+```javascript
+tracker.setClient("35009a79-1a05-49d7-b876-2b884d0f825b");
+```
+
+#### getClientId
+
+Get the client id to be used for purpose of logging etc.
+
+##### Examples
+
+```javascript
+tracker.getClientId().then(clientId => console.log("Client id is: ", clientId));
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** 
 
 #### allowIDFA
 
-Sets if IDFA (identifier for advertisers) collection should be enabled
+Also called advertising identifier collection, and is used for advertising features.
+
+**Important**: For iOS you can only use this method if you have done the optional step 6 from the installation guide. Only enable this (and link the appropriate libraries) if you plan to use advertising features in your app, or else your app may get rejected from the AppStore.
 
 ##### Parameters
 
 -   `enabled` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** (Optional) Defaults to true (optional, default `true`)
 
+##### Examples
+
+```javascript
+tracker.allowIDFA(true);
+```
+
 #### setAppName
 
-Sets the trackers appName
-The Bundle name is used by default
+Overrides the app name logged in Google Analytics. The Bundle name is used by default. Note: This has to be set each time the App starts.
 
 ##### Parameters
 
 -   `appName` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Required)
+
+##### Examples
+
+```javascript
+tracker.setAppName("YourAwesomeApp");
+```
 
 #### setAppVersion
 
@@ -315,6 +453,12 @@ Sets the trackers appVersion
 ##### Parameters
 
 -   `appVersion` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Required)
+
+##### Examples
+
+```javascript
+tracker.setAppVersion("1.3.2");
+```
 
 #### setAnonymizeIp
 
@@ -325,6 +469,12 @@ If enabled the last octet of the IP address will be removed
 
 -   `enabled` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** (Required)
 
+##### Examples
+
+```javascript
+tracker.setAnonymizeIp(true);
+```
+
 #### setSamplingRate
 
 Sets tracker sampling rate.
@@ -333,6 +483,12 @@ Sets tracker sampling rate.
 
 -   `sampleRatio` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Required) Percentage 0 - 100
 
+##### Examples
+
+```javascript
+tracker.setSamplingRate(50);
+```
+
 #### setCurrency
 
 Sets the currency for tracking.
@@ -340,6 +496,12 @@ Sets the currency for tracking.
 ##### Parameters
 
 -   `currencyCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Required) The currency ISO 4217 code
+
+##### Examples
+
+```javascript
+tracker.setCurrency("EUR");
+```
 
 #### setTrackUncaughtExceptions
 
@@ -350,6 +512,39 @@ If you are using multiple trackers on iOS, this will enable & disable on all tra
 ##### Parameters
 
 -   `enabled` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
+
+#### dispatch
+
+This function lets you manually dispatch all hits which are queued.
+Use this function sparingly, as it will normally happen automatically
+as a batch. This function will also dispatch for all trackers.
+
+##### Examples
+
+```javascript
+tracker.dispatch().then(done => console.log("Dispatch is done: ", done));
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)>** Returns when done
+
+#### dispatchWithTimeout
+
+The same as dispatch(), but also gives you the ability to time out
+the Promise in case dispatch takes too long.
+
+##### Parameters
+
+-   `timeout` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The timeout. Default value is 15 sec. (optional, default `-1`)
+
+##### Examples
+
+```javascript
+tracker
+  .dispatchWithTimeout(10000)
+  .then(done => console.log("Dispatch is done: ", done));
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)>** Returns when done or timed out
 
 ### GoogleTagManager
 
@@ -482,15 +677,15 @@ The HitPayload object and possible values
 
 #### Parameters
 
--   `products` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Product](#product)>** 
--   `impressionProducts` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Product](#product)>** 
--   `impressionList` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `impressionSource` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `productAction` **[ProductAction](#productaction)** 
--   `customDimensions` **([CustomDimensionsByIndex](#customdimensionsbyindex) \| [CustomDimensionsByField](#customdimensionsbyfield))** 
--   `customMetrics` **[CustomMetrics](#custommetrics)** 
--   `utmCampaignUrl` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `startSession` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+-   `products` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Product](#product)>** (Optional) Used for ecommerce
+-   `impressionProducts` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Product](#product)>** (Optional) Used for ecommerce
+-   `impressionList` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional) Used for ecommerce
+-   `impressionSource` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional) Used for ecommerce
+-   `productAction` **[ProductAction](#productaction)** (Optional) Used for ecommerce
+-   `customDimensions` **([CustomDimensionsByIndex](#customdimensionsbyindex) \| [CustomDimensionsByField](#customdimensionsbyfield))** (Optional)
+-   `customMetrics` **[CustomMetrics](#custommetrics)** (Optional)
+-   `utmCampaignUrl` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional) Used for campaigns
+-   `session` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional) Only two possible values, "start" or "end"
 
 ### ProductActionEnum
 
@@ -512,15 +707,14 @@ Ecommerce Product
 
 #### Parameters
 
--   `event` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `category` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `brand` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `variant` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `price` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `quantity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+-   `category` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `brand` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `variant` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `price` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+-   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `quantity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
 
 ### ProductAction
 
@@ -529,11 +723,11 @@ Ecommerce Product Action
 #### Parameters
 
 -   `action` **[ProductActionEnum](#productactionenum)** 
--   `transaction` **[Transaction](#transaction)** 
--   `checkoutStep` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `checkoutOption` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `productActionList` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `productListSource` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `transaction` **[Transaction](#transaction)** (Optional - but not really)
+-   `checkoutStep` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+-   `checkoutOption` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `productActionList` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `productListSource` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
 
 ### Transaction
 
@@ -542,8 +736,8 @@ Ecommerce Transaction
 #### Parameters
 
 -   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `affiliation` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `revenue` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `tax` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `shipping` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `affiliation` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `revenue` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional - but not really)
+-   `tax` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+-   `shipping` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+-   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)

@@ -67,9 +67,9 @@ typedef enum {
         [builder setAll:getUtmCampaignUrlHitParams(utmCampaignUrl)];
     }
     
-    NSNumber* startSession = payload[@"startSession"];
-    if (startSession != nil && startSession.intValue == 1) {
-        [builder set:@"start" forKey:kGAISessionControl];
+    NSString* sessionState = payload[@"session"];
+    if (sessionState != nil) {
+        [builder set:sessionState forKey:kGAISessionControl];
     }
 }
 

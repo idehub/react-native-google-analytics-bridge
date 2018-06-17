@@ -7,6 +7,8 @@ import {
   CustomDimensionsFieldIndexMap
 } from "./models/Custom";
 
+const DEFAULT_DISPATCH_TIMEOUT = 15000;
+
 /**
  * Custom dimensions accept only strings and numbers.
  * @ignore
@@ -22,6 +24,23 @@ function isValidCustomDimension(customDimensionVal) {
 
 /**
  * @name GoogleAnalyticsTracker
+ * @example
+ * // Constructing a tracker is simple:
+ * import { GoogleAnalyticsTracker } from "react-native-google-analytics-bridge";
+ * const tracker = new GoogleAnalyticsTracker("UA-12345-1");
+ * tracker.trackScreenView("Home");
+ *
+ * // You can create multiple trackers if you have several tracking ids
+ * // One optional feature as well is constructing a tracker with a CustomDimensionsFieldIndexMap, to map custom dimension field names to index keys:
+ * const fieldIndexMap = { customerType: 1 };
+ * const tracker2 = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
+ *
+ * // This is because the Google Analytics API expects custom dimensions to be tracked by index keys, and not field names.
+ * // Here the underlying logic will transform the custom dimension, so what ends up being sent to GA is { 1: 'Premium' }:
+ * tracker2.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
+ *
+ * // If you do not use a CustomDimensionsFieldIndexMap, you will have to use index as keys instead for custom dimensions:
+ * tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
  */
 class GoogleAnalyticsTracker {
   id: string;
@@ -84,7 +103,10 @@ class GoogleAnalyticsTracker {
    *  So events tracked will be tagged as having occured on the current view, `Home` in this example.
    * This means it is important to track navigation, especially if events can fire on different views.
    * @example
-   * tracker.trackScreenView('Home')
+   * tracker.trackScreenView('Home');
+   * // Or with payload:
+   * const payload = { impressionList: "Sale", impressionProducts: [ { id: "PW928", name: "Premium bundle" } ] };
+   * tracker.trackScreenView("SplashModal", payload);
    * @param  {string} screenName (Required) The name of the current screen
    * @param  {HitPayload} payload (Optional) An object containing the hit payload
    */
@@ -95,6 +117,35 @@ class GoogleAnalyticsTracker {
 
   /**
    * Track an event that has occured
+   * @example
+   * tracker.trackEvent("DetailsButton", "Click");
+   * // or with label and value
+   * tracker.trackEvent("AppVersionButton", "Click", null, label: "v1.0.3", value: 22 });
+   * // or with a payload (ecommerce in this case):
+   * const product = {
+   *   id: "P12345",
+   *   name: "Android Warhol T-Shirt",
+   *   category: "Apparel/T-Shirts",
+   *   brand: "Google",
+   *   variant: "Black",
+   *   price: 29.2,
+   *   quantity: 1,
+   *   couponCode: "APPARELSALE"
+   * };
+   * const transaction = {
+   *   id: "T12345",
+   *   affiliation: "Google Store - Online",
+   *   revenue: 37.39,
+   *   tax: 2.85,
+   *   shipping: 5.34,
+   *   couponCode: "SUMMER2013"
+   * };
+   * const productAction = {
+   *   transaction,
+   *   action: 7 // Purchase action, see ProductActionEnum
+   * }
+   * const payload = { products: [ product ], productAction: productAction }
+   * tracker.trackEvent("FinalizeOrderButton", "Click", payload);
    * @param  {string} category (Required) The event category
    * @param  {string} action (Required) The event action
    * @param  {HitPayload} payload (Optional) An object containing the hit payload
@@ -120,7 +171,11 @@ class GoogleAnalyticsTracker {
   }
 
   /**
-   * Track an event that has occured
+   * Track a timing measurement
+   * @example
+   * tracker.trackTiming("testcategory", 2000, null, "LoadList"); // name option is required
+   * // or with label:
+   * tracker.trackTiming("testcategory", 2000, null, "LoadList", "v1.0.3");
    * @param  {string} category (Required) The event category
    * @param  {number} interval (Required) The timing measurement in milliseconds
    * @param  {HitPayload} payload (Optional) An object containing the hit payload
@@ -147,6 +202,12 @@ class GoogleAnalyticsTracker {
 
   /**
    * Track an exception
+   * @example
+   * try {
+   *   ...
+   * } catch(error) {
+   *   tracker.trackException(error.message, false);
+   * }
    * @param  {string} error (Required) The description of the error
    * @param  {boolean} fatal (Optional) A value indiciating if the error was fatal, defaults to false
    * @param  {HitPayload} payload (Optional) An object containing the hit payload
@@ -162,6 +223,7 @@ class GoogleAnalyticsTracker {
 
   /**
    * Track a social interaction, Facebook, Twitter, etc.
+   * @example tracker.trackSocialInteraction("Twitter", "Post");
    * @param  {string} network
    * @param  {string} action
    * @param  {string} targetUrl
@@ -185,7 +247,8 @@ class GoogleAnalyticsTracker {
 
   /**
    * Sets the current userId for tracking.
-   * @param {string} userId The current userId
+   * @example tracker.setUser("12345678");
+   * @param {string} userId An anonymous identifier that complies with Google Analytic's user ID policy
    */
   setUser(userId: string): void {
     AnalyticsBridge.setUser(this.id, userId);
@@ -193,23 +256,36 @@ class GoogleAnalyticsTracker {
 
   /**
    * Sets the current clientId for tracking.
-   * @param {string} clientId The current userId
+   * @example tracker.setClient("35009a79-1a05-49d7-b876-2b884d0f825b");
+   * @param {string} clientId A anonymous identifier that complies with Google Analytic's client ID policy
    */
   setClient(clientId: string): void {
     AnalyticsBridge.setClient(this.id, clientId);
   }
 
   /**
-   * Sets if IDFA (identifier for advertisers) collection should be enabled
-   * @param  {boolean} enabled (Optional) Defaults to true
+   * Get the client id to be used for purpose of logging etc.
+   * @example tracker.getClientId().then(clientId => console.log("Client id is: ", clientId));
+   * @returns {Promise<string>}
+   */
+  getClientId(): Promise<string> {
+    return AnalyticsBridge.getClientId(this.id);
+  }
+
+  /**
+   * Also called advertising identifier collection, and is used for advertising features.
+   *
+   * **Important**: For iOS you can only use this method if you have done the optional step 6 from the installation guide. Only enable this (and link the appropriate libraries) if you plan to use advertising features in your app, or else your app may get rejected from the AppStore.
+   * @example tracker.allowIDFA(true);
+   * @param {boolean} enabled (Optional) Defaults to true
    */
   allowIDFA(enabled: boolean = true): void {
     AnalyticsBridge.allowIDFA(this.id, enabled);
   }
 
   /**
-   * Sets the trackers appName
-   * The Bundle name is used by default
+   * Overrides the app name logged in Google Analytics. The Bundle name is used by default. Note: This has to be set each time the App starts.
+   * @example tracker.setAppName("YourAwesomeApp");
    * @param {string} appName (Required)
    */
   setAppName(appName: string): void {
@@ -218,6 +294,7 @@ class GoogleAnalyticsTracker {
 
   /**
    * Sets the trackers appVersion
+   * @example tracker.setAppVersion("1.3.2");
    * @param {string} appVersion (Required)
    */
   setAppVersion(appVersion: string): void {
@@ -227,6 +304,7 @@ class GoogleAnalyticsTracker {
   /**
    * Sets if AnonymizeIp is enabled
    * If enabled the last octet of the IP address will be removed
+   * @example tracker.setAnonymizeIp(true);
    * @param {boolean} enabled (Required)
    */
   setAnonymizeIp(enabled: boolean): void {
@@ -235,6 +313,7 @@ class GoogleAnalyticsTracker {
 
   /**
    * Sets tracker sampling rate.
+   * @example tracker.setSamplingRate(50);
    * @param {number} sampleRatio (Required) Percentage 0 - 100
    */
   setSamplingRate(sampleRatio: number): void {
@@ -243,6 +322,7 @@ class GoogleAnalyticsTracker {
 
   /**
    * Sets the currency for tracking.
+   * @example tracker.setCurrency("EUR");
    * @param {string} currencyCode (Required) The currency ISO 4217 code
    */
   setCurrency(currencyCode: string): void {
@@ -257,6 +337,53 @@ class GoogleAnalyticsTracker {
    */
   setTrackUncaughtExceptions(enabled: boolean): void {
     AnalyticsBridge.setTrackUncaughtExceptions(this.id, enabled);
+  }
+
+  /**
+   * This function lets you manually dispatch all hits which are queued.
+   * Use this function sparingly, as it will normally happen automatically
+   * as a batch. This function will also dispatch for all trackers.
+   * @example tracker.dispatch().then(done => console.log("Dispatch is done: ", done));
+   * @returns {Promise<boolean>} Returns when done
+   */
+  dispatch(): Promise<boolean> {
+    return AnalyticsBridge.dispatch();
+  }
+
+  /**
+   * The same as dispatch(), but also gives you the ability to time out
+   * the Promise in case dispatch takes too long.
+   * @example
+   * tracker
+   *   .dispatchWithTimeout(10000)
+   *   .then(done => console.log("Dispatch is done: ", done));
+   * @param {number} timeout The timeout. Default value is 15 sec.
+   * @returns {Promise<boolean>} Returns when done or timed out
+   */
+  dispatchWithTimeout(timeout = -1): Promise<boolean> {
+    if (timeout < 0) {
+      return AnalyticsBridge.dispatch();
+    }
+
+    let timer = null;
+
+    const withTimeout = (timeout: number): Promise<boolean> =>
+      new Promise<boolean>(resolve => {
+        timer = setTimeout(() => {
+          timer = null;
+          resolve(false);
+        }, Math.min(timeout, DEFAULT_DISPATCH_TIMEOUT));
+      });
+
+    return Promise.race([
+      AnalyticsBridge.dispatch(),
+      withTimeout(timeout)
+    ]).then(result => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      return result;
+    });
   }
 }
 

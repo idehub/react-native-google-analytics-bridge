@@ -14,20 +14,25 @@ export interface HitPayload {
   customDimensions?: CustomDimensionsByIndex | CustomDimensionsByField;
   customMetrics?: CustomMetrics;
   utmCampaignUrl?: string;
-  startSession?: number;
+  session?: SessionState;
+}
+
+export enum SessionState {
+  Start = "start",
+  End = "end"
 }
 
 /**
  * The HitPayload object and possible values
  *
  * @interface HitPayload
- * @param {Product[]} products
- * @param {Product[]} impressionProducts
- * @param {string} impressionList
- * @param {string} impressionSource
- * @param {ProductAction} productAction
- * @param {CustomDimensionsByIndex | CustomDimensionsByField} customDimensions
- * @param {CustomMetrics} customMetrics
- * @param {string} utmCampaignUrl
- * @param {number} startSession
+ * @param {Product[]} products (Optional) Used for ecommerce
+ * @param {Product[]} impressionProducts (Optional) Used for ecommerce
+ * @param {string} impressionList (Optional) Used for ecommerce
+ * @param {string} impressionSource (Optional) Used for ecommerce
+ * @param {ProductAction} productAction (Optional) Used for ecommerce
+ * @param {CustomDimensionsByIndex | CustomDimensionsByField} customDimensions (Optional)
+ * @param {CustomMetrics} customMetrics (Optional)
+ * @param {string} utmCampaignUrl (Optional) Used for campaigns
+ * @param {string} session (Optional) Only two possible values, "start" or "end"
  */

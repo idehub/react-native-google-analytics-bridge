@@ -58,15 +58,14 @@ export interface ProductAction {
  * Ecommerce Product
  *
  * @interface Product
- * @param {string} event
  * @param {string} id
  * @param {string} name
- * @param {string} category
- * @param {string} brand
- * @param {string} variant
- * @param {number} price
- * @param {string} couponCode
- * @param {number} quantity
+ * @param {string} category (Optional)
+ * @param {string} brand (Optional)
+ * @param {string} variant (Optional)
+ * @param {number} price (Optional)
+ * @param {string} couponCode (Optional)
+ * @param {number} quantity (Optional)
  */
 
 /**
@@ -74,11 +73,11 @@ export interface ProductAction {
  *
  * @interface Transaction
  * @param {string} id
- * @param {string} affiliation
- * @param {number} revenue
- * @param {number} tax
- * @param {number} shipping
- * @param {string} couponCode
+ * @param {string} affiliation (Optional)
+ * @param {number} revenue (Optional - but not really)
+ * @param {number} tax (Optional)
+ * @param {number} shipping (Optional)
+ * @param {string} couponCode (Optional)
  */
 
 /**
@@ -86,9 +85,9 @@ export interface ProductAction {
  *
  * @interface ProductAction
  * @param {ProductActionEnum} action
- * @param {Transaction} transaction
- * @param {number} checkoutStep
- * @param {string} checkoutOption
- * @param {string} productActionList
- * @param {string} productListSource
+ * @param {Transaction} transaction (Optional - but not really)
+ * @param {number} checkoutStep (Optional)
+ * @param {string} checkoutOption (Optional)
+ * @param {string} productActionList (Optional)
+ * @param {string} productListSource (Optional)
  */

@@ -16,7 +16,7 @@ public class GoogleAnalyticsPayload {
         public abstract void setCustomDimension(final Integer index, final String value);
         public abstract void setCustomMetric(final Integer index, final Integer value);
         public abstract void setUtmCampaignUrl(final String utmCampaignUrl);
-        public abstract void setStartSession();
+        public abstract void setSessionState(final String sessionState);
 
         public void build(ReadableMap payload) {
             buildProducts(payload);
@@ -25,7 +25,7 @@ public class GoogleAnalyticsPayload {
             buildCustomDimensions(payload);
             buildCustomMetrics(payload);
             buildUtmCampaignUrl(payload);
-            buildStartSession(payload);
+            buildSessionState(payload);
         }
 
         private void buildProducts(ReadableMap payload) {
@@ -104,12 +104,10 @@ public class GoogleAnalyticsPayload {
             }
         }
 
-        private void buildStartSession(ReadableMap payload) {
-            if (payload.hasKey("startSession")) {
-                Integer startSession = payload.getInt("startSession");
-                if (startSession == 1) {
-                    this.setStartSession();
-                }
+        private void buildSessionState(ReadableMap payload) {
+            if (payload.hasKey("session")) {
+                String sessionState = payload.getString("session");
+                this.setSessionState(sessionState);
             }
         }
     }
@@ -147,8 +145,8 @@ public class GoogleAnalyticsPayload {
             }
 
             @Override
-            public void setStartSession() {
-                builder.setNewSession();
+            public void setSessionState(String sessionState) {
+                builder.set("&sc", sessionState);
             }
         };
 
@@ -188,8 +186,8 @@ public class GoogleAnalyticsPayload {
             }
 
             @Override
-            public void setStartSession() {
-                builder.setNewSession();
+            public void setSessionState(String sessionState) {
+                builder.set("&sc", sessionState);
             }
         };
 
@@ -229,8 +227,8 @@ public class GoogleAnalyticsPayload {
             }
 
             @Override
-            public void setStartSession() {
-                builder.setNewSession();
+            public void setSessionState(String sessionState) {
+                builder.set("&sc", sessionState);
             }
         };
 
@@ -270,8 +268,8 @@ public class GoogleAnalyticsPayload {
             }
 
             @Override
-            public void setStartSession() {
-                builder.setNewSession();
+            public void setSessionState(String sessionState) {
+                builder.set("&sc", sessionState);
             }
         };
 
@@ -311,8 +309,8 @@ public class GoogleAnalyticsPayload {
             }
 
             @Override
-            public void setStartSession() {
-                builder.setNewSession();
+            public void setSessionState(String sessionState) {
+                builder.set("&sc", sessionState);
             }
         };
 

@@ -53,6 +53,7 @@ export interface IGoogleAnalyticsBridge {
   ): void;
   setUser(trackerId: string, userId: string): void;
   setClient(trackerId: string, clientId: string): void;
+  getClientId(trackerId: string): Promise<string>;
   allowIDFA(trackerId: string, enabled: boolean): void;
   setSamplingRate(trackerId: string, sampleRate: number): void;
   setAnonymizeIp(trackerId: string, enabled: boolean): void;
@@ -60,6 +61,7 @@ export interface IGoogleAnalyticsBridge {
   setAppVersion(trackerId: string, appVersion: string): void;
   setCurrency(trackerId: string, currencyCode: string): void;
   setTrackUncaughtExceptions(trackerId: string, enabled: boolean): void;
+  dispatch(): Promise<boolean>;
 }
 
 export interface IGoogleTagManagerBridge {
