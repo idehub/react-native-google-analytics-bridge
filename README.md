@@ -202,15 +202,20 @@ This will require that you are familiar with the native api for GTM on whatever 
     -   [Examples](#examples-29)
 -   [DataLayerEvent](#datalayerevent)
     -   [Parameters](#parameters-24)
+    -   [Examples](#examples-30)
 -   [HitPayload](#hitpayload)
     -   [Parameters](#parameters-25)
+    -   [Examples](#examples-31)
 -   [ProductActionEnum](#productactionenum)
 -   [Product](#product)
     -   [Parameters](#parameters-26)
+    -   [Examples](#examples-32)
 -   [ProductAction](#productaction)
     -   [Parameters](#parameters-27)
+    -   [Examples](#examples-33)
 -   [Transaction](#transaction)
     -   [Parameters](#parameters-28)
+    -   [Examples](#examples-34)
 
 ### GoogleAnalyticsSettings
 
@@ -744,15 +749,27 @@ tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
 
 The Google Tag Manager DataLayerEvent dictionary.
 
-The only required property is event.
+Populate this event-object with values to push to the DataLayer. The only required property is `event`.
 
 #### Parameters
 
 -   `event` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
+#### Examples
+
+```javascript
+const dataLayerEvent = {
+  event: "eventName",
+  pageId: "/home"
+};
+GoogleTagManager.pushDataLayerEvent(dataLayerEvent);
+```
+
 ### HitPayload
 
 The HitPayload object and possible values
+
+Used by the different tracking methods for adding metadata to the hit.
 
 #### Parameters
 
@@ -766,23 +783,66 @@ The HitPayload object and possible values
 -   `utmCampaignUrl` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional) Used for campaigns
 -   `session` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional) Only two possible values, "start" or "end"
 
+#### Examples
+
+```javascript
+// If you want to do send a purchase payload with an event:
+const product = {
+  id: "P12345",
+  name: "Android Warhol T-Shirt",
+  category: "Apparel/T-Shirts",
+  brand: "Google",
+  variant: "Black",
+  price: 29.2,
+  quantity: 1,
+  couponCode: "APPARELSALE"
+};
+const transaction = {
+  id: "T12345",
+  affiliation: "Google Store - Online",
+  revenue: 37.39,
+  tax: 2.85,
+  shipping: 5.34,
+  couponCode: "SUMMER2013"
+};
+const productAction = {
+  transaction,
+  action: 7 // Purchase action, see ProductActionEnum
+}
+const payload = { products: [ product ], productAction: productAction }
+tracker.trackEvent("FinalizeOrderButton", "Click", payload);
+```
+
+```javascript
+// If you want to send custom dimensions with a screen view:
+const customDimensions = {
+  1: "Beta",
+  3: "Premium"
+};
+const payload = { customDimensions };
+tracker.trackScreenView("SaleScreen", payload);
+```
+
 ### ProductActionEnum
 
-Ecommerce ProductActionEnum
+Enhanced Ecommerce ProductActionEnum
 
-The type of Product Action. The possible values (numbers) are:
-Detail = 1,
-Click = 2,
-Add = 3,
-Remove = 4,
-Checkout = 5,
-CheckoutOption = 6,
-Purchase = 7,
-Refund = 8
+Used by `ProductAction` when describing the type of product action. The possible values (numbers) are:
+
+-   Detail = 1,
+-   Click = 2,
+-   Add = 3,
+-   Remove = 4,
+-   Checkout = 5,
+-   CheckoutOption = 6,
+-   Purchase = 7,
+-   Refund = 8
 
 ### Product
 
-Ecommerce Product
+Enhanced Ecommerce Product
+
+Used by `HitPayload` when populating product actions or impressions
 
 #### Parameters
 
@@ -795,22 +855,56 @@ Ecommerce Product
 -   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
 -   `quantity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
 
+#### Examples
+
+```javascript
+const product = {
+  id: "P12345",
+  name: "Android Warhol T-Shirt",
+  category: "Apparel/T-Shirts",
+  brand: "Google",
+  variant: "Black",
+  price: 29.2,
+  quantity: 1,
+  couponCode: "APPARELSALE"
+};
+```
+
 ### ProductAction
 
-Ecommerce Product Action
+Enhanced Ecommerce Product Action
+
+Used by `HitPayload` when describing a product action
 
 #### Parameters
 
 -   `action` **[ProductActionEnum](#productactionenum)** 
--   `transaction` **[Transaction](#transaction)** (Optional - but not really)
+-   `transaction` **[Transaction](#transaction)** (Optional)
 -   `checkoutStep` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
 -   `checkoutOption` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
 -   `productActionList` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
 -   `productListSource` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
 
+#### Examples
+
+```javascript
+const productAction = {
+  transaction,
+  action: 7 // Purchase action, see ProductActionEnum
+}
+```
+
+```javascript
+const productAction = {
+  action: 3 // Add action, see ProductActionEnum
+}
+```
+
 ### Transaction
 
-Ecommerce Transaction
+Enhanced Ecommerce Transaction
+
+Used by `ProductAction` when populating describing a purchase/transaction
 
 #### Parameters
 
@@ -820,3 +914,16 @@ Ecommerce Transaction
 -   `tax` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
 -   `shipping` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
 -   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+
+#### Examples
+
+```javascript
+const transaction = {
+  id: "T12345",
+  affiliation: "Google Store - Online",
+  revenue: 37.39,
+  tax: 2.85,
+  shipping: 5.34,
+  couponCode: "SUMMER2013"
+};
+```

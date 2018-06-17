@@ -6,7 +6,13 @@ export default interface DataLayerEvent {
 /**
  * The Google Tag Manager DataLayerEvent dictionary.
  *
- * The only required property is event.
+ * Populate this event-object with values to push to the DataLayer. The only required property is `event`.
+ * @example
+ * const dataLayerEvent = {
+ *   event: "eventName",
+ *   pageId: "/home"
+ * };
+ * GoogleTagManager.pushDataLayerEvent(dataLayerEvent);
  *
  * @interface DataLayerEvent
  * @param {string} event

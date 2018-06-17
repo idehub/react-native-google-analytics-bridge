@@ -10,17 +10,18 @@ export interface Product {
 }
 
 /**
- * Ecommerce ProductActionEnum
+ * Enhanced Ecommerce ProductActionEnum
  *
- * The type of Product Action. The possible values (numbers) are:
- * Detail = 1,
- * Click = 2,
- * Add = 3,
- * Remove = 4,
- * Checkout = 5,
- * CheckoutOption = 6,
- * Purchase = 7,
- * Refund = 8
+ * Used by `ProductAction` when describing the type of product action. The possible values (numbers) are:
+ *
+ * * Detail = 1,
+ * * Click = 2,
+ * * Add = 3,
+ * * Remove = 4,
+ * * Checkout = 5,
+ * * CheckoutOption = 6,
+ * * Purchase = 7,
+ * * Refund = 8
  *
  * @export
  * @enum {number}
@@ -55,8 +56,21 @@ export interface ProductAction {
 }
 
 /**
- * Ecommerce Product
+ * Enhanced Ecommerce Product
  *
+ * Used by `HitPayload` when populating product actions or impressions
+ *
+ * @example
+ * const product = {
+ *   id: "P12345",
+ *   name: "Android Warhol T-Shirt",
+ *   category: "Apparel/T-Shirts",
+ *   brand: "Google",
+ *   variant: "Black",
+ *   price: 29.2,
+ *   quantity: 1,
+ *   couponCode: "APPARELSALE"
+ * };
  * @interface Product
  * @param {string} id
  * @param {string} name
@@ -69,8 +83,18 @@ export interface ProductAction {
  */
 
 /**
- * Ecommerce Transaction
+ * Enhanced Ecommerce Transaction
  *
+ * Used by `ProductAction` when populating describing a purchase/transaction
+ * @example
+ * const transaction = {
+ *   id: "T12345",
+ *   affiliation: "Google Store - Online",
+ *   revenue: 37.39,
+ *   tax: 2.85,
+ *   shipping: 5.34,
+ *   couponCode: "SUMMER2013"
+ * };
  * @interface Transaction
  * @param {string} id
  * @param {string} affiliation (Optional)
@@ -81,11 +105,21 @@ export interface ProductAction {
  */
 
 /**
- * Ecommerce Product Action
+ * Enhanced Ecommerce Product Action
  *
+ * Used by `HitPayload` when describing a product action
+ * @example
+ * const productAction = {
+ *   transaction,
+ *   action: 7 // Purchase action, see ProductActionEnum
+ * }
+ * @example
+ * const productAction = {
+ *   action: 3 // Add action, see ProductActionEnum
+ * }
  * @interface ProductAction
  * @param {ProductActionEnum} action
- * @param {Transaction} transaction (Optional - but not really)
+ * @param {Transaction} transaction (Optional)
  * @param {number} checkoutStep (Optional)
  * @param {string} checkoutOption (Optional)
  * @param {string} productActionList (Optional)

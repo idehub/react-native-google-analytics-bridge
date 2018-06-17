@@ -25,7 +25,43 @@ export enum SessionState {
 /**
  * The HitPayload object and possible values
  *
+ * Used by the different tracking methods for adding metadata to the hit.
+ *
  * @interface HitPayload
+ * @example
+ * // If you want to do send a purchase payload with an event:
+ * const product = {
+ *   id: "P12345",
+ *   name: "Android Warhol T-Shirt",
+ *   category: "Apparel/T-Shirts",
+ *   brand: "Google",
+ *   variant: "Black",
+ *   price: 29.2,
+ *   quantity: 1,
+ *   couponCode: "APPARELSALE"
+ * };
+ * const transaction = {
+ *   id: "T12345",
+ *   affiliation: "Google Store - Online",
+ *   revenue: 37.39,
+ *   tax: 2.85,
+ *   shipping: 5.34,
+ *   couponCode: "SUMMER2013"
+ * };
+ * const productAction = {
+ *   transaction,
+ *   action: 7 // Purchase action, see ProductActionEnum
+ * }
+ * const payload = { products: [ product ], productAction: productAction }
+ * tracker.trackEvent("FinalizeOrderButton", "Click", payload);
+ * @example
+ * // If you want to send custom dimensions with a screen view:
+ * const customDimensions = {
+ *   1: "Beta",
+ *   3: "Premium"
+ * };
+ * const payload = { customDimensions };
+ * tracker.trackScreenView("SaleScreen", payload);
  * @param {Product[]} products (Optional) Used for ecommerce
  * @param {Product[]} impressionProducts (Optional) Used for ecommerce
  * @param {string} impressionList (Optional) Used for ecommerce
