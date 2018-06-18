@@ -24,6 +24,8 @@ The newest version of this library has a new API surface.
 
 If you are upgrading to version 6 from an older version, read [this wiki post for important details](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Version-6-breaking-changes)
 
+[**Important**: You probably have to migrate to new API if you upgrade!](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Version-6-breaking-changes#migrating-to-new-api)
+
 ## Content
 
 -   [Installation](#installation-and-linking-libraries)
@@ -172,11 +174,11 @@ GoogleTagManager.openContainerWithId("GT-NZT48")
         -   [Examples](#examples-25)
     -   [setVerboseLoggingEnabled](#setverboseloggingenabled)
         -   [Parameters](#parameters-23)
--   [CustomMetrics](#custommetrics)
+-   [CustomDimensionsByIndex](#customdimensionsbyindex)
     -   [Examples](#examples-26)
 -   [CustomDimensionsByField](#customdimensionsbyfield)
     -   [Examples](#examples-27)
--   [CustomDimensionsByIndex](#customdimensionsbyindex)
+-   [CustomMetrics](#custommetrics)
     -   [Examples](#examples-28)
 -   [CustomDimensionsFieldIndexMap](#customdimensionsfieldindexmap)
     -   [Examples](#examples-29)
@@ -679,15 +681,18 @@ Sets logger to verbose, default is warning
 
 -   `enabled` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
-### CustomMetrics
+### CustomDimensionsByIndex
 
-A dictionary with custom metric values and their index keys.
+-   **See: CustomDimensionsFieldIndexMap**
+-   **See: CustomDimensionsByField**
+
+A dictionary with custom dimensions values and their index keys.
 
 #### Examples
 
 ```javascript
-const customMetrics = { 1: 2389, 4: 15000 }
-tracker.trackScreenView("Home", { customMetrics });
+const customDimensions = { 1: "Premium", 3: "Beta", 5: 1200 }
+tracker.trackScreenView("Home", { customDimensions });
 ```
 
 ### CustomDimensionsByField
@@ -706,18 +711,15 @@ const customDimensions = { customerType: "Premium", appType: "Beta", credit: 120
 tracker.trackScreenView("Home", { customDimensions });
 ```
 
-### CustomDimensionsByIndex
+### CustomMetrics
 
--   **See: CustomDimensionsFieldIndexMap**
--   **See: CustomDimensionsByField**
-
-A dictionary with custom dimensions values and their index keys.
+A dictionary with custom metric values and their index keys.
 
 #### Examples
 
 ```javascript
-const customDimensions = { 1: "Premium", 3: "Beta", 5: 1200 }
-tracker.trackScreenView("Home", { customDimensions });
+const customMetrics = { 1: 2389, 4: 15000 }
+tracker.trackScreenView("Home", { customMetrics });
 ```
 
 ### CustomDimensionsFieldIndexMap
