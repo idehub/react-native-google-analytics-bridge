@@ -20,11 +20,11 @@ tracker.trackEvent("testcategory", "testaction");
 
 ## Version 6 breaking changes!
 
-The newest version of this library has a new API surface.
+If you are upgrading to version 6 from an older version, read [this wiki post for important details](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Version-6-breaking-changes).
 
-If you are upgrading to version 6 from an older version, read [this wiki post for important details](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Version-6-breaking-changes)
+The newest version of this library has a new API surface. The API changes are in most cases backwards-compatible.
 
-[**Important**: You probably have to migrate to new API if you upgrade!](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Version-6-breaking-changes#migrating-to-new-api)
+[**Important**: If you are using ecommerce or custom dimensions, you probably have to migrate to new API if you upgrade!](https://github.com/idehub/react-native-google-analytics-bridge/wiki/Version-6-breaking-changes#migrating-to-new-api)
 
 ## Content
 
@@ -174,22 +174,22 @@ GoogleTagManager.openContainerWithId("GT-NZT48")
         -   [Examples](#examples-25)
     -   [setVerboseLoggingEnabled](#setverboseloggingenabled)
         -   [Parameters](#parameters-23)
--   [HitPayload](#hitpayload)
+-   [EventMetadata](#eventmetadata)
     -   [Parameters](#parameters-24)
     -   [Examples](#examples-26)
 -   [TimingMetadata](#timingmetadata)
     -   [Parameters](#parameters-25)
     -   [Examples](#examples-27)
--   [EventMetadata](#eventmetadata)
+-   [HitPayload](#hitpayload)
     -   [Parameters](#parameters-26)
     -   [Examples](#examples-28)
 -   [CustomDimensionsByField](#customdimensionsbyfield)
     -   [Examples](#examples-29)
--   [CustomMetrics](#custommetrics)
-    -   [Examples](#examples-30)
--   [CustomDimensionsByIndex](#customdimensionsbyindex)
-    -   [Examples](#examples-31)
 -   [CustomDimensionsFieldIndexMap](#customdimensionsfieldindexmap)
+    -   [Examples](#examples-30)
+-   [CustomMetrics](#custommetrics)
+    -   [Examples](#examples-31)
+-   [CustomDimensionsByIndex](#customdimensionsbyindex)
     -   [Examples](#examples-32)
 -   [DataLayerEvent](#datalayerevent)
     -   [Parameters](#parameters-27)
@@ -198,10 +198,10 @@ GoogleTagManager.openContainerWithId("GT-NZT48")
 -   [ProductAction](#productaction)
     -   [Parameters](#parameters-28)
     -   [Examples](#examples-34)
--   [Transaction](#transaction)
+-   [Product](#product)
     -   [Parameters](#parameters-29)
     -   [Examples](#examples-35)
--   [Product](#product)
+-   [Transaction](#transaction)
     -   [Parameters](#parameters-30)
     -   [Examples](#examples-36)
 
@@ -685,6 +685,38 @@ Sets logger to verbose, default is warning
 
 -   `enabled` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
+### EventMetadata
+
+Used when tracking event
+
+#### Parameters
+
+-   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `value` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+
+#### Examples
+
+```javascript
+const eventMetadata = { label: "v1.0.3", value: 22 }
+tracker.trackEvent("FinalizeOrderButton", "Click", eventMetadata);
+```
+
+### TimingMetadata
+
+Used when tracking time measurements
+
+#### Parameters
+
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Required)
+-   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+
+#### Examples
+
+```javascript
+const timingMetadata = { name: "LoadList" } // name is a required value when tracking timing
+tracker.trackTiming("testcategory", 13000, timingMetadata);
+```
+
 ### HitPayload
 
 The HitPayload object and possible values
@@ -743,38 +775,6 @@ const payload = { customDimensions };
 tracker.trackScreenView("SaleScreen", payload);
 ```
 
-### TimingMetadata
-
-Used when tracking time measurements
-
-#### Parameters
-
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Required)
--   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
-
-#### Examples
-
-```javascript
-const timingMetadata = { name: "LoadList" } // name is a required value when tracking timing
-tracker.trackTiming("testcategory", 13000, timingMetadata);
-```
-
-### EventMetadata
-
-Used when tracking event
-
-#### Parameters
-
--   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `value` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
-
-#### Examples
-
-```javascript
-const eventMetadata = { label: "v1.0.3", value: 22 }
-tracker.trackEvent("FinalizeOrderButton", "Click", eventMetadata);
-```
-
 ### CustomDimensionsByField
 
 -   **See: CustomDimensionsFieldIndexMap**
@@ -789,6 +789,27 @@ provided a `CustomDimensionsFieldIndexMap` when constructing the tracker.
 ```javascript
 const customDimensions = { customerType: "Premium", appType: "Beta", credit: 1200 }
 tracker.trackScreenView("Home", { customDimensions });
+```
+
+### CustomDimensionsFieldIndexMap
+
+-   **See: CustomDimensionsFieldIndexMap**
+-   **See: CustomDimensionsByField**
+
+A dictionary describing mapping of field names to indices for custom dimensions.
+This is an optional object used by the tracker.
+
+#### Examples
+
+```javascript
+// Create something like:
+const fieldIndexMap = { customerType: 1 };
+// Construct tracker with it:
+const tracker = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
+// This allows you to send in customDimensions in the`HitPayload by field name instead of index:
+tracker.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
+// If you do not provide a map, you instead have to send in by index:
+tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
 ```
 
 ### CustomMetrics
@@ -814,27 +835,6 @@ A dictionary with custom dimensions values and their index keys.
 ```javascript
 const customDimensions = { 1: "Premium", 3: "Beta", 5: 1200 }
 tracker.trackScreenView("Home", { customDimensions });
-```
-
-### CustomDimensionsFieldIndexMap
-
--   **See: CustomDimensionsFieldIndexMap**
--   **See: CustomDimensionsByField**
-
-A dictionary describing mapping of field names to indices for custom dimensions.
-This is an optional object used by the tracker.
-
-#### Examples
-
-```javascript
-// Create something like:
-const fieldIndexMap = { customerType: 1 };
-// Construct tracker with it:
-const tracker = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
-// This allows you to send in customDimensions in the`HitPayload by field name instead of index:
-tracker.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
-// If you do not provide a map, you instead have to send in by index:
-tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
 ```
 
 ### DataLayerEvent
@@ -902,34 +902,6 @@ const productAction = {
 }
 ```
 
-### Transaction
-
-Enhanced Ecommerce Transaction
-
-Used by `ProductAction` when populating describing a purchase/transaction
-
-#### Parameters
-
--   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `affiliation` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `revenue` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional - but not really)
--   `tax` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
--   `shipping` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
--   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
-
-#### Examples
-
-```javascript
-const transaction = {
-  id: "T12345",
-  affiliation: "Google Store - Online",
-  revenue: 37.39,
-  tax: 2.85,
-  shipping: 5.34,
-  couponCode: "SUMMER2013"
-};
-```
-
 ### Product
 
 Enhanced Ecommerce Product
@@ -959,5 +931,33 @@ const product = {
   price: 29.2,
   quantity: 1,
   couponCode: "APPARELSALE"
+};
+```
+
+### Transaction
+
+Enhanced Ecommerce Transaction
+
+Used by `ProductAction` when populating describing a purchase/transaction
+
+#### Parameters
+
+-   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `affiliation` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `revenue` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional - but not really)
+-   `tax` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+-   `shipping` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+-   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+
+#### Examples
+
+```javascript
+const transaction = {
+  id: "T12345",
+  affiliation: "Google Store - Online",
+  revenue: 37.39,
+  tax: 2.85,
+  shipping: 5.34,
+  couponCode: "SUMMER2013"
 };
 ```
