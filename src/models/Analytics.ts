@@ -5,6 +5,16 @@ import {
 } from "./Custom";
 import { Product, ProductAction } from "./Product";
 
+export interface EventMetadata {
+  label?: string;
+  value?: number;
+}
+
+export interface TimingMetadata {
+  name: string;
+  label?: string;
+}
+
 export interface HitPayload {
   products?: Product[];
   impressionProducts?: Product[];
@@ -21,6 +31,30 @@ export enum SessionState {
   Start = "start",
   End = "end"
 }
+
+/**
+ *
+ * Used when tracking event
+ *
+ * @interface EventMetadata
+ * @example
+ * const eventMetadata = { label: "v1.0.3", value: 22 }
+ * tracker.trackEvent("FinalizeOrderButton", "Click", eventMetadata);
+ * @param {string} label (Optional)
+ * @param {number} value (Optional)
+ */
+
+/**
+ *
+ * Used when tracking time measurements
+ *
+ * @interface TimingMetadata
+ * @example
+ * const timingMetadata = { name: "LoadList" } // name is a required value when tracking timing
+ * tracker.trackTiming("testcategory", 13000, timingMetadata);
+ * @param {string} name (Required)
+ * @param {string} label (Optional)
+ */
 
 /**
  * The HitPayload object and possible values
@@ -53,7 +87,7 @@ export enum SessionState {
  *   action: 7 // Purchase action, see ProductActionEnum
  * }
  * const payload = { products: [ product ], productAction: productAction }
- * tracker.trackEvent("FinalizeOrderButton", "Click", payload);
+ * tracker.trackEvent("FinalizeOrderButton", "Click", null, payload);
  * @example
  * // If you want to send custom dimensions with a screen view:
  * const customDimensions = {

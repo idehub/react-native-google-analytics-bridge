@@ -14,4 +14,4 @@ export {
   CustomDimensionsFieldIndexMap,
   CustomMetrics
 } from "./models/Custom";
-export { HitPayload } from "./models/HitPayload";
+export { HitPayload, EventMetadata, TimingMetadata } from "./models/Analytics";

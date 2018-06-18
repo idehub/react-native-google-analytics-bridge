@@ -1,5 +1,5 @@
 import { AnalyticsBridge } from "./NativeBridges";
-import { HitPayload } from "./models/HitPayload";
+import { HitPayload, EventMetadata, TimingMetadata } from "./models/Analytics";
 
 import {
   CustomDimensionsByField,
@@ -121,7 +121,7 @@ class GoogleAnalyticsTracker {
    * tracker.trackEvent("DetailsButton", "Click");
    * @example
    * // Track event with label and value
-   * tracker.trackEvent("AppVersionButton", "Click", null, label: "v1.0.3", value: 22 });
+   * tracker.trackEvent("AppVersionButton", "Click", { label: "v1.0.3", value: 22 });
    * @example
    * // Track with a payload (ecommerce in this case):
    * const product = {
@@ -147,27 +147,25 @@ class GoogleAnalyticsTracker {
    *   action: 7 // Purchase action, see ProductActionEnum
    * }
    * const payload = { products: [ product ], productAction: productAction }
-   * tracker.trackEvent("FinalizeOrderButton", "Click", payload);
+   * tracker.trackEvent("FinalizeOrderButton", "Click", null, payload);
    * @param  {string} category (Required) The event category
    * @param  {string} action (Required) The event action
+   * @param  {EventMetadata} eventMetadata (Optional) An object containing event metadata
    * @param  {HitPayload} payload (Optional) An object containing the hit payload
-   * @param  {string} label (Optional) An optional event label
-   * @param  {number} value (Optional) An optional event value
    */
   trackEvent(
     category: string,
     action: string,
-    payload: HitPayload = null,
-    label: string = null,
-    value: number = null
+    eventMetadata?: EventMetadata,
+    payload: HitPayload = null
   ): void {
     this.transformPayload(payload);
     AnalyticsBridge.trackEvent(
       this.id,
       category,
       action,
-      label,
-      value,
+      eventMetadata && eventMetadata.label,
+      eventMetadata && eventMetadata.value,
       payload
     );
   }
@@ -175,30 +173,29 @@ class GoogleAnalyticsTracker {
   /**
    * Track a timing measurement
    * @example
-   * tracker.trackTiming("testcategory", 2000, null, "LoadList"); // name option is required
+   * tracker.trackTiming("testcategory", 2000, { name: "LoadList" }); // name metadata is required
    * @example
-   * // With label:
-   * tracker.trackTiming("testcategory", 2000, null, "LoadList", "v1.0.3");
+   * // With optional label:
+   * tracker.trackTiming("testcategory", 2000, { name: "LoadList", label: "v1.0.3" });
+   * @example
    * @param  {string} category (Required) The event category
    * @param  {number} interval (Required) The timing measurement in milliseconds
+   * @param  {TimingMetadata} timingMetadata (Required) An object containing timing metadata
    * @param  {HitPayload} payload (Optional) An object containing the hit payload
-   * @param  {string} name (Required) The timing name
-   * @param  {string} label (Optional) An optional timing label
    */
   trackTiming(
     category: string,
     interval: number,
-    payload: HitPayload = null,
-    name: string = null,
-    label: string = null
+    timingMetadata: TimingMetadata,
+    payload: HitPayload = null
   ): void {
     this.transformPayload(payload);
     AnalyticsBridge.trackTiming(
       this.id,
       category,
       interval,
-      name,
-      label,
+      timingMetadata.name,
+      timingMetadata.label,
       payload
     );
   }
