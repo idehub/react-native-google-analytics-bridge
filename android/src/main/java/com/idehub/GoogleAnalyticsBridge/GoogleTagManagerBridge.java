@@ -8,9 +8,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -21,8 +19,6 @@ import com.google.android.gms.tagmanager.TagManager;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.List;
-import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
@@ -137,7 +133,7 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
                     // eventName is prefixed to prevent event collision with other modules
                     String eventName = generateFunctionCallTagEventName(functionName);
 
-                    WritableMap params = convertMapToWritableMap(parameters);
+                    WritableMap params = ConvertToWritable.map(parameters);
                     getReactApplicationContext()
                         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                         .emit(eventName, params);
@@ -183,60 +179,5 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
         final int resId = ctx.getResources().getIdentifier(resName, "raw", ctx.getPackageName());
         if (resId == 0) return -1;
         return resId;
-    }
-
-    // Function Call Tag Helpers
-    private static WritableMap convertMapToWritableMap(Map<String, Object> parameters) {
-        WritableMap map = Arguments.createMap();
-        for (Map.Entry<String, Object> entry : parameters.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-
-            /* 
-             * See https://developers.google.com/android/reference/com/google/android/gms/tagmanager/Container.FunctionCallTagCallback
-             * for possible data types passed by function call tag callback.
-             */
-
-            if (value instanceof Integer) {
-                map.putInt(key, (Integer) value);
-            } else if (value instanceof  Long) {
-                map.putDouble(key, (Double) value);
-            } else if (value instanceof  Double) {
-                map.putDouble(key, (Double) value);
-            } else if (value instanceof List)  {
-                map.putArray(key, convertListToWritableArray((List<Object>) value));
-            } else if (value instanceof Map)  {
-                map.putMap(key, convertMapToWritableMap((Map<String, Object>) value));
-            } else if (value instanceof String)  {
-                map.putString(key, (String) value);
-            } else {
-                map.putString(key, value.toString());
-            }
-        }
-        return map;
-    }
-
-    private static WritableArray convertListToWritableArray(List<Object> list) {
-        WritableArray array = Arguments.createArray();
-        Iterator<Object> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Object value = iterator.next();
-            if (value instanceof Integer) {
-                array.pushInt((Integer) value);
-            } else if (value instanceof  Long) {
-                array.pushDouble((Double) value);
-            } else if (value instanceof  Double) {
-                array.pushDouble((Double) value);
-            } else if (value instanceof List)  {
-                array.pushArray(convertListToWritableArray((List<Object>) value));
-            } else if (value instanceof Map)  {
-                array.pushMap(convertMapToWritableMap((Map<String, Object>) value));
-            } else if (value instanceof String)  {
-                array.pushString((String) value);
-            } else {
-                array.pushString(value.toString());
-            }
-        }
-        return array;
     }
 }
