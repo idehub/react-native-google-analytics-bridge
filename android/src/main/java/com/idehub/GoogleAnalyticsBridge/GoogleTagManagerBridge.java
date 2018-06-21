@@ -40,7 +40,8 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     private final String E_PUSH_EVENT_FAILED = "E_PUSH_EVENT_FAILED";
     private final String E_FUNCTION_CALL_REGISTRATION_FAILED = "E_FUNCTION_CALL_REGISTRATION_FAILED";
 
-    private final String FUNCTON_TAG_EVENT_PREFIX = "GTM_FUNCTION_TAG_";
+    private final String FUNCTION_CALL_TAG_EVENT_PREFIX = "GTM_FUNCTION_CALL_TAG_";
+    
     private ContainerHolder mContainerHolder;
     private Boolean openOperationInProgress = false;
     private DataLayer mDatalayer;
@@ -48,13 +49,6 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     @Override
     public String getName() {
         return "GoogleTagManagerBridge";
-    }
-
-    @Override
-    public Map<String, Object> getConstants() {
-        final Map<String, Object> constants = new HashMap<>();
-        constants.put("TAG_EVENT_PREFIX", FUNCTON_TAG_EVENT_PREFIX);
-        return constants;
     }
 
     @ReactMethod
@@ -180,7 +174,7 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     }
 
     private String generateFunctionCallTagEventName(String functionName) {
-        return FUNCTON_TAG_EVENT_PREFIX + functionName;
+        return FUNCTION_CALL_TAG_EVENT_PREFIX + functionName;
     }
 
     private int getDefaultContainerResourceId(String containerId) {

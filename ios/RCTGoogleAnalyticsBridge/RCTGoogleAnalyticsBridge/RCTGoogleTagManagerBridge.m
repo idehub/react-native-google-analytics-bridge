@@ -3,7 +3,7 @@
 #import "TagContainerOpener.h"
 #import "TAGDataLayer.h"
 
-@interface RCTGoogleTagManagerBridge ()<TAGContainerOpenerNotifier>
+@interface RCTGoogleTagManagerBridge ()<TAGContainerOpenerNotifier, TAGFunctionCallTagHandler>
 @end
 
 @implementation RCTGoogleTagManagerBridge
@@ -11,13 +11,14 @@
 RCT_EXPORT_MODULE();
 
 @synthesize methodQueue = _methodQueue;
-@synthesize handlers;
 
 NSString *const E_CONTAINER_ALREADY_OPEN = @"E_CONTAINER_ALREADY_OPEN";
 NSString *const E_ONGOING_OPEN_OPERATION = @"E_ONGOING_OPEN_OPERATION";
 NSString *const E_CONTAINER_NOT_OPENED = @"E_CONTAINER_NOT_OPENED";
 NSString *const E_PUSH_EVENT_FAILED = @"E_PUSH_EVENT_FAILED";
 NSString *const E_FUNCTION_CALL_REGISTRATION_FAILED = @"E_FUNCTION_CALL_REGISTRATION_FAILED";
+
+NSString *const GTM_FUNCTION_CALL_TAG_EVENT = @"GTM_FUNCTION_CALL_TAG";
 
 RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId
                   resolver:(RCTPromiseResolveBlock)resolve
@@ -97,9 +98,7 @@ RCT_EXPORT_METHOD(registerFunctionCallTagHandler:(NSString*)functionName
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject){
     if (self.container != nil && functionName != nil) {
-        RNFunctionCallTagHandler *handler = [[RNFunctionCallTagHandler alloc] initForFunctionName:functionName];
-        [[self handlers] addObject:handler];
-        [self.container registerFunctionCallTagHandler:handler forTag:functionName];
+        [self.container registerFunctionCallTagHandler:self forTag:functionName];
         resolve(@YES);
     } else {
         if (self.container == nil) {
@@ -127,6 +126,28 @@ RCT_EXPORT_METHOD(setVerboseLoggingEnabled:(BOOL)enabled
         self.openContainerResolver(@YES);
         self.openContainerResolver = nil;
     });
+}
+
+- (void)emitFunctionTag:(NSString *)functionName
+            withPayload:(NSDictionary *)payload {
+    dispatch_async(_methodQueue, ^{
+        NSDictionary<NSString *, id> *eventBody = @{@"payload": payload, @"_fn":functionName};
+        [self sendEventWithName:GTM_FUNCTION_CALL_TAG_EVENT body:eventBody];
+    });
+}
+
+/* TAGFunctionCallTagHandler Inteface Implementation */
+
+- (void)execute:(NSString *)functionName
+     parameters:(NSDictionary *)parameters {
+    [self emitFunctionTag:functionName withPayload:parameters];
+}
+
+/* RCTEventEmitter Overrides */
+
+- (NSArray<NSString *> *)supportedEvents
+{
+    return @[GTM_FUNCTION_CALL_TAG_EVENT];
 }
 
 @end

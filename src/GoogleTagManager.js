@@ -1,5 +1,5 @@
 import { GoogleTagManagerBridge } from './NativeBridges';
-import FunctionTagHandler from './Helpers/FunctionTagHandler';
+import FunctionCallTagHandler from './Helpers/FunctionCallTagHandler';
 
 export class GoogleTagManager {
   /**
@@ -51,7 +51,7 @@ export class GoogleTagManager {
    * @param {Function} handler
    */
   static registerFunctionCallTagHandler(functionName, handler){
-    return FunctionTagHandler(GoogleTagManagerBridge, functionName, handler)
+    return FunctionCallTagHandler(GoogleTagManagerBridge, functionName, handler)
   }
 
   /**
