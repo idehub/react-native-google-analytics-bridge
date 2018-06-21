@@ -1,14 +1,19 @@
 package com.idehub.GoogleAnalyticsBridge;
 
+import android.content.Context;
+
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.Container.FunctionCallTagCallback;
 import com.google.android.gms.tagmanager.DataLayer;
 import com.google.android.gms.tagmanager.TagManager;
 
@@ -29,7 +34,10 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     private final String E_CONTAINER_NOT_OPENED = "E_CONTAINER_NOT_OPENED";
     private final String E_OPEN_CONTAINER_FAILED = "E_OPEN_CONTAINER_FAILED";
     private final String E_PUSH_EVENT_FAILED = "E_PUSH_EVENT_FAILED";
+    private final String E_FUNCTION_CALL_REGISTRATION_FAILED = "E_FUNCTION_CALL_REGISTRATION_FAILED";
 
+    private final String FUNCTION_CALL_TAG_EVENT_PREFIX = "GTM_FUNCTION_CALL_TAG_";
+    
     private ContainerHolder mContainerHolder;
     private Boolean openOperationInProgress = false;
     private DataLayer mDatalayer;
@@ -52,9 +60,12 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
         }
 
         TagManager mTagManager = TagManager.getInstance(getReactApplicationContext());
-        //using -1 here because it can't access raw in app
+
         openOperationInProgress = true;
-        PendingResult<ContainerHolder> pending = mTagManager.loadContainerPreferFresh(containerId, -1);
+
+        final int containerResourceId = getDefaultContainerResourceId(containerId);
+
+        PendingResult<ContainerHolder> pending = mTagManager.loadContainerPreferFresh(containerId, containerResourceId);
         pending.setResultCallback(new ResultCallback<ContainerHolder>() {
             @Override
             public void onResult(ContainerHolder containerHolder) {
@@ -110,6 +121,33 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
           }
       }
     }
+
+    @ReactMethod
+    public void registerFunctionCallTagHandler(String functionName, final Promise promise){
+
+        if (mContainerHolder != null && functionName != null) {
+            mContainerHolder.getContainer().registerFunctionCallTagCallback(functionName, new FunctionCallTagCallback() {
+                @Override
+                public void execute(String functionName, Map<String, Object> parameters) {
+                    
+                    // eventName is prefixed to prevent event collision with other modules
+                    String eventName = generateFunctionCallTagEventName(functionName);
+
+                    WritableMap params = ConvertToWritable.map(parameters);
+                    getReactApplicationContext()
+                        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                        .emit(eventName, params);
+                }
+            });
+            promise.resolve(true);
+        } else {
+            if (mContainerHolder == null) {
+                promise.reject(E_CONTAINER_NOT_OPENED, new Throwable("The container has not been opened. You must call openContainerWithId(..)"));
+            } else {
+                promise.reject(E_FUNCTION_CALL_REGISTRATION_FAILED, new Throwable("Function name of the tag is not provided"));
+            }
+        }
+    }
     
     @ReactMethod
     public void setVerboseLoggingEnabled(final Boolean enabled, final Promise promise){
@@ -131,6 +169,15 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
         return mDatalayer;
     }
 
+    private String generateFunctionCallTagEventName(String functionName) {
+        return FUNCTION_CALL_TAG_EVENT_PREFIX + functionName;
+    }
 
-
+    private int getDefaultContainerResourceId(String containerId) {
+        Context ctx = getReactApplicationContext().getApplicationContext();
+        final String resName = containerId.replaceAll("-", "_").toLowerCase();
+        final int resId = ctx.getResources().getIdentifier(resName, "raw", ctx.getPackageName());
+        if (resId == 0) return -1;
+        return resId;
+    }
 }

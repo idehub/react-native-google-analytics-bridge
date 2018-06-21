@@ -1,4 +1,5 @@
 import { GoogleTagManagerBridge } from './NativeBridges';
+import FunctionCallTagHandler from './Helpers/FunctionCallTagHandler';
 
 export class GoogleTagManager {
   /**
@@ -42,6 +43,15 @@ export class GoogleTagManager {
    */
   static pushDataLayerEvent(dictionary = {}){
     return GoogleTagManagerBridge.pushDataLayerEvent(dictionary);
+  }
+
+  /**
+   * Register Function Call tag handler
+   * @param {String} functionName
+   * @param {Function} handler
+   */
+  static registerFunctionCallTagHandler(functionName, handler){
+    return FunctionCallTagHandler(GoogleTagManagerBridge, functionName, handler)
   }
 
   /**
