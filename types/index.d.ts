@@ -352,4 +352,11 @@ export class GoogleTagManager {
      * @returns {Promise<boolean>}
      */
     static setVerboseLoggingEnabled(enabled: boolean): Promise<boolean>
+
+    /**
+     * Register Function Call tag handler
+     * @param {String} functionName
+     * @param {Function} handler
+     */
+    static registerFunctionCallTagHandler(functionName: string, handler: (functionName: string, tagArguments: any) => any): Promise<boolean>
 }

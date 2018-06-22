@@ -101,24 +101,31 @@ export default class App extends Component {
 
     tracker.trackScreenView("Hello");
 
-    /*GoogleTagManager.openContainerWithId("GT-NZT48")
+    GoogleTagManager.openContainerWithId("GTM-NZT48")
       .then(() => {
-        return GoogleTagManager.stringForKey("pack");
+        return GoogleTagManager.registerFunctionCallTagHandler("awzm_tag", (fn, payload) => {
+          console.log("test", fn, payload)
+        })
       })
-      .then(str => {
-        console.log("Str: ", str);
-        return GoogleTagManager.boolForKey("wat");
+      .then(() => {
+        return GoogleTagManager.registerFunctionCallTagHandler("some_other_tag", (fn, payload) => {
+          console.log("test2", fn, payload)
+        })
       })
-      .then(wat => {
-        console.log("Wat: ", wat);
-        return GoogleTagManager.doubleForKey("orly");
+      .then(reg => {
+        console.log("Push?: ", reg);
+        return GoogleTagManager.pushDataLayerEvent({
+          event: "some_event",
+          id: 1
+        });
       })
-      .then(orly => {
-        console.log("Orly: ", orly);
+      .then(db => {
+        console.log("db: ", db);
+        return GoogleTagManager.doubleForKey("db");
       })
       .catch(err => {
         console.log(err);
-      });*/
+      });
 
     return (
       <View style={styles.container}>
