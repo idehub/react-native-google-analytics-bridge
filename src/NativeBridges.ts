@@ -1,5 +1,6 @@
 import { HitPayload } from "./models/Analytics";
-import { NativeModules } from "react-native";
+import { NativeModules, EventSubscriptionVendor } from "react-native";
+import DataLayerEvent from "./models/DataLayerEvent";
 const {
   GoogleTagManagerBridge,
   GoogleAnalyticsBridge,
@@ -64,12 +65,13 @@ export interface IGoogleAnalyticsBridge {
   dispatch(): Promise<boolean>;
 }
 
-export interface IGoogleTagManagerBridge {
+export interface IGoogleTagManagerBridge extends EventSubscriptionVendor {
   openContainerWithId(containerId: string): Promise<boolean>;
   booleanForKey(key: string): Promise<boolean>;
   stringForKey(key: string): Promise<string>;
   doubleForKey(key: any): Promise<number>;
-  pushDataLayerEvent(event: any): Promise<boolean>;
+  pushDataLayerEvent(event: DataLayerEvent): Promise<boolean>;
+  registerFunctionCallTagHandler(functionName: string): Promise<boolean>;
   setVerboseLoggingEnabled(enabled: boolean): Promise<boolean>;
 }
 

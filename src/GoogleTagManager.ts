@@ -1,5 +1,6 @@
 import DataLayerEvent from "./models/DataLayerEvent";
 import { TagManagerBridge } from "./NativeBridges";
+import FunctionCallTagHandler from "./Helpers/FunctionCallTagHandler";
 
 /**
  * Can only be used with one container. All functions returns a Promise.
@@ -65,6 +66,15 @@ class GoogleTagManager {
    */
   static pushDataLayerEvent(event: DataLayerEvent): Promise<boolean> {
     return TagManagerBridge.pushDataLayerEvent(event);
+  }
+
+  /**
+   * Register Function Call tag handler
+   * @param {String} functionName
+   * @param {Function} handler
+   */
+  static registerFunctionCallTagHandler(functionName, handler) {
+    return FunctionCallTagHandler(functionName, handler);
   }
 
   /**
