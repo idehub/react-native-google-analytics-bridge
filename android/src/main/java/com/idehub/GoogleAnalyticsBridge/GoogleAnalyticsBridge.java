@@ -182,6 +182,39 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
         }
     }
 
+    @ReactMethod
+    public void trackProductActionEvent(String trackerId, ReadableMap product, String actionType, String eventCategory, String eventAction ) {
+        Tracker tracker = getTracker(trackerId);
+
+        if (tracker != null) {
+            
+            ProductAction productAction;
+            switch(actionType){
+                case "detail":
+                    productAction = new ProductAction(ProductAction.ACTION_DETAIL);
+                    break;
+                case "add":
+                    productAction = new ProductAction(ProductAction.ACTION_ADD);
+                    break;
+                case "remove":
+                    productAction = new ProductAction(ProductAction.ACTION_REMOVE);
+                    break;
+                case "click":
+                default:
+                    productAction = new ProductAction(ProductAction.ACTION_CLICK);
+                    break;
+            }
+            HitBuilders.ScreenViewBuilder builder = new HitBuilders.ScreenViewBuilder()
+                .addProduct(this.getPurchaseProduct(product))
+                .setProductAction(productAction)
+                .setCategory(eventCategory)
+                .setAction(eventAction);
+
+            tracker.send(builder.build());
+        }
+    }
+
+
     private ProductAction getPurchaseTransaction(ReadableMap transaction) {
         ProductAction productAction = new ProductAction(ProductAction.ACTION_PURCHASE)
            .setTransactionId(transaction.getString("id"));
