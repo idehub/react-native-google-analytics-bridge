@@ -196,6 +196,30 @@ export class GoogleAnalyticsTracker {
   }
 
   /**
+   * Sets custom dimension on the tracker
+   * @param  {String | Number} mapped dimension name or index.
+   * @param  {String} value
+   */
+  setCustomDimension(dimension, value) {
+    var valid = (isValidCustomDimension(value))
+    if( ! valid ) {
+      return
+    }
+
+    var dimensionIndex;
+    if( typeof dimension === 'string' ) {
+      dimensionIndex = this.customDimensionsFieldsIndexMap[dimension]
+    } else if ( typeof dimension === 'number' ) {
+      dimensionIndex = dimension
+    }
+
+    if( dimensionIndex ) {
+      GoogleAnalyticsBridge.setCustomDimension(this.id, dimensionIndex, value);
+    }
+  }
+
+
+  /**
    * Track a social interaction, Facebook, Twitter, etc.
    * @param  {String} network
    * @param  {String} action
@@ -254,7 +278,7 @@ export class GoogleAnalyticsTracker {
   setCurrency(currencyCode) {
     GoogleAnalyticsBridge.setCurrency(this.id, currencyCode);
   }
-  
+
   createNewSession(screenName) {
     GoogleAnalyticsBridge.createNewSession(this.id, screenName);
   }
