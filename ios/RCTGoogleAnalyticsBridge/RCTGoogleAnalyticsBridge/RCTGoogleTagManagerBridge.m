@@ -82,6 +82,9 @@ RCT_EXPORT_METHOD(pushDataLayerEvent:(NSDictionary*)dictionary
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject){
     if (self.container != nil && [[dictionary allKeys] containsObject:@"event"]) {
+         if ([dictionary valueForKey:@"ecommerce"]) {
+            [[TAGManager instance].dataLayer pushValue:[NSNull null] forKey:@"ecommerce"];
+        }
         [[TAGManager instance].dataLayer push:dictionary];
         [[TAGManager instance] dispatch];
         resolve(@YES);

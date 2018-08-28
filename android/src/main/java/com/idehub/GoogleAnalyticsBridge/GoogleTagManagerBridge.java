@@ -111,6 +111,9 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     public void pushDataLayerEvent(ReadableMap dictionary, final Promise promise){
 
       if (mContainerHolder != null && isValidMapToPushEvent(dictionary)) {
+          if (dictionary.hasKey("ecommerce")) {
+              getDataLayer().push("ecommerce", null);
+          }
           getDataLayer().push(ConvertReadableToMap.getMap(dictionary));
           promise.resolve(true);
       } else {
