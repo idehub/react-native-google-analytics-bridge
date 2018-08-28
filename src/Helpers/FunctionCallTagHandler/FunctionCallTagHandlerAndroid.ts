@@ -1,4 +1,6 @@
-import { DeviceEventEmitter } from 'react-native';
+import { DeviceEventEmitter } from "react-native";
+import { TagManagerBridge } from "../../NativeBridges";
+import { Handler } from "./models";
 
 /*
  * FunctionTagHandler module for Android adds an event listener per each Function Call registration.
@@ -9,17 +11,17 @@ import { DeviceEventEmitter } from 'react-native';
  * APIs of the module.
  */
 
-const TAG_EVENT_PREFIX = 'GTM_FUNCTION_CALL_TAG_';
+const TAG_EVENT_PREFIX = "GTM_FUNCTION_CALL_TAG_";
 
-export default (GoogleTagManagerBridge, functionName, handler) => {
-
+export default (functionName: string, handler: Handler): Promise<boolean> => {
   const event = TAG_EVENT_PREFIX + functionName;
-    
-  return GoogleTagManagerBridge.registerFunctionCallTagHandler(functionName)
-    .then(() => {
-      DeviceEventEmitter.addListener(event, (payload) => {
+
+  return TagManagerBridge.registerFunctionCallTagHandler(functionName).then(
+    () => {
+      DeviceEventEmitter.addListener(event, payload => {
         handler(functionName, payload);
       });
       return true;
-    });
-}
+    }
+  );
+};

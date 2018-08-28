@@ -1,12 +1,17 @@
 {
   "name": "react-native-google-analytics-bridge",
-  "version": "5.9.0",
+  "version": "6.0.0-rc11",
   "description": "React Native bridge for using native Google Analytics libraries on iOS and Android",
-  "main": "./index.js",
-  "types": "types/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "npm run dtslint",
-    "dtslint": "dtslint types"
+    "prepublishOnly": "yarn run build-all",
+    "test": "echo \"Error: no test yet!\" && exit 0",
+    "build": "tsc",
+    "build-watch": "tsc --watch",
+    "docs": "documentation readme dist/** --section=\"JavaScript API\"",
+    "build-all": "rm -rf dist && yarn run build && yarn run docs",
+    "precommit": "yarn run build-all && git add README.md"
   },
   "repository": {
     "type": "git",
@@ -44,6 +49,11 @@
     }
   },
   "devDependencies": {
-    "dtslint": "^0.2.0"
+    "@types/react": "16.3.1",
+    "@types/react-native": "0.55.4",
+    "documentation": "^8.0.0",
+    "husky": "^0.14.3",
+    "prettier": "^1.6.1",
+    "typescript": "^2.5.2"
   }
 }

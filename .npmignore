@@ -1,9 +1,39 @@
 # example project
-example
-
+example/
+src/
 # build
 .travis
 .travis.yml
-
+yarn.lock
+npm-debug.log
+yarn-error.log
+.DS_Store
 # Github stuff
 ISSUE_TEMPLATE.md
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+project.xcworkspace
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+!android/src/
