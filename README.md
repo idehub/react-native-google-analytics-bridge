@@ -197,23 +197,23 @@ GoogleTagManager.registerFunctionCallTagHandler(
     -   [Examples](#examples-28)
 -   [CustomDimensionsByField](#customdimensionsbyfield)
     -   [Examples](#examples-29)
--   [CustomMetrics](#custommetrics)
-    -   [Examples](#examples-30)
 -   [CustomDimensionsByIndex](#customdimensionsbyindex)
-    -   [Examples](#examples-31)
+    -   [Examples](#examples-30)
 -   [CustomDimensionsFieldIndexMap](#customdimensionsfieldindexmap)
+    -   [Examples](#examples-31)
+-   [CustomMetrics](#custommetrics)
     -   [Examples](#examples-32)
 -   [DataLayerEvent](#datalayerevent)
     -   [Parameters](#parameters-28)
     -   [Examples](#examples-33)
 -   [ProductActionEnum](#productactionenum)
--   [ProductAction](#productaction)
+-   [Product](#product)
     -   [Parameters](#parameters-29)
     -   [Examples](#examples-34)
--   [Transaction](#transaction)
+-   [ProductAction](#productaction)
     -   [Parameters](#parameters-30)
     -   [Examples](#examples-35)
--   [Product](#product)
+-   [Transaction](#transaction)
     -   [Parameters](#parameters-31)
     -   [Examples](#examples-36)
 
@@ -812,17 +812,6 @@ const customDimensions = { customerType: "Premium", appType: "Beta", credit: 120
 tracker.trackScreenView("Home", { customDimensions });
 ```
 
-### CustomMetrics
-
-A dictionary with custom metric values and their index keys.
-
-#### Examples
-
-```javascript
-const customMetrics = { 1: 2389, 4: 15000 }
-tracker.trackScreenView("Home", { customMetrics });
-```
-
 ### CustomDimensionsByIndex
 
 -   **See: CustomDimensionsFieldIndexMap**
@@ -856,6 +845,17 @@ const tracker = new GoogleAnalyticsTracker("UA-12345-3", fieldIndexMap);
 tracker.trackScreenView("Home", { customDimensions: { customerType: "Premium" } });
 // If you do not provide a map, you instead have to send in by index:
 tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
+```
+
+### CustomMetrics
+
+A dictionary with custom metric values and their index keys.
+
+#### Examples
+
+```javascript
+const customMetrics = { 1: 2389, 4: 15000 }
+tracker.trackScreenView("Home", { customMetrics });
 ```
 
 ### DataLayerEvent
@@ -892,6 +892,38 @@ Used by `ProductAction` when describing the type of product action. The possible
 -   CheckoutOption = 6,
 -   Purchase = 7,
 -   Refund = 8
+
+### Product
+
+Enhanced Ecommerce Product
+
+Used by `HitPayload` when populating product actions or impressions
+
+#### Parameters
+
+-   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `category` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `brand` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `variant` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `price` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+-   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `quantity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+
+#### Examples
+
+```javascript
+const product = {
+  id: "P12345",
+  name: "Android Warhol T-Shirt",
+  category: "Apparel/T-Shirts",
+  brand: "Google",
+  variant: "Black",
+  price: 29.2,
+  quantity: 1,
+  couponCode: "APPARELSALE"
+};
+```
 
 ### ProductAction
 
@@ -948,37 +980,5 @@ const transaction = {
   tax: 2.85,
   shipping: 5.34,
   couponCode: "SUMMER2013"
-};
-```
-
-### Product
-
-Enhanced Ecommerce Product
-
-Used by `HitPayload` when populating product actions or impressions
-
-#### Parameters
-
--   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `category` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `brand` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `variant` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `price` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
--   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `quantity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
-
-#### Examples
-
-```javascript
-const product = {
-  id: "P12345",
-  name: "Android Warhol T-Shirt",
-  category: "Apparel/T-Shirts",
-  brand: "Google",
-  variant: "Black",
-  price: 29.2,
-  quantity: 1,
-  couponCode: "APPARELSALE"
 };
 ```
