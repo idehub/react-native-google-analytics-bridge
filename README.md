@@ -186,34 +186,34 @@ GoogleTagManager.registerFunctionCallTagHandler(
         -   [Parameters](#parameters-23)
     -   [setVerboseLoggingEnabled](#setverboseloggingenabled)
         -   [Parameters](#parameters-24)
--   [TimingMetadata](#timingmetadata)
+-   [HitPayload](#hitpayload)
     -   [Parameters](#parameters-25)
     -   [Examples](#examples-26)
--   [EventMetadata](#eventmetadata)
+-   [TimingMetadata](#timingmetadata)
     -   [Parameters](#parameters-26)
     -   [Examples](#examples-27)
--   [HitPayload](#hitpayload)
+-   [EventMetadata](#eventmetadata)
     -   [Parameters](#parameters-27)
     -   [Examples](#examples-28)
--   [CustomDimensionsByField](#customdimensionsbyfield)
-    -   [Examples](#examples-29)
--   [CustomDimensionsByIndex](#customdimensionsbyindex)
-    -   [Examples](#examples-30)
--   [CustomDimensionsFieldIndexMap](#customdimensionsfieldindexmap)
-    -   [Examples](#examples-31)
 -   [CustomMetrics](#custommetrics)
+    -   [Examples](#examples-29)
+-   [CustomDimensionsByField](#customdimensionsbyfield)
+    -   [Examples](#examples-30)
+-   [CustomDimensionsByIndex](#customdimensionsbyindex)
+    -   [Examples](#examples-31)
+-   [CustomDimensionsFieldIndexMap](#customdimensionsfieldindexmap)
     -   [Examples](#examples-32)
 -   [DataLayerEvent](#datalayerevent)
     -   [Parameters](#parameters-28)
     -   [Examples](#examples-33)
 -   [ProductActionEnum](#productactionenum)
--   [Product](#product)
+-   [ProductAction](#productaction)
     -   [Parameters](#parameters-29)
     -   [Examples](#examples-34)
--   [ProductAction](#productaction)
+-   [Transaction](#transaction)
     -   [Parameters](#parameters-30)
     -   [Examples](#examples-35)
--   [Transaction](#transaction)
+-   [Product](#product)
     -   [Parameters](#parameters-31)
     -   [Examples](#examples-36)
 
@@ -706,38 +706,6 @@ Sets logger to verbose, default is warning
 
 -   `enabled` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
-### TimingMetadata
-
-Used when tracking time measurements
-
-#### Parameters
-
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Required)
--   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
-
-#### Examples
-
-```javascript
-const timingMetadata = { name: "LoadList" } // name is a required value when tracking timing
-tracker.trackTiming("testcategory", 13000, timingMetadata);
-```
-
-### EventMetadata
-
-Used when tracking event
-
-#### Parameters
-
--   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `value` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
-
-#### Examples
-
-```javascript
-const eventMetadata = { label: "v1.0.3", value: 22 }
-tracker.trackEvent("FinalizeOrderButton", "Click", eventMetadata);
-```
-
 ### HitPayload
 
 The HitPayload object and possible values
@@ -796,6 +764,49 @@ const payload = { customDimensions };
 tracker.trackScreenView("SaleScreen", payload);
 ```
 
+### TimingMetadata
+
+Used when tracking time measurements
+
+#### Parameters
+
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Required)
+-   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+
+#### Examples
+
+```javascript
+const timingMetadata = { name: "LoadList" } // name is a required value when tracking timing
+tracker.trackTiming("testcategory", 13000, timingMetadata);
+```
+
+### EventMetadata
+
+Used when tracking event
+
+#### Parameters
+
+-   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `value` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+
+#### Examples
+
+```javascript
+const eventMetadata = { label: "v1.0.3", value: 22 }
+tracker.trackEvent("FinalizeOrderButton", "Click", eventMetadata);
+```
+
+### CustomMetrics
+
+A dictionary with custom metric values and their index keys.
+
+#### Examples
+
+```javascript
+const customMetrics = { 1: 2389, 4: 15000 }
+tracker.trackScreenView("Home", { customMetrics });
+```
+
 ### CustomDimensionsByField
 
 -   **See: CustomDimensionsFieldIndexMap**
@@ -847,17 +858,6 @@ tracker.trackScreenView("Home", { customDimensions: { customerType: "Premium" } 
 tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
 ```
 
-### CustomMetrics
-
-A dictionary with custom metric values and their index keys.
-
-#### Examples
-
-```javascript
-const customMetrics = { 1: 2389, 4: 15000 }
-tracker.trackScreenView("Home", { customMetrics });
-```
-
 ### DataLayerEvent
 
 The Google Tag Manager DataLayerEvent dictionary.
@@ -892,38 +892,6 @@ Used by `ProductAction` when describing the type of product action. The possible
 -   CheckoutOption = 6,
 -   Purchase = 7,
 -   Refund = 8
-
-### Product
-
-Enhanced Ecommerce Product
-
-Used by `HitPayload` when populating product actions or impressions
-
-#### Parameters
-
--   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `category` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `brand` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `variant` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `price` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
--   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `quantity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
-
-#### Examples
-
-```javascript
-const product = {
-  id: "P12345",
-  name: "Android Warhol T-Shirt",
-  category: "Apparel/T-Shirts",
-  brand: "Google",
-  variant: "Black",
-  price: 29.2,
-  quantity: 1,
-  couponCode: "APPARELSALE"
-};
-```
 
 ### ProductAction
 
@@ -980,5 +948,37 @@ const transaction = {
   tax: 2.85,
   shipping: 5.34,
   couponCode: "SUMMER2013"
+};
+```
+
+### Product
+
+Enhanced Ecommerce Product
+
+Used by `HitPayload` when populating product actions or impressions
+
+#### Parameters
+
+-   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `category` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `brand` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `variant` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `price` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+-   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `quantity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+
+#### Examples
+
+```javascript
+const product = {
+  id: "P12345",
+  name: "Android Warhol T-Shirt",
+  category: "Apparel/T-Shirts",
+  brand: "Google",
+  variant: "Black",
+  price: 29.2,
+  quantity: 1,
+  couponCode: "APPARELSALE"
 };
 ```
