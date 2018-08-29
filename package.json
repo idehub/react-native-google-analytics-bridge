@@ -1,6 +1,6 @@
 {
   "name": "react-native-google-analytics-bridge",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "React Native bridge for using native Google Analytics libraries on iOS and Android",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
