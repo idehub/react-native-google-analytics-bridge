@@ -11,7 +11,7 @@
     "build-watch": "tsc --watch",
     "docs": "documentation readme dist/** --section=\"JavaScript API\"",
     "build-all": "rm -rf dist && yarn run build && yarn run docs",
-    "precommit": "yarn run build-all && git add README.md"
+    "precommit": "yarn run build"
   },
   "repository": {
     "type": "git",
