@@ -2,7 +2,9 @@
 set -e
 if [ "$LANE" = "node" ]; then
     yarn install
-    npm run test
+    cd examples/preRN56Example
+    yarn install
+    yarn run tsc
 else
     npm install -g react-native-cli
     react-native -v

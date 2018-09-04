@@ -28,7 +28,7 @@ export default class App extends Component {
 
     tracker.trackEvent("testcategory", "Hello iOS", {
       label: "notdry",
-      value: "1"
+      value: 1
     });
 
     tracker.trackTiming("testcategory", 13000, {
