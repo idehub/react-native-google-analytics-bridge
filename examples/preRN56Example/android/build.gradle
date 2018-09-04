@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        googlePlayServicesVersion = "11.0.8"
+        googlePlayServicesVersion = "11.8.0"
     }
     repositories {
         jcenter()
