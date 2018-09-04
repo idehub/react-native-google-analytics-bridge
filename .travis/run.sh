@@ -9,7 +9,11 @@ else
     yarn install
     yarn run tsc
 
-    cd examples/preRN56Example
+    if [ "$LANE" = "android-post56" ]; then
+        cd examples/postRN56Example
+    else
+        cd examples/preRN56Example
+    fi
     yarn install
     rm -rf node_modules/react-native-google-analytics-bridge/examples
 
