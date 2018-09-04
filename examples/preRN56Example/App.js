@@ -28,7 +28,7 @@ export default class App extends Component {
 
     tracker.trackEvent("testcategory", "Hello iOS", {
       label: "notdry",
-      value: 1
+      value: "1"
     });
 
     tracker.trackTiming("testcategory", 13000, {
@@ -103,14 +103,20 @@ export default class App extends Component {
 
     GoogleTagManager.openContainerWithId("GTM-NZT48")
       .then(() => {
-        return GoogleTagManager.registerFunctionCallTagHandler("awzm_tag", (fn, payload) => {
-          console.log("test", fn, payload)
-        })
+        return GoogleTagManager.registerFunctionCallTagHandler(
+          "awzm_tag",
+          (fn, payload) => {
+            console.log("test", fn, payload);
+          }
+        );
       })
       .then(() => {
-        return GoogleTagManager.registerFunctionCallTagHandler("some_other_tag", (fn, payload) => {
-          console.log("test2", fn, payload)
-        })
+        return GoogleTagManager.registerFunctionCallTagHandler(
+          "some_other_tag",
+          (fn, payload) => {
+            console.log("test2", fn, payload);
+          }
+        );
       })
       .then(reg => {
         console.log("Push?: ", reg);

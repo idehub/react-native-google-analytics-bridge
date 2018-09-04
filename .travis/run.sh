@@ -9,9 +9,9 @@ else
     yarn install
     yarn run tsc
 
-    cd example
+    cd examples/preRN56Example
     yarn install
-    rm -rf node_modules/react-native-google-analytics-bridge/example
+    rm -rf node_modules/react-native-google-analytics-bridge/examples
 
     if [ "$LANE" = "ios" ]; then
         xcodebuild -project ios/example.xcodeproj/ -configuration Debug -sdk iphonesimulator -scheme example CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
