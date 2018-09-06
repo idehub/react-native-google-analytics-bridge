@@ -4,6 +4,9 @@ if [ "$LANE" = "node" ]; then
     yarn install
     cd examples/preRN56Example
     yarn install
+    du -sh node_modules
+    ls node_modules/react-native-google-analytics-bridge
+    rm -rf node_modules/react-native-google-analytics-bridge/examples
     yarn run tsc
 else
     npm install -g react-native-cli
