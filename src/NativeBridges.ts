@@ -28,7 +28,7 @@ export interface IGoogleAnalyticsBridge {
     category: string,
     action: string,
     label: string,
-    value: number,
+    value: string,
     payload: HitPayload
   ): void;
   trackTiming(
