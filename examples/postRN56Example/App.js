@@ -37,61 +37,6 @@ export default class App extends Component {
     });
 
     tracker.setTrackUncaughtExceptions(true);
-    tracker.trackPurchaseEvent(
-      {
-        id: "P12345",
-        name: "Android Warhol T-Shirt",
-        category: "Apparel/T-Shirts",
-        brand: "Apple",
-        variant: "Black",
-        price: 29.2,
-        quantity: 1,
-        couponCode: "APPARELSALE"
-      },
-      {
-        id: "T12345",
-        affiliation: "Apple Store - Online",
-        revenue: 37.39,
-        tax: 2.85,
-        shipping: 5.34,
-        couponCode: "SUMMER2013"
-      }
-    );
-
-    tracker.trackMultiProductsPurchaseEvent(
-      [
-        {
-          id: "2224711",
-          name: "Top Ilem",
-          category: "Women/Kleidung/Tops/Spitzentops",
-          brand: "THE label",
-          variant: "rot",
-          price: 39.9,
-          quantity: 1
-        },
-        {
-          id: "2224706",
-          name: "Shorts Isto",
-          category: "Women/Kleidung/Hosen/Shirts",
-          brand: "THE label",
-          variant: "grau",
-          price: 59.9,
-          quantity: 1
-        }
-      ],
-      {
-        id: "T12345",
-        affiliation: "THE label Shop",
-        revenue: 83.87,
-        tax: 15.93,
-        shipping: 0.0,
-        couponCode: "SUMMER2016"
-      }
-    );
-
-    tracker.trackException("This is an error message", false);
-
-    tracker.trackSocialInteraction("Twitter", "Post");
 
     tracker.setUser("12345678");
 
@@ -103,14 +48,20 @@ export default class App extends Component {
 
     GoogleTagManager.openContainerWithId("GTM-NZT48")
       .then(() => {
-        return GoogleTagManager.registerFunctionCallTagHandler("awzm_tag", (fn, payload) => {
-          console.log("test", fn, payload)
-        })
+        return GoogleTagManager.registerFunctionCallTagHandler(
+          "awzm_tag",
+          (fn, payload) => {
+            console.log("test", fn, payload);
+          }
+        );
       })
       .then(() => {
-        return GoogleTagManager.registerFunctionCallTagHandler("some_other_tag", (fn, payload) => {
-          console.log("test2", fn, payload)
-        })
+        return GoogleTagManager.registerFunctionCallTagHandler(
+          "some_other_tag",
+          (fn, payload) => {
+            console.log("test2", fn, payload);
+          }
+        );
       })
       .then(reg => {
         console.log("Push?: ", reg);

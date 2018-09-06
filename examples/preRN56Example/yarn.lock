@@ -434,6 +434,25 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
+"@types/prop-types@*":
+  version "15.5.5"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.5.tgz#17038dd322c2325f5da650a94d5f9974943625e3"
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-native@^0.56.17":
+  version "0.56.17"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.56.17.tgz#372f471c3202ffa754df86cfcb13b90aed67cc13"
+  dependencies:
+    "@types/react" "*"
+
+"@types/react@*", "@types/react@^16.4.13":
+  version "16.4.13"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.13.tgz#1385f5dc3486aa493849a32ccce626a817543e28"
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^2.2.0"
+
 abab@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
@@ -1670,6 +1689,10 @@ cssom@0.3.x, "cssom@>= 0.3.2 < 0.4.0":
   resolved "https://registry.yarnpkg.com/cssstyle/-/cssstyle-0.3.1.tgz#6da9b4cff1bc5d716e6e5fe8e04fcb1b50a49adf"
   dependencies:
     cssom "0.3.x"
+
+csstype@^2.2.0:
+  version "2.5.6"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.5.6.tgz#2ae1db2319642d8b80a668d2d025c6196071e788"
 
 dashdash@^1.12.0:
   version "1.14.1"
@@ -4165,8 +4188,8 @@ react-is@^16.3.1:
   version "16.4.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.1.tgz#d624c4650d2c65dbd52c72622bbf389435d9776e"
 
-"react-native-google-analytics-bridge@file:..":
-  version "6.0.0-rc11"
+"react-native-google-analytics-bridge@file:../..":
+  version "6.0.1"
 
 react-native@0.55.4:
   version "0.55.4"
@@ -5016,6 +5039,10 @@ type-check@~0.3.2:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
+
+typescript@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.0.3.tgz#4853b3e275ecdaa27f78fda46dc273a7eb7fc1c8"
 
 ua-parser-js@^0.7.18:
   version "0.7.18"
