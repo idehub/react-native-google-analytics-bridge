@@ -10,6 +10,7 @@ yarn-error.log
 .DS_Store
 # Github stuff
 ISSUE_TEMPLATE.md
+.github
 # Xcode
 #
 build/
