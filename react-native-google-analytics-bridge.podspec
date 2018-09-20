@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/idehub/react-native-google-analytics-bridge", :tag => "#{s.version}" }
   s.default_subspec = 'Core'
+  s.static_framework = true
 
   s.subspec 'Core' do |ss|
     ss.dependency 'React'
