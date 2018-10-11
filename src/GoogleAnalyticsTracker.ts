@@ -165,7 +165,7 @@ class GoogleAnalyticsTracker {
       category,
       action,
       eventMetadata && eventMetadata.label,
-      eventMetadata && eventMetadata.value && eventMetadata.value.toString(),
+      eventMetadata && eventMetadata.value != null && eventMetadata.value.toString(),
       payload
     );
   }
