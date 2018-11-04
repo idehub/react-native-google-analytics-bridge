@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A708FC1A1F6BA89900211FC3 /* GoogleAnalyticsPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = A708FC191F6BA89900211FC3 /* GoogleAnalyticsPayload.m */; };
+		A708FC201F6BB4D200211FC3 /* RCTGoogleAnalyticsSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A708FC1F1F6BB4D200211FC3 /* RCTGoogleAnalyticsSettings.m */; };
 		A710AAE31CC640E40085DAC1 /* RCTGoogleTagManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = A710AAE21CC640E40085DAC1 /* RCTGoogleTagManagerBridge.m */; };
 		A79185CA1C30694E001236A6 /* RCTGoogleAnalyticsBridge.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = A79185C91C30694E001236A6 /* RCTGoogleAnalyticsBridge.h */; };
 		A79185CC1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = A79185CB1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m */; };
@@ -27,6 +29,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A708FC181F6BA86C00211FC3 /* GoogleAnalyticsPayload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleAnalyticsPayload.h; sourceTree = "<group>"; };
+		A708FC191F6BA89900211FC3 /* GoogleAnalyticsPayload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAnalyticsPayload.m; sourceTree = "<group>"; };
+		A708FC1E1F6BB4D200211FC3 /* RCTGoogleAnalyticsSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTGoogleAnalyticsSettings.h; sourceTree = "<group>"; };
+		A708FC1F1F6BB4D200211FC3 /* RCTGoogleAnalyticsSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTGoogleAnalyticsSettings.m; sourceTree = "<group>"; };
 		A710AAE11CC640E40085DAC1 /* RCTGoogleTagManagerBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTGoogleTagManagerBridge.h; sourceTree = "<group>"; };
 		A710AAE21CC640E40085DAC1 /* RCTGoogleTagManagerBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTGoogleTagManagerBridge.m; sourceTree = "<group>"; };
 		A79185C61C30694E001236A6 /* libRCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTGoogleAnalyticsBridge.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,10 +88,14 @@
 		A79185C81C30694E001236A6 /* RCTGoogleAnalyticsBridge */ = {
 			isa = PBXGroup;
 			children = (
+				A708FC1E1F6BB4D200211FC3 /* RCTGoogleAnalyticsSettings.h */,
+				A708FC1F1F6BB4D200211FC3 /* RCTGoogleAnalyticsSettings.m */,
 				A710AAE11CC640E40085DAC1 /* RCTGoogleTagManagerBridge.h */,
 				A710AAE21CC640E40085DAC1 /* RCTGoogleTagManagerBridge.m */,
 				A79185C91C30694E001236A6 /* RCTGoogleAnalyticsBridge.h */,
 				A79185CB1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m */,
+				A708FC181F6BA86C00211FC3 /* GoogleAnalyticsPayload.h */,
+				A708FC191F6BA89900211FC3 /* GoogleAnalyticsPayload.m */,
 			);
 			path = RCTGoogleAnalyticsBridge;
 			sourceTree = "<group>";
@@ -170,6 +180,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A710AAE31CC640E40085DAC1 /* RCTGoogleTagManagerBridge.m in Sources */,
+				A708FC1A1F6BA89900211FC3 /* GoogleAnalyticsPayload.m in Sources */,
+				A708FC201F6BB4D200211FC3 /* RCTGoogleAnalyticsSettings.m in Sources */,
 				A79185CC1C30694E001236A6 /* RCTGoogleAnalyticsBridge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

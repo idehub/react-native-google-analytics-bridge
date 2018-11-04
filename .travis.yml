@@ -34,7 +34,30 @@ matrix:
           - addon-google_apis-google-16
       env: LANE='android'
       script: .travis/run.sh
-
+    - language: android
+      sudo: required
+      jdk: oraclejdk8
+      before_cache:
+        - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+        - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+      cache:
+        directories:
+          - $HOME/.yarn-cache
+          - $HOME/.gradle/caches/
+          - $HOME/.gradle/wrapper/
+      before_install:
+        - nvm install 8
+        - .travis/before_install.sh
+      android:
+        components:
+          - build-tools-26.0.3
+          - android-26
+          - extra-android-m2repository
+          - extra-google-google_play_services
+          - extra-google-m2repository
+          - addon-google_apis-google-16
+      env: LANE='android-post56'
+      script: .travis/run.sh
     - language: objective-c
       os: osx
       osx_image: xcode9.3
@@ -47,7 +70,7 @@ matrix:
         - nvm install 8
         - .travis/before_install.sh
       script: .travis/run.sh
-      
+
 notifications:
   slack:
     secure: qYpqErlZSfd5a88azsJqRkR0dKGXJknLoNsB/MuutbMbsX2HZzRfee9pDR1CDfcLlyBInRoN2lzv2B6xfrRDFnXWB/K9sRjTmzwXVPZbI1KDIi0CpQpgioZeNu2vaqJroX++1RdBCqUE9cHPRUmgo5/SqS4Qnl13uGTyGX4rYHrRK6HC1mXZ7/rVvLg6UnXn6Mb46DSRnFEmGRNlHbw/TmaYDZpFtjxqI9UyTfgrTNaMpXkSrfXlQzYwAfJUaWNClXtk87SFx54UIeu2elCwoPYZozeGDQMi1evPnGUFXwQ+vfnJTFzwt4klr6cdZ1/spmzxzewGheG3pmUnYaKxf3QTD3ppOyE+A44/9eEMib7qUxo2cIv2KOyYLE/pAu3293GhvP4SEdBELLzVHDh4brc6nNndNetJ+GKHeXqIOx48fe3hwfZ+UDCV3KzjUbeiSfh45eEUqEGRRkRLgkB3vC8sKx101vQj2N990h50/CW0+F0nz0S7sDEVfbN9M3RuCtDmpUikTlYCEb1Y6k2uCNbgLuhV99VBVWOrUSB8aBhLPui+xYd+tSUD476mjqqowxYy5O0fbTouf2VzKgGmpyZ3DFvRgG1jbLKKBJxIQJcGq9fITTlh/BouoCAt2BK0JPG1rd+T91lovyqfMrnzrgiGrVIBHzpbh8i3V1H/vN0=
