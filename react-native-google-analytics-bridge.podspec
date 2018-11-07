@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.license      = package["license"]
   s.platform     = :ios, "7.0"
 
-  s.source       = { :git => "https://github.com/idehub/react-native-google-analytics-bridge", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/idehub/react-native-google-analytics-bridge", :tag => "v#{s.version}" }
   s.default_subspec = 'Core'
 
   s.subspec 'Core' do |ss|
