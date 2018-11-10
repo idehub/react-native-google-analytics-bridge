@@ -7,7 +7,4 @@ if [ "$LANE" = "ios" ]; then
 elif [ "$LANE" = "android" ]; then
     node --version
     npm install -g yarn
-elif [ "$LANE" = "android-post56" ]; then
-    node --version
-    npm install -g yarn
 fi

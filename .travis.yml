@@ -26,37 +26,12 @@ matrix:
         - .travis/before_install.sh
       android:
         components:
-          - build-tools-23.0.1
-          - android-23
+          - build-tools-27.0.3
+          - android-27
           - extra-android-m2repository
           - extra-google-google_play_services
           - extra-google-m2repository
           - addon-google_apis-google-16
-      env: LANE='android'
-      script: .travis/run.sh
-    - language: android
-      sudo: required
-      jdk: oraclejdk8
-      before_cache:
-        - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-        - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
-      cache:
-        directories:
-          - $HOME/.yarn-cache
-          - $HOME/.gradle/caches/
-          - $HOME/.gradle/wrapper/
-      before_install:
-        - nvm install 8
-        - .travis/before_install.sh
-      android:
-        components:
-          - build-tools-26.0.3
-          - android-26
-          - extra-android-m2repository
-          - extra-google-google_play_services
-          - extra-google-m2repository
-          - addon-google_apis-google-16
-      env: LANE='android-post56'
       script: .travis/run.sh
     - language: objective-c
       os: osx
