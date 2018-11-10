@@ -3,7 +3,7 @@ set -e
 if [ "$LANE" = "node" ]; then
     yarn install
     yarn run tsc
-    cd examples/preRN56Example
+    cd examples/rn57example
     yarn install
     rm -rf node_modules/react-native-google-analytics-bridge/examples
     yarn run tsc
@@ -13,11 +13,8 @@ else
     yarn install
     yarn run tsc
 
-    if [ "$LANE" = "android-post56" ]; then
-        cd examples/postRN56Example
-    else
-        cd examples/preRN56Example
-    fi
+    cd examples/rn57example
+    
     yarn install
     rm -rf node_modules/react-native-google-analytics-bridge/examples
 
