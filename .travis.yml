@@ -26,7 +26,7 @@ matrix:
         - .travis/before_install.sh
       android:
         components:
-          - build-tools-27.0.1
+          - build-tools-27.0.3
           - android-27
           - extra-android-m2repository
           - extra-google-google_play_services
