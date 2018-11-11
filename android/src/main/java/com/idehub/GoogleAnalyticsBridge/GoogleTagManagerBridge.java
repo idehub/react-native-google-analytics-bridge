@@ -81,6 +81,16 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void refreshContainer(final Promise promise){
+        if (mContainerHolder != null && mContainerHolder.getContainer() != null) {
+            mContainerHolder.refresh();
+            promise.resolve(true);
+        } else {
+            promise.reject(E_CONTAINER_NOT_OPENED, new Throwable("The container has not been opened. You must call openContainerWithId(..)"));
+        }
+    }
+
+    @ReactMethod
     public void booleanForKey(final String key, final Promise promise){
         if (mContainerHolder != null && mContainerHolder.getContainer() != null) {
             promise.resolve(mContainerHolder.getContainer().getBoolean(key));

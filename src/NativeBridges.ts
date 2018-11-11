@@ -67,6 +67,7 @@ export interface IGoogleAnalyticsBridge {
 
 export interface IGoogleTagManagerBridge extends EventSubscriptionVendor {
   openContainerWithId(containerId: string): Promise<boolean>;
+  refreshContainer(): Promise<boolean>;
   booleanForKey(key: string): Promise<boolean>;
   stringForKey(key: string): Promise<string>;
   doubleForKey(key: any): Promise<number>;
