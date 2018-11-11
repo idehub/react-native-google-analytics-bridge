@@ -21,7 +21,6 @@ NSString *const E_FUNCTION_CALL_REGISTRATION_FAILED = @"E_FUNCTION_CALL_REGISTRA
 NSString *const GTM_FUNCTION_CALL_TAG_EVENT = @"GTM_FUNCTION_CALL_TAG";
 
 RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId
-                  
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
