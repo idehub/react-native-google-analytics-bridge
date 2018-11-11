@@ -58,6 +58,7 @@ RCT_REMAP_METHOD(refreshContainer,
         reject(E_CONTAINER_NOT_OPENED, nil, RCTErrorWithMessage(@"The container has not been opened. You must call openContainerWithId(..)"));
     }
 }
+
 RCT_EXPORT_METHOD(stringForKey:(NSString *)key
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
