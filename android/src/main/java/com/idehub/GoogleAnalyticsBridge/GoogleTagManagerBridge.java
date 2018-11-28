@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tagmanager.ContainerHolder;
@@ -73,7 +74,11 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
                     mContainerHolder = containerHolder;
                     promise.resolve(true);
                 } else {
-                    promise.reject(E_OPEN_CONTAINER_FAILED, new Throwable(String.format("Failed to open container. Does container with id %s exist?", containerId)));
+                    final int statusCode = containerHolder.getStatus().getStatusCode();
+                    final String statusCodeString = CommonStatusCodes.getStatusCodeString(statusCode);
+                    final String message = String
+                        .format("Failed to open container with status %d - %s. Does container with id %s exist?", statusCode, statusCodeString, containerId);
+                    promise.reject(E_OPEN_CONTAINER_FAILED, new Throwable(message));
                 }
                 openOperationInProgress = false;
             }
