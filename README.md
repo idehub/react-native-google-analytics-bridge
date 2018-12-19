@@ -1,8 +1,25 @@
-<!-- DO NOT EDIT README.md (It will be overridden by README.hbs) -->
+# Deprecation notice
+
+On November 13th 2018 Google issued the following statement:
+
+> We want to let you know that in October 2019 we will begin to sunset our Google Analytics for mobile apps reporting and the Google Analytics Services SDK. 
+
+> Data collection and processing for such properties will stop on October 31, 2019. 
+
+The message is quite clear, and therefore I am officially deprecating this library. If you want to continue using Google's solutions for analytics, I recommend you move to Google Analytics for Firebase instead. 
+
+For React Native, there is a great library called [react-native-firebase](https://github.com/invertase/react-native-firebase) which implements Analytics (and other Firebase solutions).
+
+I will continue to support this library for minor fixes, but no major changes will occur. The repository itself will be archived sometime in 2019.
+
+Thanks to everyone who have used or contributed to this library!
+
+\- Christian ([@cbrevik](https://github.com/cbrevik))
 
 # GoogleAnalyticsBridge [![npm version](https://img.shields.io/npm/v/react-native-google-analytics-bridge.svg)](https://www.npmjs.com/package/react-native-google-analytics-bridge) [![Build Status](https://travis-ci.org/idehub/react-native-google-analytics-bridge.svg?branch=master)](https://travis-ci.org/idehub/react-native-google-analytics-bridge)
 
 **Google Analytics Bridge** is built to provide an easy interface to the native Google Analytics libraries on both **iOS** and **Android**.
+
 
 ## Why a native bridge? Why not use just JavaScript?
 
