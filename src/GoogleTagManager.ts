@@ -69,6 +69,20 @@ class GoogleTagManager {
   }
 
   /**
+   * Push a datalayer event for Google Analytics through Google Tag Manager. The event must have at least one key "event" with event name.
+   * @example
+   * GoogleTagManager.pushDataLayerEvent({
+   *   event: "eventName",
+   *   pageId: "/home"
+   * }).then(success => console.log(success));
+   * @param {DataLayerEvent} event An Map<String, Object> containing key and value pairs. It must have at least one key "event" with event name
+   * @returns {Promise<boolean>}
+   */
+  static pushDataLayerEventAndResetVariables(event: DataLayerEvent, variables: { [key: string]: any; }): Promise<boolean> {
+    return TagManagerBridge.pushDataLayerEventAndResetVariables(event, variables);
+  }
+
+  /**
    * Register Function Call tag handler
    * @param {String} functionName
    * @param {Function} handler

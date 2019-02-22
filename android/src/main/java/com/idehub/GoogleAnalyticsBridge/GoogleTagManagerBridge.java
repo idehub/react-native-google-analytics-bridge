@@ -7,17 +7,15 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.tagmanager.ContainerHolder;
 import com.google.android.gms.tagmanager.Container.FunctionCallTagCallback;
+import com.google.android.gms.tagmanager.ContainerHolder;
 import com.google.android.gms.tagmanager.DataLayer;
 import com.google.android.gms.tagmanager.TagManager;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -37,7 +35,7 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     private final String E_FUNCTION_CALL_REGISTRATION_FAILED = "E_FUNCTION_CALL_REGISTRATION_FAILED";
 
     private final String FUNCTION_CALL_TAG_EVENT_PREFIX = "GTM_FUNCTION_CALL_TAG_";
-    
+
     private ContainerHolder mContainerHolder;
     private Boolean openOperationInProgress = false;
     private DataLayer mDatalayer;
@@ -48,7 +46,7 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void openContainerWithId(final String containerId, final Promise promise){
+    public void openContainerWithId(final String containerId, final Promise promise) {
         if (mContainerHolder != null) {
             promise.reject(E_CONTAINER_ALREADY_OPEN, new Throwable("The container is already open."));
             return;
@@ -81,7 +79,7 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void booleanForKey(final String key, final Promise promise){
+    public void booleanForKey(final String key, final Promise promise) {
         if (mContainerHolder != null && mContainerHolder.getContainer() != null) {
             promise.resolve(mContainerHolder.getContainer().getBoolean(key));
         } else {
@@ -90,7 +88,7 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void stringForKey(final String key, final Promise promise){
+    public void stringForKey(final String key, final Promise promise) {
         if (mContainerHolder != null && mContainerHolder.getContainer() != null) {
             promise.resolve(mContainerHolder.getContainer().getString(key));
         } else {
@@ -99,7 +97,7 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void doubleForKey(final String key, final Promise promise){
+    public void doubleForKey(final String key, final Promise promise) {
         if (mContainerHolder != null && mContainerHolder.getContainer() != null) {
             promise.resolve(mContainerHolder.getContainer().getDouble(key));
         } else {
@@ -108,35 +106,52 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void pushDataLayerEvent(ReadableMap dictionary, final Promise promise){
+    public void pushDataLayerEvent(ReadableMap dictionary, final Promise promise) {
 
-      if (mContainerHolder != null && isValidMapToPushEvent(dictionary)) {
-          getDataLayer().push(ConvertReadableToMap.getMap(dictionary));
-          promise.resolve(true);
-      } else {
-          if (mContainerHolder == null) {
-              promise.reject(E_CONTAINER_NOT_OPENED, new Throwable("The container has not been opened. You must call openContainerWithId(..)"));
-          } else {
-              promise.reject(E_PUSH_EVENT_FAILED, new Throwable("Validation error, data must have a key \"event\" with valid event name"));
-          }
-      }
+        if (mContainerHolder != null && isValidMapToPushEvent(dictionary)) {
+            getDataLayer().push(ConvertReadableToMap.getMap(dictionary));
+            promise.resolve(true);
+        } else {
+            if (mContainerHolder == null) {
+                promise.reject(E_CONTAINER_NOT_OPENED, new Throwable("The container has not been opened. You must call openContainerWithId(..)"));
+            } else {
+                promise.reject(E_PUSH_EVENT_FAILED, new Throwable("Validation error, data must have a key \"event\" with valid event name"));
+            }
+        }
     }
 
     @ReactMethod
-    public void registerFunctionCallTagHandler(String functionName, final Promise promise){
+    public void pushDataLayerEventAndResetVariables(ReadableMap dictionary, ReadableMap variableMap, final Promise promise) {
+
+        if (mContainerHolder != null && isValidMapToPushEvent(dictionary)) {
+            getDataLayer().push(ConvertReadableToMap.getMap(dictionary));
+            getDataLayer().push(ConvertReadableToMap.getMap(variableMap));
+            promise.resolve(true);
+        } else {
+            if (mContainerHolder == null) {
+                promise.reject(E_CONTAINER_NOT_OPENED, new Throwable("The container has not been opened. You must call openContainerWithId(..)"));
+            } else {
+                promise.reject(E_PUSH_EVENT_FAILED, new Throwable("Validation error, data must have a key \"event\" with valid event name"));
+            }
+        }
+    }
+
+
+    @ReactMethod
+    public void registerFunctionCallTagHandler(String functionName, final Promise promise) {
 
         if (mContainerHolder != null && functionName != null) {
             mContainerHolder.getContainer().registerFunctionCallTagCallback(functionName, new FunctionCallTagCallback() {
                 @Override
                 public void execute(String functionName, Map<String, Object> parameters) {
-                    
+
                     // eventName is prefixed to prevent event collision with other modules
                     String eventName = generateFunctionCallTagEventName(functionName);
 
                     WritableMap params = ConvertToWritable.map(parameters);
                     getReactApplicationContext()
-                        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                        .emit(eventName, params);
+                            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit(eventName, params);
                 }
             });
             promise.resolve(true);
@@ -148,9 +163,9 @@ public class GoogleTagManagerBridge extends ReactContextBaseJavaModule {
             }
         }
     }
-    
+
     @ReactMethod
-    public void setVerboseLoggingEnabled(final Boolean enabled, final Promise promise){
+    public void setVerboseLoggingEnabled(final Boolean enabled, final Promise promise) {
         TagManager mTagManager = TagManager.getInstance(getReactApplicationContext());
         mTagManager.setVerboseLoggingEnabled(enabled);
         promise.resolve(true);

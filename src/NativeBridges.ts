@@ -1,6 +1,7 @@
 import { HitPayload } from "./models/Analytics";
 import { NativeModules, EventSubscriptionVendor } from "react-native";
 import DataLayerEvent from "./models/DataLayerEvent";
+
 const {
   GoogleTagManagerBridge,
   GoogleAnalyticsBridge,
@@ -23,6 +24,7 @@ export interface IGoogleAnalyticsBridge {
     screenName: string,
     payload: HitPayload
   ): void;
+
   trackEvent(
     trackerId: string,
     category: string,
@@ -31,6 +33,7 @@ export interface IGoogleAnalyticsBridge {
     value: string,
     payload: HitPayload
   ): void;
+
   trackTiming(
     trackerId: string,
     category: string,
@@ -39,12 +42,14 @@ export interface IGoogleAnalyticsBridge {
     label: string,
     payload: HitPayload
   ): void;
+
   trackException(
     trackerId: string,
     error: string,
     fatal: boolean,
     payload: HitPayload
   ): void;
+
   trackSocialInteraction(
     trackerId: string,
     network: string,
@@ -52,32 +57,53 @@ export interface IGoogleAnalyticsBridge {
     targetUrl: string,
     payload: HitPayload
   ): void;
+
   setUser(trackerId: string, userId: string): void;
+
   setClient(trackerId: string, clientId: string): void;
+
   getClientId(trackerId: string): Promise<string>;
+
   allowIDFA(trackerId: string, enabled: boolean): void;
+
   setSamplingRate(trackerId: string, sampleRate: number): void;
+
   setAnonymizeIp(trackerId: string, enabled: boolean): void;
+
   setAppName(trackerId: string, appName: string): void;
+
   setAppVersion(trackerId: string, appVersion: string): void;
+
   setCurrency(trackerId: string, currencyCode: string): void;
+
   setTrackUncaughtExceptions(trackerId: string, enabled: boolean): void;
+
   dispatch(): Promise<boolean>;
 }
 
 export interface IGoogleTagManagerBridge extends EventSubscriptionVendor {
   openContainerWithId(containerId: string): Promise<boolean>;
+
   booleanForKey(key: string): Promise<boolean>;
+
   stringForKey(key: string): Promise<string>;
+
   doubleForKey(key: any): Promise<number>;
+
   pushDataLayerEvent(event: DataLayerEvent): Promise<boolean>;
+
+  pushDataLayerEventAndResetVariables(event: DataLayerEvent, variables: { [key: string]: any; }): Promise<boolean>;
+
   registerFunctionCallTagHandler(functionName: string): Promise<boolean>;
+
   setVerboseLoggingEnabled(enabled: boolean): Promise<boolean>;
 }
 
 export interface IGoogleAnalyticsSettings {
   setOptOut(enabled): void;
+
   setDispatchInterval(intervalInSeconds): void;
+
   setDryRun(enabled): void;
 }
 

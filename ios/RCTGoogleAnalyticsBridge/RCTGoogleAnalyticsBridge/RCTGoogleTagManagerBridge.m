@@ -94,6 +94,26 @@ RCT_EXPORT_METHOD(pushDataLayerEvent:(NSDictionary*)dictionary
     }
 }
 
+
+RCT_EXPORT_METHOD(pushDataLayerEventAndResetVariables:(NSDictionary*)dictionary
+                  variables:(NSDictionary*)
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject){
+    if (self.container != nil && [[dictionary allKeys] containsObject:@"event"]) {
+        [[TAGManager instance].dataLayer push:dictionary];
+        [[TAGManager instance] dispatch];
+        [[TAGManager instance].dataLayer push:variables];
+        [[TAGManager instance] dispatch];
+        resolve(@YES);
+    } else {
+        if (self.container == nil) {
+            reject(E_CONTAINER_NOT_OPENED, nil, RCTErrorWithMessage(@"The container has not been opened. You must call openContainerWithId(..)"));
+        } else {
+            reject(E_PUSH_EVENT_FAILED, nil, RCTErrorWithMessage(@"Validation error, data must have a key \"event\" with valid event name"));
+        }
+    }
+}
+
 RCT_EXPORT_METHOD(registerFunctionCallTagHandler:(NSString*)functionName
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject){

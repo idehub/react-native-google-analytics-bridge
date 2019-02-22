@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/idehub/react-native-google-analytics-bridge.git"
+    "url": "git+https://github.com/shwetdream11/react-native-google-analytics-bridge.git"
   },
   "author": "Idéhub AS",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/idehub/react-native-google-analytics-bridge/issues"
+    "url": "https://github.com/shwetdream11/react-native-google-analytics-bridge/issues"
   },
-  "homepage": "https://github.com/idehub/react-native-google-analytics-bridge#readme",
+  "homepage": "https://github.com/shwetdream11/react-native-google-analytics-bridge#readme",
   "keywords": [
     "react",
     "native",
