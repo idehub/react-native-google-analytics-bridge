@@ -21,7 +21,7 @@ android {
 }
 
 dependencies {
-    compile "com.facebook.react:react-native:${safeExtGet('reactNativeVersion', '+')}"
-    compile "com.google.android.gms:play-services-analytics:${safeExtGet('googlePlayServicesVersion', '+')}"
-    compile "com.google.android.gms:play-services-tagmanager-v4-impl:${safeExtGet('googlePlayServicesVersion', '+')}"
+    implementation "com.facebook.react:react-native:${safeExtGet('reactNativeVersion', '+')}"
+    implementation "com.google.android.gms:play-services-analytics:${safeExtGet('googlePlayServicesVersion', '+')}"
+    implementation "com.google.android.gms:play-services-tagmanager-v4-impl:${safeExtGet('googlePlayServicesVersion', '+')}"
 }
