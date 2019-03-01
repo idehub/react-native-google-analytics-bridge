@@ -42,7 +42,7 @@ RCT_EXPORT_METHOD(openContainerWithId:(NSString *)containerId
 
     [TAGContainerOpener openContainerWithId:containerId
                                  tagManager:self.tagManager
-                                 openType:kTAGOpenTypePreferNonDefault
+                                 openType:kTAGOpenTypePreferFresh
                                  timeout:nil
                                  notifier:self];
 }
