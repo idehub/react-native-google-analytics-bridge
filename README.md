@@ -3,7 +3,7 @@
 On November 13th 2018 Google issued the following statement:
 
 > We want to let you know that in October 2019 we will begin to sunset our Google Analytics for mobile apps reporting and the Google Analytics Services SDK. 
-
+>
 > Data collection and processing for such properties will stop on October 31, 2019. 
 
 The message is quite clear, and therefore I am officially deprecating this library. If you want to continue using Google's solutions for analytics, I recommend you move to Google Analytics for Firebase instead. 
@@ -19,7 +19,6 @@ Thanks to everyone who have used or contributed to this library!
 # GoogleAnalyticsBridge [![npm version](https://img.shields.io/npm/v/react-native-google-analytics-bridge.svg)](https://www.npmjs.com/package/react-native-google-analytics-bridge) [![Build Status](https://travis-ci.org/idehub/react-native-google-analytics-bridge.svg?branch=master)](https://travis-ci.org/idehub/react-native-google-analytics-bridge)
 
 **Google Analytics Bridge** is built to provide an easy interface to the native Google Analytics libraries on both **iOS** and **Android**.
-
 
 ## Why a native bridge? Why not use just JavaScript?
 
@@ -187,32 +186,32 @@ GoogleTagManager.registerFunctionCallTagHandler(
     -   [openContainerWithId](#opencontainerwithid)
         -   [Parameters](#parameters-18)
         -   [Examples](#examples-21)
+    -   [refreshContainer](#refreshcontainer)
+        -   [Examples](#examples-22)
     -   [boolForKey](#boolforkey)
         -   [Parameters](#parameters-19)
-        -   [Examples](#examples-22)
+        -   [Examples](#examples-23)
     -   [stringForKey](#stringforkey)
         -   [Parameters](#parameters-20)
-        -   [Examples](#examples-23)
+        -   [Examples](#examples-24)
     -   [doubleForKey](#doubleforkey)
         -   [Parameters](#parameters-21)
-        -   [Examples](#examples-24)
+        -   [Examples](#examples-25)
     -   [pushDataLayerEvent](#pushdatalayerevent)
         -   [Parameters](#parameters-22)
-        -   [Examples](#examples-25)
+        -   [Examples](#examples-26)
     -   [registerFunctionCallTagHandler](#registerfunctioncalltaghandler)
         -   [Parameters](#parameters-23)
     -   [setVerboseLoggingEnabled](#setverboseloggingenabled)
         -   [Parameters](#parameters-24)
--   [HitPayload](#hitpayload)
-    -   [Parameters](#parameters-25)
-    -   [Examples](#examples-26)
 -   [TimingMetadata](#timingmetadata)
-    -   [Parameters](#parameters-26)
+    -   [Parameters](#parameters-25)
     -   [Examples](#examples-27)
 -   [EventMetadata](#eventmetadata)
-    -   [Parameters](#parameters-27)
+    -   [Parameters](#parameters-26)
     -   [Examples](#examples-28)
--   [CustomMetrics](#custommetrics)
+-   [HitPayload](#hitpayload)
+    -   [Parameters](#parameters-27)
     -   [Examples](#examples-29)
 -   [CustomDimensionsByField](#customdimensionsbyfield)
     -   [Examples](#examples-30)
@@ -220,19 +219,21 @@ GoogleTagManager.registerFunctionCallTagHandler(
     -   [Examples](#examples-31)
 -   [CustomDimensionsFieldIndexMap](#customdimensionsfieldindexmap)
     -   [Examples](#examples-32)
+-   [CustomMetrics](#custommetrics)
+    -   [Examples](#examples-33)
 -   [DataLayerEvent](#datalayerevent)
     -   [Parameters](#parameters-28)
-    -   [Examples](#examples-33)
--   [ProductActionEnum](#productactionenum)
--   [ProductAction](#productaction)
-    -   [Parameters](#parameters-29)
     -   [Examples](#examples-34)
--   [Transaction](#transaction)
-    -   [Parameters](#parameters-30)
-    -   [Examples](#examples-35)
+-   [ProductActionEnum](#productactionenum)
 -   [Product](#product)
-    -   [Parameters](#parameters-31)
+    -   [Parameters](#parameters-29)
+    -   [Examples](#examples-35)
+-   [ProductAction](#productaction)
+    -   [Parameters](#parameters-30)
     -   [Examples](#examples-36)
+-   [Transaction](#transaction)
+    -   [Parameters](#parameters-31)
+    -   [Examples](#examples-37)
 
 ### GoogleAnalyticsSettings
 
@@ -639,6 +640,20 @@ GoogleTagManager.openContainerWithId('GT-NZT48').then((..) => ..)
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)>** 
 
+#### refreshContainer
+
+Refreshes the GTM container.
+According to Tag Manager documentations for Android can be called once every 15 minutes.
+No such limitations has been mentioned for iOS containers, though.
+
+##### Examples
+
+```javascript
+GoogleTagManager.refreshContainer().then((..) => ..)
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)>** 
+
 #### boolForKey
 
 Retrieves a boolean value with the given key from the opened container.
@@ -723,6 +738,38 @@ Sets logger to verbose, default is warning
 
 -   `enabled` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
+### TimingMetadata
+
+Used when tracking time measurements
+
+#### Parameters
+
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Required)
+-   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+
+#### Examples
+
+```javascript
+const timingMetadata = { name: "LoadList" } // name is a required value when tracking timing
+tracker.trackTiming("testcategory", 13000, timingMetadata);
+```
+
+### EventMetadata
+
+Used when tracking event
+
+#### Parameters
+
+-   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `value` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+
+#### Examples
+
+```javascript
+const eventMetadata = { label: "v1.0.3", value: 22 }
+tracker.trackEvent("FinalizeOrderButton", "Click", eventMetadata);
+```
+
 ### HitPayload
 
 The HitPayload object and possible values
@@ -781,49 +828,6 @@ const payload = { customDimensions };
 tracker.trackScreenView("SaleScreen", payload);
 ```
 
-### TimingMetadata
-
-Used when tracking time measurements
-
-#### Parameters
-
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Required)
--   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
-
-#### Examples
-
-```javascript
-const timingMetadata = { name: "LoadList" } // name is a required value when tracking timing
-tracker.trackTiming("testcategory", 13000, timingMetadata);
-```
-
-### EventMetadata
-
-Used when tracking event
-
-#### Parameters
-
--   `label` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `value` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
-
-#### Examples
-
-```javascript
-const eventMetadata = { label: "v1.0.3", value: 22 }
-tracker.trackEvent("FinalizeOrderButton", "Click", eventMetadata);
-```
-
-### CustomMetrics
-
-A dictionary with custom metric values and their index keys.
-
-#### Examples
-
-```javascript
-const customMetrics = { 1: 2389, 4: 15000 }
-tracker.trackScreenView("Home", { customMetrics });
-```
-
 ### CustomDimensionsByField
 
 -   **See: CustomDimensionsFieldIndexMap**
@@ -875,6 +879,17 @@ tracker.trackScreenView("Home", { customDimensions: { customerType: "Premium" } 
 tracker.trackScreenView("Home", { customDimensions: { 1: "Premium" } });
 ```
 
+### CustomMetrics
+
+A dictionary with custom metric values and their index keys.
+
+#### Examples
+
+```javascript
+const customMetrics = { 1: 2389, 4: 15000 }
+tracker.trackScreenView("Home", { customMetrics });
+```
+
 ### DataLayerEvent
 
 The Google Tag Manager DataLayerEvent dictionary.
@@ -909,6 +924,38 @@ Used by `ProductAction` when describing the type of product action. The possible
 -   CheckoutOption = 6,
 -   Purchase = 7,
 -   Refund = 8
+
+### Product
+
+Enhanced Ecommerce Product
+
+Used by `HitPayload` when populating product actions or impressions
+
+#### Parameters
+
+-   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `category` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `brand` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `variant` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `price` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+-   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
+-   `quantity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
+
+#### Examples
+
+```javascript
+const product = {
+  id: "P12345",
+  name: "Android Warhol T-Shirt",
+  category: "Apparel/T-Shirts",
+  brand: "Google",
+  variant: "Black",
+  price: 29.2,
+  quantity: 1,
+  couponCode: "APPARELSALE"
+};
+```
 
 ### ProductAction
 
@@ -965,37 +1012,5 @@ const transaction = {
   tax: 2.85,
   shipping: 5.34,
   couponCode: "SUMMER2013"
-};
-```
-
-### Product
-
-Enhanced Ecommerce Product
-
-Used by `HitPayload` when populating product actions or impressions
-
-#### Parameters
-
--   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `category` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `brand` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `variant` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `price` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
--   `couponCode` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** (Optional)
--   `quantity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** (Optional)
-
-#### Examples
-
-```javascript
-const product = {
-  id: "P12345",
-  name: "Android Warhol T-Shirt",
-  category: "Apparel/T-Shirts",
-  brand: "Google",
-  variant: "Black",
-  price: 29.2,
-  quantity: 1,
-  couponCode: "APPARELSALE"
 };
 ```
