@@ -19,7 +19,15 @@ export default (functionName: string, handler: Handler): Promise<boolean> => {
   return TagManagerBridge.registerFunctionCallTagHandler(functionName).then(
     () => {
       DeviceEventEmitter.addListener(event, payload => {
-        handler(functionName, payload);
+        try {
+          handler(functionName, payload);
+        } catch (e) {
+          console.error(
+            `Unhandled exception in FunctionCallTag handler: ${e.stack}`,
+            `\nFunction Name: ${functionName}`,
+            `\nPayload: ${JSON.stringify(payload)}`
+          );
+        }
       });
       return true;
     }

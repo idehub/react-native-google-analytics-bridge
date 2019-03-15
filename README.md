@@ -112,7 +112,7 @@ GoogleTagManager.registerFunctionCallTagHandler(
     // functionName is passed for convenience. In this example it will be equal to "some_function".
     // tagArguments is an object and is populated based on Tag configuration in TagManager interface.
     console.log("Handling Function Call tag:", functionName);
- }
+  }
 )
 ```
 

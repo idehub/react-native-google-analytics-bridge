@@ -25,6 +25,18 @@ class GoogleTagManager {
   }
 
   /**
+   * Refreshes the GTM container.
+   * According to Tag Manager documentations for Android can be called once every 15 minutes.
+   * No such limitations has been mentioned for iOS containers, though.
+   * @example
+   * GoogleTagManager.refreshContainer().then((..) => ..)
+   * @returns {Promise<boolean>}
+   */
+  static refreshContainer(): Promise<boolean> {
+    return TagManagerBridge.refreshContainer();
+  }
+
+  /**
    * Retrieves a boolean value with the given key from the opened container.
    * @example GoogleTagManager.boolForKey("key").then(val => console.log(val));
    * @param {string} key

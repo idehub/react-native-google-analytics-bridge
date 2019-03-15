@@ -22,9 +22,6 @@ const functionCallTagEventEmitter = new NativeEventEmitter(TagManagerBridge);
 const listeners: Array<Listener> = [];
 let listenerRegistered = false;
 
-// tagEventEmmiter is used to handle callbacks in JS
-let jsEventEmitter;
-
 export default (functionName: string, handler: Handler): Promise<boolean> => {
   if (!listenerRegistered) {
     // Register a global listener for Function Tag events
@@ -33,10 +30,17 @@ export default (functionName: string, handler: Handler): Promise<boolean> => {
       ({ _fn, payload }) => {
         // Pass on the event to listeners
         // _fn is basically the same as functionName
-        jsEventEmitter.emit(_fn, payload);
         listeners.forEach(listener => {
           if (listener.functionName === _fn) {
-            handler(_fn, payload);
+            try {
+              handler(_fn, payload);
+            } catch (e) {
+              console.error(
+                `Unhandled exception in FunctionCallTag handler: ${e.stack}`,
+                `\nFunction Name: ${_fn}`,
+                `\nPayload: ${JSON.stringify(payload)}`
+              );
+            }
           }
         });
       }
